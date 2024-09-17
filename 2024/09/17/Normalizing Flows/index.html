@@ -23,7 +23,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="Normalizing Flows">
 <meta property="og:url" content="https://jia040223.github.io/2024/09/17/Normalizing%20Flows/index.html">
-<meta property="og:site_name" content="Serendipity">
+<meta property="og:site_name" content="Serendipity&#39;s Blog">
 <meta property="og:description" content="本学习笔记用于记录我学习Stanford CS236课程的学习笔记，分享记录，也便于自己实时查看。 引入 生成模型模型的目的是让得到的数据分布 \(P_{\theta}\) 与真实的数据分布 \(P_{data}\) 相同，也就是需要通过给定的样本来建模对应的分布，使得输入经过该模型后可以生成与给定样本类似的新样本。在这种意义下，评估的最佳方式便是使用极大似然估计，然而VAEs的做法导致计">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jia040223.github.io/images/Normalizing%20Flows/4.png">
@@ -36,7 +36,7 @@
   
   
   
-  <title>Normalizing Flows - Serendipity</title>
+  <title>Normalizing Flows - Serendipity&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -87,7 +87,7 @@
 
 
   
-<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Serendipity" type="application/atom+xml">
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Serendipity's Blog" type="application/atom+xml">
 </head>
 
 
@@ -507,6 +507,37 @@ s(x_{1:d})\]</span> 其中没有任何 <span class="math inline">\(s\)</span>
             </div>
 
             
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"Ug8725bpf4JJJkltPotjuquU-MdYXbMMI","appKey":"Po3fbdR9RiF08kxafXGlNgd5","path":"window.location.pathname","placeholder":"留言仅限讨论，禁止广告等行为","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"https://ug8725bp.api.lncldglobal.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
           </article>
         </div>
       </div>

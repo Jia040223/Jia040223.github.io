@@ -23,7 +23,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="VAEs">
 <meta property="og:url" content="https://jia040223.github.io/2024/09/13/VAEs/index.html">
-<meta property="og:site_name" content="Serendipity">
+<meta property="og:site_name" content="Serendipity&#39;s Blog">
 <meta property="og:description" content="本学习笔记用于记录我学习Stanford CS236课程的学习笔记，分享记录，也便于自己实时查看。 潜变量 对于生成模型，我们可以试图寻找一组潜变量z，这个潜变量可以有具体含义，例如对于人脸生成模型的眼睛，鼻子，嘴巴等。通过修改这些潜变量我们可以得到不同风格的生成对象。但是对于图片或者自然语言而言，人为指定这种潜变量极为困难。 所以我们可以并不人为指定潜变量的含义，例如无监督学习的GMM（">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jia040223.github.io/images/VAEs/12.png">
@@ -36,7 +36,7 @@
   
   
   
-  <title>VAEs - Serendipity</title>
+  <title>VAEs - Serendipity&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -87,7 +87,7 @@
 
 
   
-<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Serendipity" type="application/atom+xml">
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Serendipity's Blog" type="application/atom+xml">
 </head>
 
 
@@ -510,6 +510,37 @@ Sampling），理论上求这个期望需要对每个样本多次采样进行计
             </div>
 
             
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"Ug8725bpf4JJJkltPotjuquU-MdYXbMMI","appKey":"Po3fbdR9RiF08kxafXGlNgd5","path":"window.location.pathname","placeholder":"留言仅限讨论，禁止广告等行为","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"https://ug8725bp.api.lncldglobal.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
           </article>
         </div>
       </div>
