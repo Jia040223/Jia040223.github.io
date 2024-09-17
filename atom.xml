@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Hexo</title>
+  <title>Serendipity&#39;s blog</title>
   
   
-  <link href="http://example.com/atom.xml" rel="self"/>
+  <link href="https://jia040223.github.io/atom.xml" rel="self"/>
   
-  <link href="http://example.com/"/>
+  <link href="https://jia040223.github.io/"/>
   <updated>2024-09-17T10:57:29.014Z</updated>
-  <id>http://example.com/</id>
+  <id>https://jia040223.github.io/</id>
   
   <author>
-    <name>John Doe</name>
+    <name>Serendipity</name>
     
   </author>
   
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Normalizing Flows</title>
-    <link href="http://example.com/2024/09/17/Normalizing%20Flows/"/>
-    <id>http://example.com/2024/09/17/Normalizing%20Flows/</id>
+    <link href="https://jia040223.github.io/2024/09/17/Normalizing%20Flows/"/>
+    <id>https://jia040223.github.io/2024/09/17/Normalizing%20Flows/</id>
     <published>2024-09-17T10:18:14.000Z</published>
     <updated>2024-09-17T10:57:29.014Z</updated>
     
@@ -36,17 +36,17 @@ CS236课程的学习笔记，分享记录，也便于自己实时查看。&lt;/p
     
     
     
-    <category term="Stanford CS236深度生成模型" scheme="http://example.com/categories/Stanford-CS236%E6%B7%B1%E5%BA%A6%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/"/>
+    <category term="Stanford CS236深度生成模型" scheme="https://jia040223.github.io/categories/Stanford-CS236%E6%B7%B1%E5%BA%A6%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/"/>
     
     
-    <category term="生成模型" scheme="http://example.com/tags/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/"/>
+    <category term="生成模型" scheme="https://jia040223.github.io/tags/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/"/>
     
   </entry>
   
   <entry>
     <title>VAEs</title>
-    <link href="http://example.com/2024/09/13/VAEs/"/>
-    <id>http://example.com/2024/09/13/VAEs/</id>
+    <link href="https://jia040223.github.io/2024/09/13/VAEs/"/>
+    <id>https://jia040223.github.io/2024/09/13/VAEs/</id>
     <published>2024-09-13T11:31:24.000Z</published>
     <updated>2024-09-17T10:13:51.034Z</updated>
     
@@ -63,10 +63,10 @@ CS236课程的学习笔记，分享记录，也便于自己实时查看。&lt;/p
     
     
     
-    <category term="Stanford CS236深度生成模型" scheme="http://example.com/categories/Stanford-CS236%E6%B7%B1%E5%BA%A6%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/"/>
+    <category term="Stanford CS236深度生成模型" scheme="https://jia040223.github.io/categories/Stanford-CS236%E6%B7%B1%E5%BA%A6%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/"/>
     
     
-    <category term="生成模型" scheme="http://example.com/tags/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/"/>
+    <category term="生成模型" scheme="https://jia040223.github.io/tags/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/"/>
     
   </entry>
   

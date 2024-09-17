@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://example.com/2024/09/17/Normalizing%20Flows/</loc>
+    <loc>https://jia040223.github.io/2024/09/17/Normalizing%20Flows/</loc>
     
     <lastmod>2024-09-17</lastmod>
     
@@ -11,7 +11,7 @@
   </url>
   
   <url>
-    <loc>http://example.com/about/index.html</loc>
+    <loc>https://jia040223.github.io/about/index.html</loc>
     
     <lastmod>2024-09-17</lastmod>
     
@@ -20,7 +20,7 @@
   </url>
   
   <url>
-    <loc>http://example.com/2024/09/13/VAEs/</loc>
+    <loc>https://jia040223.github.io/2024/09/13/VAEs/</loc>
     
     <lastmod>2024-09-17</lastmod>
     
@@ -30,7 +30,7 @@
   
 
   <url>
-    <loc>http://example.com/</loc>
+    <loc>https://jia040223.github.io/</loc>
     <lastmod>2024-09-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
@@ -38,7 +38,7 @@
 
   
   <url>
-    <loc>http://example.com/tags/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/</loc>
+    <loc>https://jia040223.github.io/tags/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/</loc>
     <lastmod>2024-09-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -47,7 +47,7 @@
 
   
   <url>
-    <loc>http://example.com/categories/Stanford-CS236%E6%B7%B1%E5%BA%A6%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/</loc>
+    <loc>https://jia040223.github.io/categories/Stanford-CS236%E6%B7%B1%E5%BA%A6%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/</loc>
     <lastmod>2024-09-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
