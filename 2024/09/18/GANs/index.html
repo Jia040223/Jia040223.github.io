@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jia040223.github.io/images/GANs/12.png">
 <meta property="article:published_time" content="2024-09-18T14:10:33.000Z">
-<meta property="article:modified_time" content="2024-09-18T14:23:57.380Z">
+<meta property="article:modified_time" content="2024-09-18T14:26:25.516Z">
 <meta property="article:author" content="Serendipity">
 <meta property="article:tag" content="生成模型">
 <meta name="twitter:card" content="summary_large_image">
@@ -374,17 +374,15 @@ P_1}\left[f(\frac{p_2(x)}{p_1(x)})\right] \\\]</span> <span class="math inline">
 <p><img src="/images/GANs/3.png" srcset="/img/loading.gif" lazyload><br>
 这两个规定保证了 <span class="math inline">\(D_f\)</span>
 是非负的，而且当两个分布相同时，其值为0，一些常见散度的 <span class="math inline">\(f\)</span> 定义如下：</p>
-<p><img src="/images/GANs/4.png" srcset="/img/loading.gif" lazyload><br>
-### 共轭函数(Fenchel Conjugate)<br>
-一个函数 <span class="math inline">\(f:\;\mathbb{R}^n\mapsto\mathbb{R}\)</span> 的
+<p><img src="/images/GANs/4.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="共轭函数fenchel-conjugate">共轭函数(Fenchel Conjugate)</h3>
+<p>一个函数 <span class="math inline">\(f:\;\mathbb{R}^n\mapsto\mathbb{R}\)</span> 的
 Frenchel 共轭为：</p>
-<p><span class="math display">\[\begin{align} f^*(\bm t)=\sup_{\bm
-x}\big(\langle\bm t,\bm x\rangle-f(\bm x)) \end{align}\]</span></p>
-<p>Fenchel 共轭有几何上的解释。当 <span class="math inline">\(\bm
-x\)</span> 固定时， <span class="math inline">\(\langle\bm t,\bm
-x\rangle-f(\bm x)\)</span> 是一个仿射函数，因此 Fenchel
-共轭就是一组仿射函数的上确界。如果 <span class="math inline">\(f\)</span>
-可微，那么仿射函数取得上确界的位置正好是 <span class="math inline">\(f\)</span> 的切线，此处有 <span class="math inline">\(\nabla f(\bm x)=\bm t\)</span> 。</p>
+<p><span class="math display">\[\begin{align} f^*( t)=\sup_{
+x}\big(\langle t, x\rangle-f( x)) \end{align}\]</span></p>
+<p>Fenchel 共轭有几何上的解释。当 $ x$ 固定时， <span class="math inline">\(\langle t, x\rangle-f( x)\)</span>
+是一个仿射函数，因此 Fenchel 共轭就是一组仿射函数的上确界。如果 <span class="math inline">\(f\)</span>
+可微，那么仿射函数取得上确界的位置正好是 <span class="math inline">\(f\)</span> 的切线，此处有 <span class="math inline">\(\nabla f( x)= t\)</span> 。</p>
 <p>我们拿 $f ( x ) = x l o g x $ 来说，当 <span class="math inline">\(x=10,1, 0.1\)</span>
 时可以看到相应的函数直线，可以看到最大化y的点连起来是个凸函数，很类似$
 e^{t-1}$</p>
@@ -402,9 +400,9 @@ f<sup><em>(t)$ ，得 $
 f^</em>(t)=te</sup>{t-1}-e<sup>{t-1}(t-1)=e</sup>{t-1}$</p>
 <p>读者可以对这个 $ f^*(t)$ 再求一次共轭，可以发现其又变回原函数了。</p>
 <p>事实上，可以证明，对于凸函数来说$ f^{**}(x) = f(x)$</p>
-<p><img src="/images/GANs/7.png" srcset="/img/loading.gif" lazyload><br>
-### 应用于GAN<br>
-那这个跟GAN有啥关系呢？</p>
+<p><img src="/images/GANs/7.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="应用于gan">应用于GAN</h3>
+<p>那这个跟GAN有啥关系呢？</p>
 <p>假如我们用一个 <span class="math inline">\(D_f\)</span>
 来评估生成模型，对于 <span class="math inline">\(p(x)\)</span> 和 <span class="math inline">\(q(x)\)</span> 之间的 f-divergence：</p>
 <p><span class="math display">\[ \begin{aligned} D_f(P||Q) &amp;=
@@ -440,11 +438,12 @@ P_\theta}[f^*(D(x))]\}\\&amp;=\mathop{argmin} \limits_{G}\max
 \limits_{D}V(G, D) \end{aligned} \]</span></p>
 <p>只不过这次的损失函数更加 general 了。换不同的 <span class="math inline">\(f(x)\)</span>
 ，就可以量不同的散度（divergence）。</p>
-<p><img src="/images/GANs/8.png" srcset="/img/loading.gif" lazyload><br>
-## WGAN<br>
-### JS散度 to Wasserstein（Earth-Mover EM）距离<br>
-### JS散度的问题<br>
-考虑两个分布"完全不相交"的时候，会发现 <span class="math inline">\(JS\)</span> 散度为常量，梯度为 <span class="math inline">\(0\)</span> 无法优化。</p>
+<p><img src="/images/GANs/8.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="wgan">WGAN</h2>
+<h3 id="js散度-to-wassersteinearth-mover-em距离">JS散度 to
+Wasserstein（Earth-Mover EM）距离</h3>
+<h3 id="js散度的问题">JS散度的问题</h3>
+<p>考虑两个分布"完全不相交"的时候，会发现 <span class="math inline">\(JS\)</span> 散度为常量，梯度为 <span class="math inline">\(0\)</span> 无法优化。</p>
 <p>下面一个例子来说明:</p>
 <p>假设两个二维空间上的概率分布，记为 <span class="math inline">\({P}_d(X_1, Z)\)</span> 和 <span class="math inline">\({P}_g(X_2, Z)\)</span> 。我们刻画 <span class="math inline">\(Z \sim U(0, 1)\)</span> 一个 <span class="math inline">\([0, 1]\)</span> 上的均匀分布，而分别令 $ X_1 = 0$
 和 <span class="math inline">\(X_2 = \theta\)</span>
