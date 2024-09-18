@@ -1,3 +1,4 @@
+https://jia040223.github.io/2024/09/18/GANs/
 https://jia040223.github.io/2024/09/17/Normalizing%20Flows/
 https://jia040223.github.io/about/index.html
 https://jia040223.github.io/2024/09/13/VAEs/
