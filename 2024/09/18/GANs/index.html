@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jia040223.github.io/images/GANs/12.png">
 <meta property="article:published_time" content="2024-09-18T14:10:33.000Z">
-<meta property="article:modified_time" content="2024-09-18T14:26:53.226Z">
+<meta property="article:modified_time" content="2024-09-18T15:17:32.051Z">
 <meta property="article:author" content="Serendipity">
 <meta property="article:tag" content="生成模型">
 <meta name="twitter:card" content="summary_large_image">
@@ -484,8 +484,8 @@ p_g(x)log (1) dx = 0 \\ \]</span>
 <p><span class="math display">\[d_F(p, q) = sup_{f \in F} \mathbb{E}_{x
 \sim P}[f(x)] - \mathbb{E}_{x \sim Q}[f(x)] \\\]</span>
 对于Wasserstein距离而言，则变为：</p>
-<p>$<span class="math inline">\(W(p, q) = sup_{||f||_L \le 1}
-\mathbb{E}_{x \sim P}[f(x)] - \mathbb{E}_{x \sim Q}[f(x)] \\\)</span>￥
+<p><span class="math display">\[W(p, q) = sup_{||f||_L \le 1}
+\mathbb{E}_{x \sim P}[f(x)] - \mathbb{E}_{x \sim Q}[f(x)] \\\]</span>
 因而，在函数 $ f(·)$ 满足Lipschitz约束的函数空间中，即 <span class="math inline">\(||f(x) - f(y)|| \le K||x - y||\)</span>
 ，找到最佳的函数 <span class="math inline">\(f(·)\)</span>
 ，该情况下上式的结果则为Wasserstein距离。</p>
