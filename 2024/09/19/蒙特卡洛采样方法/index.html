@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jia040223.github.io/images/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E6%96%B9%E6%B3%95/1.png">
 <meta property="article:published_time" content="2024-09-19T12:04:35.000Z">
-<meta property="article:modified_time" content="2024-09-19T12:21:09.940Z">
+<meta property="article:modified_time" content="2024-09-19T12:22:01.938Z">
 <meta property="article:author" content="Serendipity">
 <meta property="article:tag" content="机器学习">
 <meta property="article:tag" content="概率论与数理统计">
@@ -284,12 +284,12 @@
 CS236课程，里面多次提到了蒙特卡洛采样，但本人之前并没有系统地对蒙特卡洛采样进行过整理学习，所以也就正好趁此机会学习一下蒙特卡洛采样，分享记录，也便于自己实时查看。</p>
 <h1 id="蒙特卡洛估计">蒙特卡洛估计</h1>
 <h2 id="蒙特卡洛估计的原理">蒙特卡洛估计的原理</h2>
-<p><strong>蒙特卡洛估计(Monte Carlo
-Estimator)</strong>的原理很简单，假设现在我们要求解一个一维的积分 <span class="math inline">\(\int_{a}^{b} g(x) dx\)</span> 。已知一个概率密度为
+<p>蒙特卡洛估计(Monte Carlo
+Estimator)的原理很简单，假设现在我们要求解一个一维的积分 <span class="math inline">\(\int_{a}^{b} g(x) dx\)</span> 。已知一个概率密度为
 <span class="math inline">\(f(x)\)</span> 的随机变量 $ X$
 ，蒙特卡洛估计可以表示为：</p>
-<p><span class="math display">\[G_N =
-\frac{1}{N}\sum_{i=1}^{N}{\frac{g(X_i)}{f(X_i)}}\\\]</span></p>
+<p><span class="math display">\[ G_N =
+\frac{1}{N}\sum_{i=1}^{N}{\frac{g(X_i)}{f(X_i)}}\\ \]</span></p>
 <p>概率密度 <span class="math inline">\(f(x)\)</span> 需要满足 <span class="math display">\[ \begin{cases}  f(x) &gt; 0, x \in (a,
 b),\\   f(x) = 0, x \notin (a, b).\end{cases}\\\]</span></p>
 <p>现在来验证下, 这种方式是正确的：</p>
