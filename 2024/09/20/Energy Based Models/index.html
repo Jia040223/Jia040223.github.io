@@ -1,0 +1,927 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Serendipity">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="本学习笔记用于记录我学习Stanford CS236课程的学习笔记，分享记录，也便于自己实时查看。 引入 生成模型的核心目标是对目标样本的概率分布进行预测。而对于一个概率密度函数 \(P(x)\) ，它只需要满足下面两个条件：  非负， \(P(x)\) 在任何一个点都不能小于0，这很显然。 积分为1， \(P(x)\) 从负无穷积分到正无穷得是1。  其中对于第二点，如果">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Energy Based Models">
+<meta property="og:url" content="https://jia040223.github.io/2024/09/20/Energy%20Based%20Models/index.html">
+<meta property="og:site_name" content="Serendipity&#39;s Blog">
+<meta property="og:description" content="本学习笔记用于记录我学习Stanford CS236课程的学习笔记，分享记录，也便于自己实时查看。 引入 生成模型的核心目标是对目标样本的概率分布进行预测。而对于一个概率密度函数 \(P(x)\) ，它只需要满足下面两个条件：  非负， \(P(x)\) 在任何一个点都不能小于0，这很显然。 积分为1， \(P(x)\) 从负无穷积分到正无穷得是1。  其中对于第二点，如果">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jia040223.github.io/images/Energy%20Based%20Models/0.png">
+<meta property="article:published_time" content="2024-09-20T11:46:30.000Z">
+<meta property="article:modified_time" content="2024-09-20T11:53:19.743Z">
+<meta property="article:author" content="Serendipity">
+<meta property="article:tag" content="生成模型">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jia040223.github.io/images/Energy%20Based%20Models/0.png">
+  
+  
+  
+  <title>Energy Based Models - Serendipity&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jia040223.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Serendipity's Blog" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Serendipity&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Energy Based Models"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-09-20 19:46" pubdate>
+          2024年9月20日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          25 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Energy Based Models</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>本学习笔记用于记录我学习Stanford
+CS236课程的学习笔记，分享记录，也便于自己实时查看。</p>
+<h2 id="引入">引入</h2>
+<p>生成模型的核心目标是对目标样本的概率分布进行预测。而对于一个概率密度函数
+<span class="math inline">\(P(x)\)</span>
+，它只需要满足下面两个条件：</p>
+<ul>
+<li><strong>非负</strong>， <span class="math inline">\(P(x)\)</span>
+在任何一个点都不能小于0，这很显然。</li>
+<li><strong>积分为1</strong>， <span class="math inline">\(P(x)\)</span>
+从负无穷积分到正无穷得是1。</li>
+</ul>
+<p>其中对于第二点，如果 <span class="math inline">\(P(x)\)</span>
+的不是1，是 <span class="math inline">\(Z\)</span>
+，我们进行一下<strong>归一化</strong>，除一下 <span class="math inline">\(Z\)</span>
+就是1啦。反正至少得是有限的。那么如果我们有一个函数 <span class="math inline">\(f(x)\)</span>
+，我们只需要对其进行变换，满足上面两个特点，便能将其转化为一个概率密度函数。</p>
+<p>首先可以让 <span class="math inline">\(f(x)\)</span>
+变为<strong>非负</strong>的 <span class="math inline">\(g(x)\)</span>
+，比如</p>
+<ul>
+<li><span class="math inline">\(g(x) = f(x)^2\)</span></li>
+<li><span class="math inline">\(g(x) = e^{f(x)}\)</span></li>
+<li><span class="math inline">\(g(x) = log(1 + f(x)^2)\)</span></li>
+<li>......</li>
+</ul>
+<p><img src="/images/Energy%20Based%20Models/1.png" srcset="/img/loading.gif" lazyload></p>
+<p>可以看到这样的选择有很多，然后接下来便是<strong>归一化</strong>了，只需要</p>
+<p><span class="math display">\[P(x) = \frac{g(x)}{\int g(x)dx} =
+\frac{g(x)}{Z}\]</span></p>
+<p><img src="/images/Energy%20Based%20Models/2.png" srcset="/img/loading.gif" lazyload></p>
+<p>那么所谓的<strong>Energy Based Model</strong>
+呢，其实很简单，我们就是假设这个函数 <span class="math inline">\(g(x) =
+e^{f(x)}\)</span> 。</p>
+<p>这个时候，下面那个体积volume呢，也叫做<strong>partition
+function</strong>。</p>
+<p>为啥要 <span class="math inline">\(exp()\)</span>
+呢？因为希望在算概率的时候取log，和这个 $ e x p ( ) $
+啊，很多时候能够抵消。而且也和统计物理（虽然笔者并没有研究过统计物理）也有一些联系，这也是energy名字的最初由来。</p>
+<h2 id="基本定义">基本定义</h2>
+<p>对数据的概率分布进行描述时，这些概率分布都可以写成基于能量函数的形式(energy
+funciton)， <span class="math inline">\(f(\mathbf x )\)</span>
+。对于连续变量，每个数据点对应一个概率密度函数值，对应一个能量值，如此概率分布即可写成如下玻尔兹曼分布的形式，也叫作吉布斯分布(Boltzmann/Gibbs
+distribution)：</p>
+<ul>
+<li><span class="math inline">\(p(\mathbf x )=\frac{e^{-f(\mathbf
+x)}}{Z}\)</span></li>
+<li><span class="math inline">\(Z\)</span>
+为概率归一化的分母，也称为<strong>配分函数(partition
+function)</strong>， <span class="math inline">\(Z=\int e^{-f(\mathbf
+x)} dx\)</span></li>
+</ul>
+<p>由以上公式可知，概率值较高的位置对应着能力较低的点。举一个简单的例子看一下，将高斯分布以能量函数的形式表示：</p>
+<p><span class="math display">\[f(x;\mu,\sigma^2)=\frac{1}{2\sigma^2}(x-\mu)^2\]</span></p>
+<p><span class="math display">\[p(x)=\frac{e^{-f(\mathbf x)}}{\int
+e^{-f(\mathbf x)}dx}=\frac{e^{-\frac{1}{2\sigma^2}(x-\mu)^2}}{\sqrt
+{2\pi \sigma^2}}\]</span></p>
+<h2 id="部分应用">部分应用</h2>
+<h3 id="分类任务">分类任务</h3>
+<p>一般来说，这个partition
+funtion是不能算的，除非是限制为一些可以积分的函数，得到闭式解，但那样表达力又太弱了。而在实际中，我们的
+<span class="math inline">\(f(x)\)</span>
+一般是用神经网络进行模拟的，所以很难求出这个积分（你也可以遍历所有的情况，但这对于训练或者推理都是无法接受的）。</p>
+<p>有时候呢，除非是要算出具体的概率，我们不需要管这个partition
+function，反正就是知道它是个常数。</p>
+<p>比如我们想知道 <span class="math inline">\(p(a)\)</span> 和 <span class="math inline">\(p(b)\)</span>
+哪个概率大，就不用去知道绝对的值，只需要知道<strong>相对大小</strong>就可以啦。这就可以用在分类任务里了。</p>
+<p><img src="/images/Energy%20Based%20Models/3.png" srcset="/img/loading.gif" lazyload></p>
+<p>比如对于图像识别的任务，我只需要知道一个物体是更有可能像猫还是更有可能像狗，而不一定要知道他们的具体概率。</p>
+<p><img src="/images/Energy%20Based%20Models/4.png" srcset="/img/loading.gif" lazyload></p>
+<p>课程中还列举了一个Ising model 的例子，也很直观，不赘述了：</p>
+<p><img src="/images/Energy%20Based%20Models/5.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="组合专家系统">组合专家系统</h3>
+<p>通过EBMs，可以把多个<strong>专家模型</strong>混合起来，用乘法。在对模型采样的时候，就会具有多个生成模型的所有性质，比如又是女人又是年轻又是美貌，就不会生成一个年迈的男人。</p>
+<p><img src="/images/Energy%20Based%20Models/6.png" srcset="/img/loading.gif" lazyload></p>
+<p><strong>受限玻尔兹曼机</strong>也是基于能量模型，能量形式如下:<br>
+<span class="math display">\[f(\mathbf x;\theta)=exp(\mathbf x
+^T\mathbf{Wx}+\mathbf{b}^T\mathbf{x} +
+\mathbf{c}^T\mathbf{z})\]</span></p>
+<p>其它就不赘述了。</p>
+<p><img src="/images/Energy%20Based%20Models/7.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="训练">训练</h2>
+<h3 id="损失函数训练目标">损失函数（训练目标）</h3>
+<p>那么如何优化这个模型，直接想法肯定是<strong>极大似然估计</strong></p>
+<p><span class="math display">\[L = \ log
+(\frac{exp({f_\theta(x_{train})})}{Z(\theta)}) = f_\theta(x_{train}) -
+log(Z(\theta))\]</span></p>
+<p>这里有个小问题，直接最大化分子并不能解决问题，因为分母是分子的积分，如果只顾着最大化分子的话，可能分母也跟着变大，那最后这整个分数就可能不变甚至变小！但是积分我们又计算不出来怎么办？蒙特卡洛估计便可以派上用场了，我们对
+<span class="math inline">\(L\)</span> 求一下梯度：</p>
+<p><span class="math display">\[\nabla_{\theta}
+f_{\theta}(x_{\text{train}}) - \nabla_{\theta} \log Z(\theta) \\ =
+\nabla_{\theta} f_{\theta}(x_{\text{train}}) - \frac{\nabla_{\theta}
+Z(\theta)}{Z(\theta)} \\ = \nabla_{\theta} f_{\theta}(x_{\text{train}})
+- \frac{1}{Z(\theta)} \int \nabla_{\theta} \exp \{ f_{\theta}(x) \} dx
+\\ = \nabla_{\theta} f_{\theta}(x_{\text{train}}) - \frac{1}{Z(\theta)}
+\int \exp \{ f_{\theta}(x) \} \nabla_{\theta} f_{\theta}(x) dx \\ =
+\nabla_{\theta} f_{\theta}(x_{\text{train}}) - \int \frac{\exp \{
+f_{\theta}(x) \}}{Z(\theta)} \nabla_{\theta} f_{\theta}(x) dx \\ =
+\nabla_{\theta} f_{\theta}(x_{\text{train}}) -
+\mathbb{E}_{x_{\text{sample}}} [\nabla_{\theta}
+f_{\theta}(x_{\text{sample}})] \\ \approx \nabla_{\theta}
+f_{\theta}(x_{\text{train}}) - \nabla_{\theta}
+f_{\theta}(x_{\text{sample}}) \]</span></p>
+<p>其中 <span class="math inline">\(x_{sample} \sim
+exp(f_\theta(x_{sample}))/Z_\theta\)</span></p>
+<p>最后一步代表在训练过程中，我们只取一个样本作为期望的估计值。</p>
+<p><img src="/images/Energy%20Based%20Models/8.png" srcset="/img/loading.gif" lazyload></p>
+<p>其实主观上也很好理解，其实就是对比了训练集和从模型中的采样，让训练集中数据的概率比随便采样出来的概率大。</p>
+<p>我们对上面公式取个负，就是损失函数了。</p>
+<h3 id="如何采样">如何采样</h3>
+<p>那么问题来了，我们怎么从这个能量模型中采样呢？你看看上面能量模型的式子，你只知道x比y概率大还是概率小，但你不知道x或者y的准确概率。</p>
+<p>这时候，MCMC<strong>马尔科夫链蒙特卡罗</strong>就出场啦。</p>
+<p><img src="/images/Energy%20Based%20Models/9.png" srcset="/img/loading.gif" lazyload></p>
+<p>这是课程对于<strong>MCMC</strong>的叙述，没明白的可以复习一下，其实就是<strong>MH算法</strong>：</p>
+<p><img src="/images/Energy%20Based%20Models/10.png" srcset="/img/loading.gif" lazyload></p>
+<p>课程中没强调这个noise是对称的，就是 <span class="math inline">\(x\)</span> 到 <span class="math inline">\(x&#39;\)</span> 的概率等于 <span class="math inline">\(x&#39;\)</span> 到 <span class="math inline">\(x\)</span> 的概率。这时候上图中的关于 <span class="math inline">\(q\)</span> 的分数就等于一了。那就是说，如果 <span class="math inline">\(f(x’)\)</span>
+的值大于当前值，那就无脑接受就好啦（2.1步）。如果没有大于，那就算一下比例咯（2.2步）。所以课程中的这个算法就是<strong>MH算法</strong>。</p>
+<p>MH算法很美妙，但太慢啦。那怎么办呢？我们可以用<strong>郎之万Langevin
+动力学</strong>来帮助MH算法，让随机游走朝着概率更高的地方走。 这就是
+Metropolis-adjusted Langevin algorithm。</p>
+<p><img src="/images/Energy%20Based%20Models/11.png" srcset="/img/loading.gif" lazyload></p>
+<p>最后总结一下，先用MH算法抽样，用这些抽样放到contrasive divergence
+算法里训练能量模型的参数，来极大似然</p>
+<h2 id="score-matching">Score Matching</h2>
+<p>上面我们用MH算法给出了一个训练和推理的方法，但缺点很明显，就是收敛的太慢了，随着维度的增加，收敛速度指数级别下降。虽然用了郎之万Langevin
+动力学来进行提速，但每次梯度一更新之后，分布就变了。所以对于contrasive
+divergence
+的每一步来说，MCMC都要从头开始采样直到收敛。（MCMC采样不是一开始就能用的，要丢弃前n个样本，叫做burn
+in）</p>
+<p>拿能否训练时候不用sampling呢？</p>
+<h3 id="score-function">score function</h3>
+<p>先看一下什么叫score function</p>
+<p><img src="/images/Energy%20Based%20Models/12.png" srcset="/img/loading.gif" lazyload></p>
+<p>就是指向高概率方向的梯度。一个观察是，这个梯度和分母，就是partition
+function无关。至于为什么叫做score fuction，那是因为我们一般把
+<strong><span class="math inline">\(f_\theta(x)\)</span></strong>
+对输入x的梯度称为<strong>score。</strong></p>
+<h3 id="score-matching-1">score matching</h3>
+<p>在之前的MCMC采样方法训练中，当我们有了一个准确的能量模型后，我们从数据分布里采样就转换成了根据训练好的能量模型的score,
+来进行MCMC采样。那么为什么不能换个思路，直接将能量模型建模成score，即用一个神经网络来拟合score!
+这个方法就叫score-matching!</p>
+<p><img src="/images/Energy%20Based%20Models/13.png" srcset="/img/loading.gif" lazyload></p>
+<p>如上所示，我们的目标依旧是用score matching
+来减小这两个分布的区别。难点在于，对于真实分布Pdata怎么求导呢？先看看一维的情况：</p>
+<p><span class="math display">\[\frac{1}{2} \mathbb{E}_{x \sim
+p_{\text{data}}} \left[ (\nabla_x \log p_{\text{data}}(x) - \nabla_x
+\log p_{\theta}(x))^2 \right] \quad  \\ = \frac{1}{2} \int
+p_{\text{data}}(x) \left[ (\nabla_x \log p_{\text{data}}(x) - \nabla_x
+\log p_{\theta}(x))^2 \right] dx \\ = \frac{1}{2} \int
+p_{\text{data}}(x) (\nabla_x \log p_{\text{data}}(x))^2 dx + \frac{1}{2}
+\int p_{\text{data}}(x) (\nabla_x \log p_{\theta}(x))^2 dx \\ \quad -
+\int p_{\text{data}}(x) \nabla_x \log p_{\text{data}}(x) \nabla_x \log
+p_{\theta}(x) dx \]</span></p>
+<p>其中第一项是常数，我们不用管，第二项也只涉及到 <span class="math inline">\(p_\theta\)</span> (积分的 <span class="math inline">\(p_{data}\)</span>
+直接通过在训练集抽样即可)，第三项比较棘手，涉及到 <span class="math inline">\(\nabla_x \log p_{\text{data}}(x)\)</span>
+，这个我们没法直接求出。</p>
+<p>但是我们可以通过分布积分来进行化简：</p>
+<p><span class="math display">\[- \int p_{\text{data}}(x) \nabla_x \log
+p_{\text{data}}(x) \nabla_x \log p_{\theta}(x) dx \\ = - \int
+p_{\text{data}}(x) \frac{1}{p_{\text{data}}(x)} \nabla_x
+p_{\text{data}}(x) \nabla_x \log p_{\theta}(x) dx \\ = -
+p_{\text{data}}(x) \nabla_x \log p_{\theta}(x) \Big|_{x = -\infty}^{x =
+\infty} + \int p_{\text{data}}(x) \nabla_x^2 \log p_{\theta}(x) dx \\ =
+\int p_{\text{data}}(x) \nabla_x^2 \log p_{\theta}(x) dx \]</span></p>
+<p>其中我们认为 <span class="math inline">\(p_{\text{data}}(x) \nabla_x
+\log p_{\theta}(x) \Big|_{x = -\infty}^{x = \infty}  = 0\)</span>
+，因为我们假定无穷远处的 <span class="math inline">\(p_{data}\)</span>
+为0。</p>
+<p><img src="/images/Energy%20Based%20Models/14.png" srcset="/img/loading.gif" lazyload></p>
+<p>对于多维与一维类似，区别就是我们分部积分得到的结果是 <span class="math inline">\(log(p_\theta(x))\)</span>
+的<strong>Hessian</strong>的迹，最终我们得到的形式如下：</p>
+<p><img src="/images/Energy%20Based%20Models/15.png" srcset="/img/loading.gif" lazyload></p>
+<p>我们通过分部积分把对 <span class="math inline">\(P_{data}\)</span>
+的梯度项给搞没了，就不用像之前那样费劲的去MCMC了。不过缺点是这个Hessian矩阵算起来很麻烦。</p>
+<h2 id="noise-contrastive-estimation">Noise contrastive estimation</h2>
+<p>把NCE用在Energy Based
+Model其实思想也很简单，我们在GANs中提到，对于一个真实样本和模型样本进行分类的最佳判别器是，对给定
+<span class="math inline">\(x\)</span> 的判定为真实样本的概率为<span class="math inline">\(\frac{P_{data}(x)}{P_{data}(x) +
+P_n(x)}\)</span>。</p>
+<p>所以NCE的想法就是我去用生成器组成一个判别器，这个生成器输出概率为
+<span class="math inline">\(P_{\theta^*}(x)\)</span>
+，而判别器的输出则是 <span class="math inline">\(\frac{P_{\theta^*}(x)}{P_{\theta^*}(x) +
+P_n(x)}\)</span> ，这样当判别器训练成为最佳判别器时， <span class="math inline">\(P_{\theta^*}(x)\)</span> 就等于 $P_{data}(x) $
+。</p>
+<p>注意，这里的 <span class="math inline">\(P_n\)</span>
+的概率是我们给定一个特定噪声分布进行采样的概率，所以很好获得。也就是说在NCE中，非真实样本的概率分布是事先指定的，而不是模型学习得到的。</p>
+<p>但是，依旧会到那个问题， <span class="math inline">\(P_{\theta^*}(x)
+= \frac{exp(f_{\theta^*}(x))}{Z_{\theta*}}\)</span>
+，我的分母怎么处理呢？此时我们可以把 <span class="math inline">\(Z\)</span>
+也作为一个参数进行训练。假如我们能够得到最佳判别器，由于 <span class="math inline">\(\frac{exp(f_{\theta^*}(x))}{Z^{*}} =
+P_{data}\)</span> ，所以 <span class="math inline">\(Z\)</span>
+也就肯定是最佳的分区函数了。</p>
+<p><img src="/images/Energy%20Based%20Models/16.png" srcset="/img/loading.gif" lazyload></p>
+<p>把这个形式带入我们二分类的目标函数（与GANs相同，这里不赘述了）：</p>
+<p><img src="/images/Energy%20Based%20Models/17.png" srcset="/img/loading.gif" lazyload></p>
+<p>当然，对于这个 <span class="math inline">\(p_n\)</span>
+，它对于训练效果有很显著的影响，毕竟区分图片和一堆噪声可不用很强的判别能力。所以后面也有对这个的改进工作，具体也就是类似GANs一样，再加一个生成器：</p>
+<p><img src="/images/Energy%20Based%20Models/18.png" srcset="/img/loading.gif" lazyload></p>
+<p>当时，这样就会训练得到两个生成模型了，具体推理阶段都可以使用。</p>
+<p>注意，能量模型作为生成模型的一种，建模的是 <span class="math inline">\(P(x)\)</span> ,主要功能是从 <span class="math inline">\(P(x)\)</span> 里面采样。上面说的score
+matching是在训练的时候不用从中采样，加快训练的脚步，但是真正使用的时候还是得有MCMC。NCE因为显式的训练了partition
+function <span class="math inline">\(Z\)</span>
+，也许可以不用MCMC（但笔者感觉也没有比较好的直接采样方法，个人觉得还是需要靠MCMC，如果读者有好的想法也可以指正我）。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Stanford-CS236%E6%B7%B1%E5%BA%A6%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/" class="category-chain-item">Stanford CS236深度生成模型</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/" class="print-no-link">#生成模型</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Energy Based Models</div>
+      <div>https://jia040223.github.io/2024/09/20/Energy Based Models/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Serendipity</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年9月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/09/19/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E6%96%B9%E6%B3%95/" title="蒙特卡洛采样方法">
+                        <span class="hidden-mobile">蒙特卡洛采样方法</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"Ug8725bpf4JJJkltPotjuquU-MdYXbMMI","appKey":"Po3fbdR9RiF08kxafXGlNgd5","path":"window.location.pathname","placeholder":"留言仅限讨论，严禁广告等行为","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"https://ug8725bp.api.lncldglobal.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
