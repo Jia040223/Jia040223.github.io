@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jia040223.github.io/images/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E6%96%B9%E6%B3%95/1.png">
 <meta property="article:published_time" content="2024-09-19T12:04:35.000Z">
-<meta property="article:modified_time" content="2024-09-19T12:22:34.338Z">
+<meta property="article:modified_time" content="2024-09-20T13:29:20.636Z">
 <meta property="article:author" content="Serendipity">
 <meta property="article:tag" content="机器学习">
 <meta property="article:tag" content="概率论与数理统计">
@@ -290,22 +290,23 @@ Estimator)</strong>的原理很简单，假设现在我们要求解一个一维�
 ，蒙特卡洛估计可以表示为：</p>
 <p><span class="math display">\[G_N =
 \frac{1}{N}\sum_{i=1}^{N}{\frac{g(X_i)}{f(X_i)}}\\\]</span></p>
-<p>概率密度 <span class="math inline">\(f(x)\)</span> 需要满足 <span class="math display">\[ \begin{cases}  f(x) &gt; 0, x \in (a,
+<p>概率密度 <span class="math inline">\(f(x)\)</span> 需要满足</p>
+<p><span class="math display">\[ \begin{cases}  f(x) &gt; 0, x \in (a,
 b),\\   f(x) = 0, x \notin (a, b).\end{cases}\\\]</span></p>
 <p>现在来验证下, 这种方式是正确的：</p>
 <p><span class="math display">\[\begin{align*} E[G_N] &amp; =E\left [
 \frac{1}{N}\sum_{i=1}^{N}{\frac{g(X_i)}{f(X_i)}} \right]\\ &amp; =
 \frac{1}{N}\sum_{i=1}^{N}\int_{a}^{b}\frac{g(x)}{f(x)}f(x)dx\\ &amp;=
 \frac{1}{N}\sum_{i=1}^{N}\int_{a}^{b}g(x)dx\\ &amp;= \int_{a}^{b}g(x)dx
-\end{align*}\\\]</span><br>
-也就是说， <span class="math inline">\(G_N\)</span> 的期望与 <span class="math inline">\(\int_{a}^{b} g(x) dx\)</span> 是相同的，而 <span class="math inline">\(G_N\)</span> 的方差如下：</p>
+\end{align*}\\\]</span></p>
+<p>也就是说， <span class="math inline">\(G_N\)</span> 的期望与 <span class="math inline">\(\int_{a}^{b} g(x) dx\)</span> 是相同的，而 <span class="math inline">\(G_N\)</span> 的方差如下：</p>
 <p><span class="math display">\[\begin{align*} D[G_N] &amp; =D\left [
 \frac{1}{N}\sum_{i=1}^{N}{\frac{g(X_i)}{f(X_i)}} \right]\\ &amp; =
 \frac{1}{N^2}D\left [ \sum_{i=1}^{N}{\frac{g(X_i)}{f(X_i)}} \right]\\
 &amp;= \frac{1}{N^2}\cdot N  \cdot D\left [ {\frac{g(X_i)}{f(X_i)}}
 \right]\\ &amp;= \frac{1}{N} D\left [ {\frac{g(X_i)}{f(X_i)}} \right]
-\end{align*}\\\]</span>
-从上面的式子，可以看出，要减少方差，有两种途径：</p>
+\end{align*}\\\]</span></p>
+<p>从上面的式子，可以看出，要减少方差，有两种途径：</p>
 <ul>
 <li>增加采样次数 <span class="math inline">\(N\)</span></li>
 <li>减少 <span class="math inline">\(D(\frac{g(X)}{f(X)})\)</span></li>
@@ -438,9 +439,10 @@ f(x) d x=\frac{b-a}{N} \sum_{i=1}^{N} f\left(x_{i}\right)\)</span> ,
 <p>但是这个期望的值我们无法直接得到, 因此我们需要借助 <span class="math inline">\(q(x)\)</span> 来进行采样, <span class="math inline">\(q(x)\)</span>
 可以选取简单的分布，比如<strong>设q(x)为均匀分布</strong>，当我们在
 <span class="math inline">\(q(x)\)</span> 上采样得到 <span class="math inline">\(\left\{x_{1}, x_{2}, \ldots,
-x_{n}\right\}\)</span> (即 <span class="math inline">\(x_i\)</span> 服从
-<span class="math inline">\(q(x)\)</span> 分布）后，那么我们可以估计
-<span class="math inline">\(f\)</span> 在 <span class="math inline">\({q(x)}\)</span> 下的期望为：</p>
+x_{n}\right\}\)</span> （即 <span class="math inline">\(x_i\)</span>
+服从 <span class="math inline">\(q(x)\)</span>
+分布）后，那么我们可以估计 <span class="math inline">\(f\)</span> 在
+<span class="math inline">\({q(x)}\)</span> 下的期望为：</p>
 <p><span class="math display">\[\mathbb{E}[f(x)]=\int_{x} q(x) f(x) d x
 \approx \frac{1}{N} \sum_{i=1}^{N} f\left(x_{i}\right) \]</span></p>
 <p>上面这个式子就简单很多了，只要我们得到 <span class="math inline">\(x_i\)</span> 然后代入 <span class="math inline">\(f(x)\)</span> 然后求和就行了，而且均匀分布的样本
