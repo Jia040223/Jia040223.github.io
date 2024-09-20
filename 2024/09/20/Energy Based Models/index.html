@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jia040223.github.io/images/Energy%20Based%20Models/0.png">
 <meta property="article:published_time" content="2024-09-20T11:46:30.000Z">
-<meta property="article:modified_time" content="2024-09-20T11:53:19.743Z">
+<meta property="article:modified_time" content="2024-09-20T12:12:44.068Z">
 <meta property="article:author" content="Serendipity">
 <meta property="article:tag" content="生成模型">
 <meta name="twitter:card" content="summary_large_image">
@@ -368,20 +368,25 @@ function，反正就是知道它是个常数。</p>
 log(Z(\theta))\]</span></p>
 <p>这里有个小问题，直接最大化分子并不能解决问题，因为分母是分子的积分，如果只顾着最大化分子的话，可能分母也跟着变大，那最后这整个分数就可能不变甚至变小！但是积分我们又计算不出来怎么办？蒙特卡洛估计便可以派上用场了，我们对
 <span class="math inline">\(L\)</span> 求一下梯度：</p>
-<p><span class="math display">\[\nabla_{\theta}
-f_{\theta}(x_{\text{train}}) - \nabla_{\theta} \log Z(\theta) \\ =
-\nabla_{\theta} f_{\theta}(x_{\text{train}}) - \frac{\nabla_{\theta}
-Z(\theta)}{Z(\theta)} \\ = \nabla_{\theta} f_{\theta}(x_{\text{train}})
-- \frac{1}{Z(\theta)} \int \nabla_{\theta} \exp \{ f_{\theta}(x) \} dx
-\\ = \nabla_{\theta} f_{\theta}(x_{\text{train}}) - \frac{1}{Z(\theta)}
-\int \exp \{ f_{\theta}(x) \} \nabla_{\theta} f_{\theta}(x) dx \\ =
-\nabla_{\theta} f_{\theta}(x_{\text{train}}) - \int \frac{\exp \{
-f_{\theta}(x) \}}{Z(\theta)} \nabla_{\theta} f_{\theta}(x) dx \\ =
-\nabla_{\theta} f_{\theta}(x_{\text{train}}) -
+<p><span class="math display">\[
+\begin{align*}
+\nabla_{\theta} f_{\theta}(x_{\text{train}}) - \nabla_{\theta} \log
+Z(\theta) &amp;= \nabla_{\theta} f_{\theta}(x_{\text{train}}) -
+\frac{\nabla_{\theta} Z(\theta)}{Z(\theta)} \\
+&amp;= \nabla_{\theta} f_{\theta}(x_{\text{train}}) -
+\frac{1}{Z(\theta)} \int \nabla_{\theta} \exp \{ f_{\theta}(x) \} dx \\
+&amp;= \nabla_{\theta} f_{\theta}(x_{\text{train}}) -
+\frac{1}{Z(\theta)} \int \exp \{ f_{\theta}(x) \} \nabla_{\theta}
+f_{\theta}(x) dx \\
+&amp;= \nabla_{\theta} f_{\theta}(x_{\text{train}}) - \int \frac{\exp \{
+f_{\theta}(x) \}}{Z(\theta)} \nabla_{\theta} f_{\theta}(x) dx \\
+&amp;= \nabla_{\theta} f_{\theta}(x_{\text{train}}) -
 \mathbb{E}_{x_{\text{sample}}} [\nabla_{\theta}
-f_{\theta}(x_{\text{sample}})] \\ \approx \nabla_{\theta}
-f_{\theta}(x_{\text{train}}) - \nabla_{\theta}
-f_{\theta}(x_{\text{sample}}) \]</span></p>
+f_{\theta}(x_{\text{sample}})] \\
+&amp;= \nabla_{\theta} f_{\theta}(x_{\text{train}}) - \nabla_{\theta}
+f_{\theta}(x_{\text{sample}})
+\end{align*}
+\]</span></p>
 <p>其中 <span class="math inline">\(x_{sample} \sim
 exp(f_\theta(x_{sample}))/Z_\theta\)</span></p>
 <p>最后一步代表在训练过程中，我们只取一个样本作为期望的估计值。</p>
@@ -423,26 +428,33 @@ function无关。至于为什么叫做score fuction，那是因为我们一般�
 <p><img src="/images/Energy%20Based%20Models/13.png" srcset="/img/loading.gif" lazyload></p>
 <p>如上所示，我们的目标依旧是用score matching
 来减小这两个分布的区别。难点在于，对于真实分布Pdata怎么求导呢？先看看一维的情况：</p>
-<p><span class="math display">\[\frac{1}{2} \mathbb{E}_{x \sim
-p_{\text{data}}} \left[ (\nabla_x \log p_{\text{data}}(x) - \nabla_x
-\log p_{\theta}(x))^2 \right] \quad  \\ = \frac{1}{2} \int
-p_{\text{data}}(x) \left[ (\nabla_x \log p_{\text{data}}(x) - \nabla_x
-\log p_{\theta}(x))^2 \right] dx \\ = \frac{1}{2} \int
-p_{\text{data}}(x) (\nabla_x \log p_{\text{data}}(x))^2 dx + \frac{1}{2}
-\int p_{\text{data}}(x) (\nabla_x \log p_{\theta}(x))^2 dx \\ \quad -
-\int p_{\text{data}}(x) \nabla_x \log p_{\text{data}}(x) \nabla_x \log
-p_{\theta}(x) dx \]</span></p>
+<p><span class="math display">\[
+\begin{align*}
+\frac{1}{2} \mathbb{E}_{x \sim p_{\text{data}}} \left[ (\nabla_x \log
+p_{\text{data}}(x) - \nabla_x \log p_{\theta}(x))^2 \right]  &amp;=
+\frac{1}{2} \int p_{\text{data}}(x) \left[ (\nabla_x \log
+p_{\text{data}}(x) - \nabla_x \log p_{\theta}(x))^2 \right] dx &amp;\\
+&amp;= \frac{1}{2} \int p_{\text{data}}(x) (\nabla_x \log
+p_{\text{data}}(x))^2 dx + \frac{1}{2} \int p_{\text{data}}(x) (\nabla_x
+\log p_{\theta}(x))^2 dx - \int p_{\text{data}}(x) \nabla_x \log
+p_{\text{data}}(x) \nabla_x \log p_{\theta}(x) dx &amp;
+\end{align*}
+\]</span></p>
 <p>其中第一项是常数，我们不用管，第二项也只涉及到 <span class="math inline">\(p_\theta\)</span> (积分的 <span class="math inline">\(p_{data}\)</span>
 直接通过在训练集抽样即可)，第三项比较棘手，涉及到 <span class="math inline">\(\nabla_x \log p_{\text{data}}(x)\)</span>
 ，这个我们没法直接求出。</p>
 <p>但是我们可以通过分布积分来进行化简：</p>
-<p><span class="math display">\[- \int p_{\text{data}}(x) \nabla_x \log
-p_{\text{data}}(x) \nabla_x \log p_{\theta}(x) dx \\ = - \int
-p_{\text{data}}(x) \frac{1}{p_{\text{data}}(x)} \nabla_x
-p_{\text{data}}(x) \nabla_x \log p_{\theta}(x) dx \\ = -
-p_{\text{data}}(x) \nabla_x \log p_{\theta}(x) \Big|_{x = -\infty}^{x =
-\infty} + \int p_{\text{data}}(x) \nabla_x^2 \log p_{\theta}(x) dx \\ =
-\int p_{\text{data}}(x) \nabla_x^2 \log p_{\theta}(x) dx \]</span></p>
+<p><span class="math display">\[
+\begin{align*}
+-\int p_{\text{data}}(x) \nabla_x \log p_{\text{data}}(x) \nabla_x \log
+p_{\theta}(x) dx &amp;= - \int p_{\text{data}}(x)
+\frac{1}{p_{\text{data}}(x)} \nabla_x p_{\text{data}}(x) \nabla_x \log
+p_{\theta}(x) dx \\ &amp;= - p_{\text{data}}(x) \nabla_x \log
+p_{\theta}(x) \Big|_{x = -\infty}^{x = \infty} + \int p_{\text{data}}(x)
+\nabla_x^2 \log p_{\theta}(x) dx \\ &amp;= \int p_{\text{data}}(x)
+\nabla_x^2 \log p_{\theta}(x) dx
+\end{align*}
+\]</span></p>
 <p>其中我们认为 <span class="math inline">\(p_{\text{data}}(x) \nabla_x
 \log p_{\theta}(x) \Big|_{x = -\infty}^{x = \infty}  = 0\)</span>
 ，因为我们假定无穷远处的 <span class="math inline">\(p_{data}\)</span>
