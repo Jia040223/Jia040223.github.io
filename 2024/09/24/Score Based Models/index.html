@@ -19,16 +19,16 @@
   <meta name="author" content="Serendipity">
   <meta name="keywords" content="">
   
-    <meta name="description" content="本学习笔记用于记录我学习Stanford CS236课程的学习笔记，分享记录，也便于自己实时查看。 引入 Score function 上一讲我们学习了Energy Based Model。其核心做法是对一个数据集 \({x_{1}, x_{2}, ..., x_{N}}\) ，我们把数据的概率分布 \(p(x)\) 建模为： \[p_{\theta}(\mathbf{x}) &#x3D;">
+    <meta name="description" content="本学习笔记用于记录我学习Stanford CS236课程的学习笔记，分享记录，也便于自己实时查看。 引入 Score function 上一次我们学习了Energy Based Model。其核心做法是对一个数据集 \({x_{1}, x_{2}, ..., x_{N}}\) ，我们把数据的概率分布 \(p(x)\) 建模为： \[p_{\theta}(\mathbf{x}) &#x3D;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Score Based Models">
 <meta property="og:url" content="https://jia040223.github.io/2024/09/24/Score%20Based%20Models/index.html">
 <meta property="og:site_name" content="Serendipity&#39;s Blog">
-<meta property="og:description" content="本学习笔记用于记录我学习Stanford CS236课程的学习笔记，分享记录，也便于自己实时查看。 引入 Score function 上一讲我们学习了Energy Based Model。其核心做法是对一个数据集 \({x_{1}, x_{2}, ..., x_{N}}\) ，我们把数据的概率分布 \(p(x)\) 建模为： \[p_{\theta}(\mathbf{x}) &#x3D;">
+<meta property="og:description" content="本学习笔记用于记录我学习Stanford CS236课程的学习笔记，分享记录，也便于自己实时查看。 引入 Score function 上一次我们学习了Energy Based Model。其核心做法是对一个数据集 \({x_{1}, x_{2}, ..., x_{N}}\) ，我们把数据的概率分布 \(p(x)\) 建模为： \[p_{\theta}(\mathbf{x}) &#x3D;">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jia040223.github.io/images/Score%20Based%20Models/0.png">
 <meta property="article:published_time" content="2024-09-24T12:40:58.000Z">
-<meta property="article:modified_time" content="2024-09-24T12:58:43.785Z">
+<meta property="article:modified_time" content="2024-09-24T13:04:06.721Z">
 <meta property="article:author" content="Serendipity">
 <meta property="article:tag" content="生成模型">
 <meta name="twitter:card" content="summary_large_image">
@@ -283,7 +283,7 @@
 CS236课程的学习笔记，分享记录，也便于自己实时查看。</p>
 <h1 id="引入">引入</h1>
 <h2 id="score-function">Score function</h2>
-<p>上一讲我们学习了Energy Based Model。其核心做法是对一个数据集 <span class="math inline">\({x_{1}, x_{2}, ..., x_{N}}\)</span>
+<p>上一次我们学习了Energy Based Model。其核心做法是对一个数据集 <span class="math inline">\({x_{1}, x_{2}, ..., x_{N}}\)</span>
 ，我们把数据的概率分布 <span class="math inline">\(p(x)\)</span>
 建模为：</p>
 <p><span class="math display">\[p_{\theta}(\mathbf{x}) =
