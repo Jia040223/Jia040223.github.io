@@ -1,0 +1,1140 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Serendipity">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="本学习笔记用于记录我学习Stanford CS236课程的学习笔记，分享记录，也便于自己实时查看。 引入 Score function 上一讲我们学习了Energy Based Model。其核心做法是对一个数据集 \({x_{1}, x_{2}, ..., x_{N}}\) ，我们把数据的概率分布 \(p(x)\) 建模为： \[p_{\theta}(\mathbf{x}) &#x3D;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Score Based Models">
+<meta property="og:url" content="https://jia040223.github.io/2024/09/24/Score%20Based%20Models/index.html">
+<meta property="og:site_name" content="Serendipity&#39;s Blog">
+<meta property="og:description" content="本学习笔记用于记录我学习Stanford CS236课程的学习笔记，分享记录，也便于自己实时查看。 引入 Score function 上一讲我们学习了Energy Based Model。其核心做法是对一个数据集 \({x_{1}, x_{2}, ..., x_{N}}\) ，我们把数据的概率分布 \(p(x)\) 建模为： \[p_{\theta}(\mathbf{x}) &#x3D;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://jia040223.github.io/images/Score%20Based%20Models/0.png">
+<meta property="article:published_time" content="2024-09-24T12:40:58.000Z">
+<meta property="article:modified_time" content="2024-09-24T12:58:43.785Z">
+<meta property="article:author" content="Serendipity">
+<meta property="article:tag" content="生成模型">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jia040223.github.io/images/Score%20Based%20Models/0.png">
+  
+  
+  
+  <title>Score Based Models - Serendipity&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"jia040223.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Serendipity's Blog" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Serendipity&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Score Based Models"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-09-24 20:40" pubdate>
+          2024年9月24日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          39 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Score Based Models</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>本学习笔记用于记录我学习Stanford
+CS236课程的学习笔记，分享记录，也便于自己实时查看。</p>
+<h1 id="引入">引入</h1>
+<h2 id="score-function">Score function</h2>
+<p>上一讲我们学习了Energy Based Model。其核心做法是对一个数据集 <span class="math inline">\({x_{1}, x_{2}, ..., x_{N}}\)</span>
+，我们把数据的概率分布 <span class="math inline">\(p(x)\)</span>
+建模为：</p>
+<p><span class="math display">\[p_{\theta}(\mathbf{x}) =
+\frac{e^{-f_{\theta}(\mathbf{x})}}{Z_{\theta}}\]</span></p>
+<p>这里 <span class="math inline">\(f_{\theta}(\mathbf{x})\in
+\mathbb{R}\)</span> 。 <span class="math inline">\(Z_{\theta}\)</span>
+是归一化项保证 <span class="math inline">\(p_{\theta}(\mathbf{x})\)</span> 是概率。 <span class="math inline">\(\theta\)</span> 是他们的参数。<br>
+我们一般可以通过最大似然估计的方式来训练参数 <span class="math inline">\(\theta\)</span> ，</p>
+<p><span class="math display">\[\max_{\theta}\sum\limits_{i=1}^{N}\log_{\theta}(\mathbf{x}_{i})\]</span></p>
+<p>但是因为</p>
+<p><span class="math display">\[\log p_{\theta}(\mathbf{x}) =
+-f_{\theta}(\mathbf{x}) - \log Z_{\theta}\]</span></p>
+<p><span class="math inline">\(Z_{\theta}\)</span>
+是intractable的，我们无法求出 <span class="math inline">\(\log
+p_{\theta}(\mathbf{x})\)</span> ，自然也就无法优化参数 <span class="math inline">\(\theta\)</span> 。</p>
+<p><strong>为了解决归一化项无法计算的问题，我们引入score
+function。</strong> score function的定义为 <span class="math inline">\(\nabla _{\mathbf{x}}\log
+p(\mathbf{x})\)</span></p>
+<p>所以我们可以发现，score function是与 <span class="math inline">\(Z
+_{\theta}\)</span> 无关的：</p>
+<p><span class="math display">\[\mathbf{s}_{\theta}(\mathbf{x}) = \nabla
+{\mathbf{x}}\log(\mathbf{x}_{\theta}) = -\nabla
+{\mathbf{x}}f_{\theta}(\mathbf{x}) - \nabla {\mathbf{x}}\log Z_{\theta}
+= -\nabla {\mathbf{x}}f _{\theta}(\mathbf{x})\]</span></p>
+<h1 id="score-based-model">Score Based Model</h1>
+<h2 id="score-matching">Score matching</h2>
+<p>现在我们想要训练一个网络来估计出真实的score
+function。自然地，我们可以最小化真实的score
+function和网络输出的MSE：</p>
+<p><span class="math display">\[\mathcal{L} =\frac{1}{2}
+\mathbb{E}_{p(\mathbf{x})}[||\nabla {\mathbf{x}}\log p(\mathbf{x}) -
+\mathbf{s} _{\theta}(\mathbf{x})||^{2}]\]</span></p>
+<p><img src="/images/Score%20Based%20Models/1.png" srcset="/img/loading.gif" lazyload><br>
+但是这样的一个loss我们是算不出来的，因为我们并不知道真实的 <span class="math inline">\(p(\mathbf{x})\)</span> 是什么。<strong>而score
+matching方法就可以让我们在不知道真实的</strong> <span class="math inline">\(p(\mathbf{x})\)</span>
+<strong>的情况下最小化这个loss。</strong>Score
+matching的推导如下：<br>
+我们把上面loss的期望写开，二次项打开，可以得到</p>
+<p><span class="math display">\[\begin{align*}\mathcal{L} =&amp;
+\frac{1}{2}\mathbb{E}_{p(\mathbf{x})}[||\nabla _{\mathbf{x}}\log
+p(\mathbf{x}) - \mathbf{s} _{\theta}(\mathbf{x})||^{2}]\\=&amp;
+\frac{1}{2}\int p(\mathbf{x}) [||\nabla _{\mathbf{x}}\log
+p(\mathbf{x})||^{2} + ||\mathbf{s} _{\theta}(\mathbf{x})||^{2} -
+2(\nabla _{\mathbf{x}}\log p(\mathbf{x}))^{T}\mathbf{s}
+_{\theta}(\mathbf{x})] d \mathbf{x}\end{align*}\]</span></p>
+<p>第一项对于 <span class="math inline">\(\theta\)</span>
+来说是常数可以忽略。<br>
+第二项为</p>
+<p><span class="math display">\[\int p(\mathbf{x}) ||\mathbf{s}
+_{\theta}(\mathbf{x})||^{2} d \mathbf{x}\]</span></p>
+<p>对于第三项，若 <span class="math inline">\(\mathbf{x}\)</span>
+的维度为 <span class="math inline">\(N\)</span> ：</p>
+<p><span class="math display">\[
+\begin{align*}&amp; -2\int p(\mathbf{x}) (\nabla _{\mathbf{x}}\log
+p(\mathbf{x}))^{T}\mathbf{s} _{\theta}(\mathbf{x}) d
+\mathbf{x}\\   =&amp; -2 \int p(\mathbf{x})
+\sum\limits_{i=1}^{N}\frac{\partial \log p(\mathbf{x})}{\partial
+\mathbf{x}_{i}}\mathbf{s}_{\theta i}(\mathbf{x}) d \mathbf{x}\\   =&amp;
+-2 \sum\limits_{i=1}^{N} \int p(\mathbf{x}) \frac{1}{p(\mathbf{x})}
+\frac{\partial p(\mathbf{x})}{\partial \mathbf{x}_{i}}\mathbf{s}_{\theta
+i}(\mathbf{x}) d \mathbf{x}\\   =&amp; -2 \sum\limits_{i=1}^{N} \int
+\frac{\partial p(\mathbf{x})}{\partial \mathbf{x}_{i}}\mathbf{s}_{\theta
+i}(\mathbf{x}) d \mathbf{x}\\ =&amp; 2 \sum\limits_{i=1}^{N} - \int
+\frac{\partial p(\mathbf{x})\mathbf{s}_{\theta i}(\mathbf{x})}{\partial
+\mathbf{x}_{i}} d \mathbf{x} + \int p(\mathbf{x}) \frac{\partial
+\mathbf{s}_{\theta i}(\mathbf{x})}{\partial \mathbf{x}_{i}}  d
+\mathbf{x}\\  =&amp;  2 \sum\limits_{i=1}^{N} - \int
+p(\mathbf{x})\mathbf{s}_{\theta
+i}(\mathbf{x})\bigg\rvert^{\infty}_{-\infty} d \mathbf{x_{/i}} + \int
+p(\mathbf{x}) \frac{\partial \mathbf{s}_{\theta i}(\mathbf{x})}{\partial
+\mathbf{x}_{i}}  d \mathbf{x}\\   =&amp; 2 \sum\limits_{i=1}^{N} \int
+p(\mathbf{x}) \frac{\partial \mathbf{s}_{\theta i}(\mathbf{x})}{\partial
+\mathbf{x}_{i}}  d \mathbf{x}\\    =&amp; 2\int p(\mathbf{x})
+\sum\limits_{i=1}^{N} \frac{\partial \mathbf{s}_{\theta
+i}(\mathbf{x})}{\partial \mathbf{x}_{i}}  d \mathbf{x}\\ =&amp; 2\int
+p(\mathbf{x}) \text{tr}(\nabla
+_{\mathbf{x}}\mathbf{s}_{\theta}(\mathbf{x})) d \mathbf{x}\end{align*}
+\]</span></p>
+<p>所以最后的loss是第二和第三项的和：</p>
+<p><span class="math display">\[
+\begin{align*} \mathcal{L} &amp;=\frac{1}{2} \int p(\mathbf{x})
+||\mathbf{s} _{\theta}(\mathbf{x})||^{2} d \mathbf{x} + \int
+p(\mathbf{x}) \text{tr}(\nabla
+_{\mathbf{x}}\mathbf{s}_{\theta}(\mathbf{x})) d \mathbf{x}\\\\   &amp;=
+\mathbb{E}_{p(\mathbf{x})}[\frac{1}{2}||\mathbf{s}
+_{\theta}(\mathbf{x})||^{2} + \text{tr}(\nabla
+_{\mathbf{x}}\mathbf{s}_{\theta}(\mathbf{x}))]\end{align*}
+\]</span></p>
+<p><img src="/images/Score%20Based%20Models/2.png" srcset="/img/loading.gif" lazyload><br>
+当然，这个推导虽然是从能量模型引入的，但并不局限于能量模型，事实上，他是一个更大的模型家族。</p>
+<p><img src="/images/Score%20Based%20Models/3.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="score-matching-langevin-dynamics-smld">Score Matching Langevin
+Dynamics (SMLD)</h2>
+<p>现在我们已经通过神经网络学习到了数据分布的score
+function，那么如何用score
+function从这个数据分布中得到样本呢？答案就是朗之万动力学采样(Langevin
+Dynamics):</p>
+<p><span class="math display">\[
+\mathbf{x} {i+1} = \mathbf{x} {i} + \epsilon \nabla {\mathbf{x}}\log
+p(\mathbf{x}) + \sqrt{2 \epsilon}\mathbf{z} {i}, \quad \mathbf{z} _{i}
+\sim \mathcal{N}(\mathbf{0}, \mathbf{I}), \quad i=0,1,\cdots K\
+\]</span></p>
+<p>这里的采样是一个迭代的过程。 <span class="math inline">\(\epsilon\)</span> 是一个很小的量。 <span class="math inline">\(\mathbf{x}_{0}\)</span>
+随机初始，通过上面的迭代式更新。当迭代次数 <span class="math inline">\(K\)</span> 足够大的时候， <span class="math inline">\(\mathbf{x}\)</span> 就收敛于该分布的一个样本。</p>
+<p><img src="/images/Score%20Based%20Models/4.png" srcset="/img/loading.gif" lazyload><br>
+上图的具体解释我就不再赘述了。</p>
+<p>这样我们其实就得到了一个生成模型。我们可以先训练一个网络用来估计score
+function，然后用Langevin Dynamics和网络估计的score
+function采样，就可以得到原分布的样本。因为整个方法由score
+matching和Langevin Dynamics两部分组成，所以叫<strong>SMLD</strong>。</p>
+<h2 id="训练">训练</h2>
+<p>说完了损失函数和采样过程，那么对这个模型我们怎么训练呢？相信敏锐的读者已经注意到了，我们损失函数：</p>
+<p><span class="math display">\[
+\begin{align*} \mathcal{L}  &amp;=
+\mathbb{E}_{p(\mathbf{x})}[\frac{1}{2}||\mathbf{s}
+_{\theta}(\mathbf{x})||^{2} + \text{tr}(\nabla
+_{\mathbf{x}}\mathbf{s}_{\theta}(\mathbf{x}))]\end{align*}
+\]</span></p>
+<p>这个第二项并不是很好计算。对于维度为 <span class="math inline">\(N\)</span> 的数据，我们计算雅可比矩阵的迹需要进行
+<span class="math inline">\(N\)</span>
+次反向传播，这对于高维度的数据的训练是不能接受的。</p>
+<p>对于这个问题，主要有两种解决方法。</p>
+<h3 id="denoising-score-matching">Denoising score matching</h3>
+<p>Denoising score matching的做法就是在 score matching
+的基础上，对输入数据加噪。<strong>需要注意的是，此时的 score
+是对加噪后的数据进行求导，而非原输入数据。</strong>score
+的方向是(对数)概率密度增长最快的方向，也就是最接近真实数据的方向。<br>
+Denoising score matching 的玩法是：在给定输入 <span class="math inline">\(x\)</span> 的情况下，将条件分布$
+q(|x)$建模为高斯分布，其中 <span class="math inline">\(\tilde{x}\)</span>
+代表加噪后的数据，并且边缘化这个条件分布，以 <span class="math inline">\(p(\tilde{x}) \equiv \int q(\tilde{x}|x)p(x)
+dx\)</span>
+来近似原数据分布，<strong>因此噪声强度不太大时，我们可以认为加噪后数据的概率分布与原数据的概率分布大致相同</strong>。</p>
+<p><img src="/images/Score%20Based%20Models/5.png" srcset="/img/loading.gif" lazyload></p>
+<p>此时，score <span class="math inline">\(\frac{\partial
+log(p(\tilde{x}))}{\partial \tilde{x}}\)</span> 中由于 $ p(x)$
+项在求导时与 <span class="math inline">\(\tilde{x}\)</span>
+无关，可以略去了，具体推导如下：</p>
+<p><span class="math display">\[
+\begin{align*} \frac{1}{2} \mathbb{E}_{\tilde{x} \sim q_{\sigma}} \left[
+\| \nabla_{\tilde{x}} \log q_{\sigma}(\tilde{x}) - s_{\theta}(\tilde{x})
+\|_2^2 \right] &amp;= \frac{1}{2} \int q_{\sigma}(\tilde{x}) \|
+\nabla_{\tilde{x}} \log q_{\sigma}(\tilde{x}) - s_{\theta}(\tilde{x})
+\|_2^2 d\tilde{x} \\ &amp;= \frac{1}{2} \int q_{\sigma}(\tilde{x}) \|
+\nabla_{\tilde{x}} \log q_{\sigma}(\tilde{x}) \|_2^2 d\tilde{x} +
+\frac{1}{2} \int q_{\sigma}(\tilde{x}) \| s_{\theta}(\tilde{x}) \|_2^2
+d\tilde{x}- \int q_{\sigma}(\tilde{x}) \nabla_{\tilde{x}} \log
+q_{\sigma}(\tilde{x})^T s_{\theta}(\tilde{x}) d\tilde{x} \end{align*}
+\]</span><br>
+这里一样的，第一项是常数，第二项只涉及 <span class="math inline">\(s_{\theta}(\tilde{x})\)</span>
+，我们可以处理，第三项比较棘手。但我们可以类似地用分布积分法进行处理：</p>
+<p><span class="math display">\[
+\begin{align*} &amp;- \int q_{\sigma}(\tilde{x}) \nabla_{\tilde{x}} \log
+q_{\sigma}(\tilde{x})^T s_{\theta}(\tilde{x}) d\tilde{x} \\ &amp;= -
+\int q_{\sigma}(\tilde{x}) \frac{1}{q_{\sigma}(\tilde{x})}
+\nabla_{\tilde{x}} q_{\sigma}(\tilde{x})^T s_{\theta}(\tilde{x})
+d\tilde{x} \\ &amp;= - \int \nabla_{\tilde{x}} q_{\sigma}(\tilde{x})^T
+s_{\theta}(\tilde{x}) d\tilde{x} \\ &amp;= - \int \nabla_{\tilde{x}}
+\left( \int p_{\text{data}}(x) q_{\sigma}(\tilde{x} | x) dx \right)^T
+s_{\theta}(\tilde{x}) d\tilde{x} \\ &amp;= - \int \left( \int
+p_{\text{data}}(x) \nabla_{\tilde{x}} q_{\sigma}(\tilde{x} | x) dx
+\right)^T s_{\theta}(\tilde{x}) d\tilde{x} \\ &amp;= - \int \left( \int
+p_{\text{data}}(x) q_{\sigma}(\tilde{x} | x) \nabla_{\tilde{x}} \log
+q_{\sigma}(\tilde{x} | x) dx \right)^T s_{\theta}(\tilde{x}) d\tilde{x}
+\\ &amp;= - \int \int p_{\text{data}}(x) q_{\sigma}(\tilde{x} | x)
+\nabla_{\tilde{x}} \log q_{\sigma}(\tilde{x} |
+x)^Ts_{\theta}(\tilde{x})  dx \ d\tilde{x}  \end{align*}
+\]</span><br>
+这里我们 <span class="math inline">\(q(\tilde{x}|x)\)</span>
+是已知的，也就可以计算了。</p>
+<p>OK，让我们代入原式之中：</p>
+<p><span class="math display">\[
+\begin{align*} &amp;\frac{1}{2} \mathbb{E}_{\tilde{\mathbf{x}} \sim
+q_{\sigma}} \left[ \|\nabla_{\tilde{\mathbf{x}}} \log q_{\sigma}
+(\tilde{\mathbf{x}}) - s_{\theta} (\tilde{\mathbf{x}}) \|_2^2 \right] \\
+&amp;= \text{const.} + \frac{1}{2} \mathbb{E}_{\mathbf{x} \sim
+q_{\sigma}} \left[ \| s_{\theta} (\mathbf{x}) \|_2^2 \right] - \int
+q_{\sigma} (\tilde{\mathbf{x}}) \nabla_{\tilde{\mathbf{x}}} \log
+q_{\sigma} (\tilde{\mathbf{x}})^{\top} s_{\theta} (\tilde{\mathbf{x}})
+d\tilde{\mathbf{x}} \\ &amp;= \text{const.} + \frac{1}{2}
+\mathbb{E}_{\mathbf{x} \sim q_{\sigma}} \left[ \| s_{\theta}
+(\tilde{\mathbf{x}}) \|_2^2 \right] - \mathbb{E}_{\mathbf{x} \sim
+p_{\text{data}}(\mathbf{x}), \tilde{\mathbf{x}} \sim
+q_{\sigma}(\tilde{\mathbf{x}}|\mathbf{x})} \left[
+\nabla_{\tilde{\mathbf{x}}} \log q_{\sigma}
+(\tilde{\mathbf{x}}|\mathbf{x})^{\top} s_{\theta} (\tilde{\mathbf{x}})
+\right] \\ &amp;= \text{const.} + \frac{1}{2} \mathbb{E}_{\mathbf{x}
+\sim p_{\text{data}}(\mathbf{x}), \tilde{\mathbf{x}} \sim
+q_{\sigma}(\tilde{\mathbf{x}}|\mathbf{x})} \left[ \| s_{\theta}
+(\tilde{\mathbf{x}}) - \nabla_{\tilde{\mathbf{x}}} \log q_{\sigma}
+(\tilde{\mathbf{x}}|\mathbf{x}) \|_2^2 \right] - \frac{1}{2}
+\mathbb{E}_{\mathbf{x} \sim p_{\text{data}}(\mathbf{x}),
+\tilde{\mathbf{x}} \sim q_{\sigma}(\tilde{\mathbf{x}})} \left[ \|
+\nabla_{\tilde{\mathbf{x}}} \log q_{\sigma} (\tilde{\mathbf{x}}) \|_2^2
+\right] \\ &amp;= \text{const.} + \frac{1}{2} \mathbb{E}_{\mathbf{x}
+\sim p_{\text{data}}(\mathbf{x}), \tilde{\mathbf{x}} \sim
+q_{\sigma}(\tilde{\mathbf{x}}|\mathbf{x})} \left[ \| s_{\theta}
+(\tilde{\mathbf{x}}) - \nabla_{\tilde{\mathbf{x}}} \log q_{\sigma}
+(\tilde{\mathbf{x}}|\mathbf{x}) \|_2^2 \right] +
+\text{const.}      \end{align*}
+\]</span></p>
+<p>看到没有！这也就是说，score 的方向与所加噪声的方向是相反的。 于是，在
+denoising score matching 的体制下，朝着 score
+的方向走，其实就是在<strong>去噪，在做 denoising</strong>。</p>
+<p><img src="/images/Score%20Based%20Models/6.png" srcset="/img/loading.gif" lazyload><br>
+在实践中，我们可以选择将 <span class="math inline">\(q(\tilde{x}|x)\)</span> 建模为 <span class="math inline">\(N(\tilde{x};x;\sigma^2)\)</span> ，即均值为原数据
+<span class="math inline">\(x\)</span> ，方差为预设的 <span class="math inline">\(\sigma^2\)</span>
+的高斯分布。于是，根据高斯分布的性质，有：</p>
+<p><span class="math display">\[\tilde{x}=x + \sigma \epsilon,
+\epsilon\sim N(0,I)\]</span></p>
+<p>其中， <span class="math inline">\(\epsilon\)</span>
+是从标准高斯分布中采样出来的噪声。</p>
+<p>接着，在以上化简出的 score 中代入高斯分布的概率密度函数，可以得到
+score 为：</p>
+<p><span class="math display">\[\frac{\partial log
+(q(\tilde{x}|x))}{\partial \tilde{x}} =
+-(\frac{\tilde{x}-x}{\sigma^2})=-\frac{\epsilon}{\sigma}\]</span></p>
+<p>虽然我们对计算进行了大幅度简化，但这也导致了我们估计的是<strong>加噪数据的梯度</strong>。具体训练流程如下：</p>
+<p><img src="/images/Score%20Based%20Models/7.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="sliced-score-matching">Sliced score matching</h3>
+<p>Sliced score
+matching的思想是，如果模型预测的梯度与真实梯度相同等价于他们在不同方向下的投影均相同，所以我们引入一个投影向量用于训练。这样我们的目标和最终化简（用<strong>分部积分</strong>即可）的格式如下：</p>
+<ul>
+<li><strong>goal：</strong> <span class="math display">\[
+\frac{1}{2} \mathbb{E}_{\mathbf{v} \sim p_v} \mathbb{E}_{\mathbf{x} \sim
+p_{\text{data}}} \left[ \left( \mathbf{v}^{\top} \nabla_{\mathbf{x}}
+\log p_{\text{data}} (\mathbf{x}) - \mathbf{v}^{\top} s_{\theta}
+(\mathbf{x}) \right)^2 \right]
+\]</span></li>
+<li><strong>loss：</strong> <span class="math display">\[\mathbb{E}_{\mathbf{v} \sim p_v}
+\mathbb{E}_{\mathbf{x} \sim p_{\text{data}}} \left[ \mathbf{v}^{\top}
+\nabla_{\mathbf{x}} s_{\theta} (\mathbf{x}) \mathbf{v} + \frac{1}{2}
+(\mathbf{v}^{\top} s_{\theta} (\mathbf{x}))^2 \right]
+\]</span></li>
+</ul>
+<p><img src="/images/Score%20Based%20Models/8.png" srcset="/img/loading.gif" lazyload><br>
+这样我们便只需要进行<strong>一次</strong>反向传播了，大大减少了训练需要的计算量，计算图如下：</p>
+<p><img src="/images/Score%20Based%20Models/9.png" srcset="/img/loading.gif" lazyload><br>
+具体训练过程如下：</p>
+<p><img src="/images/Score%20Based%20Models/10.png" srcset="/img/loading.gif" lazyload><br>
+虽然这种方法的训练计算量会比Denoising score
+matching大，但它是对真实数据梯度进行的估计</p>
+<h2 id="问题">问题</h2>
+<p>现在我们得到了SMLD生成模型，但实际上这个模型由很大的问题。首先看一下其在实践中的效果：</p>
+<p><img src="/images/Score%20Based%20Models/11.png" srcset="/img/loading.gif" lazyload><br>
+可以看到效果并不好。我们不妨从损失函数来分析一下原因：</p>
+<p><span class="math display">\[
+\mathcal{L}    = \mathbb{E}_{p(\mathbf{x})}[||\nabla {\mathbf{x}}\log
+p(\mathbf{x}) - \mathbf{s}_{\theta}(\mathbf{x})||^{2}]     = \int
+p(\mathbf{x})||\nabla {\mathbf{x}}\log p(\mathbf{x}) - \mathbf{s}
+_{\theta}(\mathbf{x})||^{2}  d \mathbf{x}\
+\]</span></p>
+<p>观察我们用来训练神经网络的损失函数，我们可以发现这个L2项其实是被
+<span class="math inline">\(p(\mathbf{x})\)</span>
+加权了。所以对于低概率的区域，估计出来的score function就很不准确：</p>
+<p><img src="/images/Score%20Based%20Models/12.png" srcset="/img/loading.gif" lazyload><br>
+对于上面这张图来说，只有在高概率的红色区域，loss才高，score
+function可以被准确地估计出来。但如果我们采样的初始点在低概率区域的话，因为估计出的score
+function不准确，很有可能生成不出真实分布的样本。</p>
+<p>此外，在现实中，比如对于图片来说，其往往是分布在一个<strong>低维度流型</strong>上，也就是大部分空间的概率密度几乎为0，此时我们的梯度定义已经失去了意义：</p>
+<p><img src="/images/Score%20Based%20Models/13.png" srcset="/img/loading.gif" lazyload><br>
+同时，我们通过<strong>Langevin
+Dynamics</strong>进行采样并不能很好还原聚点的样本比：</p>
+<p><img src="/images/Score%20Based%20Models/14.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="smld的改进">SMLD的改进</h2>
+<p>那怎么样才能解决上面的问题呢？<strong>Denoising score
+matching</strong>给我们给了一定的启发。<br>
+其实可以通过给数据增加噪声扰动的方式扩大高概率区域的面积。给原始分布加上高斯噪声，原始分布的方差会变大。这样相当于高概率区域的面积就增大了，更多区域的score
+function可以被准确地估计出来。</p>
+<p><img src="/images/Score%20Based%20Models/15.png" srcset="/img/loading.gif" lazyload><br>
+但是噪声扰动的强度如何控制是个问题：</p>
+<ul>
+<li>强度太小起不到效果，高概率区域的面积还是太小</li>
+<li>强度太大会破坏数据的原始分布，估计出来的score
+function就和原分布关系不大了</li>
+</ul>
+<p>所以噪声强度越高，高概率区域面积越大，训练得到的梯度越准，但与原始数据的梯度差距也就越大。所以我们不妨加不同程度的噪声，让网络可以学到加了不同噪声的原始分布的score
+function。这样既保证了原始低概率密度地区能学习到有效的梯度，同时原始高概率密度区的梯度估计是准确的。</p>
+<p><img src="/images/Score%20Based%20Models/16.png" srcset="/img/loading.gif" lazyload><br>
+说起来很拗口，其实很好理解。我们定义序列 <span class="math inline">\({\sigma_{1 \sim L}} , \quad \sigma {1} \lt \sigma
+{2} \lt \cdots \lt \sigma _{L}\)</span>
+，代表从小到大的噪声强度。这样我们可以定义经过噪声扰动之后的数据样本，服从一个经过噪声扰动之后的分布，</p>
+<p><span class="math display">\[
+\mathbf{x} + \sigma_{i}\mathbf{z}  = \int p(\mathbf{y})
+\mathcal{N}(\mathbf{x}|\mathbf{y}, \sigma {i}^{2}\mathbf{I})d
+\mathbf{y}\
+\]</span></p>
+<p>我们用神经网络来估计经过噪声扰动过的分布的score
+function，并把噪声强度 <span class="math inline">\(\sigma_i\)</span>
+作为一个输入：</p>
+<p><span class="math display">\[
+\mathcal{L} = \frac{1}{L}\sum_\limits {i=1}^{L} \lambda (i)
+\mathbb{E}_{p _{\sigma {i}}(\mathbf{x})}[||\nabla {\mathbf{x}}\log
+p_{\sigma {i}}(\mathbf{x}) - \mathbf{s} _{\theta}(\mathbf{x,
+\sigma_i})||^{2}]
+\]</span></p>
+<p>其中 <span class="math inline">\(\lambda(i)\)</span>
+是权重，在实践中可以取 <span class="math inline">\(\sigma_{i}^{2}\)</span></p>
+<p><img src="/images/Score%20Based%20Models/17.png" srcset="/img/loading.gif" lazyload><br>
+采样方式也要做出相应的变化，我们对于不同的噪声强度 <span class="math inline">\(L, L-1, \cdots, 1\)</span>
+做Langevin采样，<strong>上一个scale的结果作为这一次的初始化</strong>。这样我们每一次的初始化都能在梯度估计的有效区域。</p>
+<p><img src="/images/Score%20Based%20Models/18.png" srcset="/img/loading.gif" lazyload><br>
+这种采样方式也叫做<strong>Annealed Langevin
+dynamics</strong>，具体训练流程如下：</p>
+<p><img src="/images/Score%20Based%20Models/19.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="从离散到连续">从离散到连续</h2>
+<p>当我们做Langevin
+dynamics迭代次数足够多时，我们可以用<strong>随机微分方程(Stochastic
+Differential Equation, SDE)</strong>来建模这个采样过程。</p>
+<p><span class="math display">\[\mathbf{x}_{i+1} = \mathbf{x}_{i} +
+\epsilon \nabla {\mathbf{x}}\log p(\mathbf{x}_i) + \sqrt{2
+\epsilon}\mathbf{z}_{i}, \quad i=0,1,\cdots K\]</span></p>
+<p>当 <span class="math inline">\(K\to\infty\)</span> 时，我们定义 <span class="math inline">\(\Delta t = \epsilon,\; \Delta t \to 0\)</span></p>
+<p><span class="math display">\[\mathbf{x}_{t+\Delta t} -
+\mathbf{x}_{t}= \nabla {\mathbf{x}}\log p(\mathbf{x}_i)\Delta t +
+\sqrt{2 \Delta t}\mathbf{z}_{i}\]</span></p>
+<p>我们将 <span class="math inline">\(\nabla _{\mathbf{x}}\log
+p(\mathbf{x}_i)\)</span> 和 <span class="math inline">\(\sqrt{2}\)</span> 一般化为 <span class="math inline">\(\mathbf{f}(\mathbf{x}, t)\)</span> 和 <span class="math inline">\(g(t)\)</span> ，这样上面就变成了</p>
+<p><span class="math display">\[\mathbf{x} _{t+\Delta t} -
+\mathbf{x}_{t}= \mathbf{f}(\mathbf{x}, t)\Delta t + g(t) \sqrt{\Delta
+t}\mathbf{z} _{i}\]</span></p>
+<p>其中</p>
+<p><span class="math display">\[\sqrt{\Delta t}\mathbf{z} _{i} \sim
+\mathcal{N}(\mathbf{0}, \Delta t\mathbf{I})\]</span></p>
+<p>这里可以引入布朗运动，如果我们定义 <span class="math inline">\(\mathbf{w}\)</span> 是一个布朗运动，那么</p>
+<p><span class="math display">\[
+\begin{gather*}\mathbf{w}_{t+\Delta t} = \mathbf{w}_{t} +
+\mathcal{N}(\mathbf{0}, \Delta t\mathbf{I}),\\   \sqrt{\Delta
+t}\mathbf{z} _{i} = \mathbf{w}_{t+\Delta t} -
+\mathbf{w}_{t}.\end{gather*}
+\]</span></p>
+<p>讲布朗运动带入到上面，得到</p>
+<p><span class="math display">\[\mathbf{x}_{t+\Delta t} -
+\mathbf{x}_{t}= \mathbf{f}(\mathbf{x}, t)\Delta t +
+g(t)(\mathbf{w}_{t+\Delta t} - \mathbf{w}_{t})\]</span></p>
+<p>当 <span class="math inline">\(\Delta t \to 0\)</span> ,</p>
+<p><span class="math display">\[\text{d}\mathbf{x}=
+\mathbf{f}(\mathbf{x}, t)\text{d}\mathbf{t} +
+g(t)\text{d}\mathbf{w}\]</span></p>
+<p>这里 <span class="math inline">\(\mathbf{f}(\mathbf{x}, t)\)</span>
+叫做<strong>drift coefficient</strong>, <span class="math inline">\(g(t)\)</span> 代表<strong>diffusion
+coefficient</strong>。SDE的解也就代表了数据不断加噪声的过程。</p>
+<p><img src="/images/Score%20Based%20Models/20.png" srcset="/img/loading.gif" lazyload><br>
+有了正向过程的SDE，我们可以得到</p>
+<ul>
+<li>反向的SDE</li>
+</ul>
+<p><span class="math display">\[\text{d}\mathbf{x}=
+[\mathbf{f}(\mathbf{x}, t) - g^2(t)\nabla _{\mathbf{x}}\log
+p(\mathbf{x})]\text{d}\mathbf{t} + g(t)\text{d}\mathbf{w}\]</span></p>
+<ul>
+<li>以及score matching的损失函数</li>
+</ul>
+<p><span class="math display">\[\mathbb{E}_{t\in \mathcal{U}(0, T)}
+\mathbb{E}_{p_{t}(\mathbf{x})}[g^2(t)||\nabla {\mathbf{x}}\log
+p_t(\mathbf{x}) - \mathbf{s}_{\theta}(\mathbf{x})||^2]\]</span></p>
+<p>可以看到，当我们知道了score后，就能解这个反向的SDE了。</p>
+<p><img src="/images/Score%20Based%20Models/21.png" srcset="/img/loading.gif" lazyload><br>
+整个基于SDE框架就是：我们在正向过程在图像中加噪声训练神经网络做score
+matching，估计出score
+function。然后在反向过程中从高斯噪声通过逆向SDE过程生成出数据分布的样本。</p>
+<p><img src="/images/Score%20Based%20Models/22.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="从sde到ode">从SDE到ODE</h2>
+<p>对于一个SDE，</p>
+<p><span class="math display">\[\text{d}\mathbf{x}=
+\mathbf{f}(\mathbf{x}, t)\text{d}\mathbf{t} +
+g(t)\text{d}\mathbf{w}\]</span></p>
+<p>我们写出它的<strong>福克-普朗克方程（Fokker-Planck
+equation）</strong>：</p>
+<p><span class="math display">\[
+\begin{align*} \nabla _{t}p(\mathbf{x}, t) &amp;= -\nabla
+_{\mathbf{x}}[\mathbf{f}(\mathbf{x}, t)p(\mathbf{x}, t)] +
+\frac{1}{2}g^{2}(t)\nabla _{\mathbf{x}}^{2}p(\mathbf{x}, t)\\ &amp;=
+-\nabla _{\mathbf{x}}[\mathbf{f}(\mathbf{x}, t)p(\mathbf{x}, t) -
+\frac{1}{2}(g^{2}(t) - \sigma^{2}(t))\nabla_\mathbf{x}p(\mathbf{x}, t)]
++ \frac{1}{2}\sigma^{2}(t)\nabla _{\mathbf{x}}^{2}p(\mathbf{x},
+t)\\   &amp;= -\nabla _{\mathbf{x}}[(\mathbf{f}(\mathbf{x}, t) -
+\frac{1}{2}(g^{2}(t) - \sigma^{2}(t))\nabla_\mathbf{x}\log p(\mathbf{x},
+t))p(\mathbf{x})] + \frac{1}{2}\sigma^{2}(t)\nabla
+_{\mathbf{x}}^{2}p(\mathbf{x}, t)\\\end{align*}
+\]</span></p>
+<p>现在我们把福克-普朗克方程变成了这样：</p>
+<p><span class="math display">\[
+\nabla_{t}p(\mathbf{x}, t) = -\nabla
+{\mathbf{x}}[(\mathbf{f}(\mathbf{x}, t) - \frac{1}{2}(g^{2}(t) -
+\sigma^{2}(t))\nabla_\mathbf{x}\log p(\mathbf{x}, t))p(\mathbf{x})] +
+\frac{1}{2}\sigma^{2}(t)\nabla _{\mathbf{x}}^{2}p(\mathbf{x}, t)
+\]</span></p>
+<p>其对应的SDE为：</p>
+<p><span class="math display">\[
+\text{d}\mathbf{x}= [\mathbf{f}(\mathbf{x}, t) - \frac{1}{2}(g^{2}(t) -
+\sigma^{2}(t))\nabla {\mathbf{x}}\log
+p_{t}(\mathbf{x})]\text{d}\mathbf{t} + \sigma(t)\text{d}\mathbf{w}
+\]</span></p>
+<p>因为前后两个SDE是等价的，他们对应的 <span class="math inline">\(p_{t}(\mathbf{x})\)</span>
+是一样的，意味着我们可以改变第二个SDE的方差 <span class="math inline">\(\sigma(t)\)</span> 。当我们取 <span class="math inline">\(\sigma(t)=0\)</span>
+，可以得到一个<strong>常微分方程(Ordinary Differential Equation,
+ODE)</strong>,</p>
+<p><span class="math display">\[\text{d}\mathbf{x}=
+[\mathbf{f}(\mathbf{x}, t) - \frac{1}{2}g^{2}(t)\nabla {\mathbf{x}}\log
+p_{t}(\mathbf{x})]\text{d}\mathbf{t}\]</span></p>
+<p>下图就展示了SDE和ODE解的过程，可以看到ODE的轨迹是确定光滑的，而SDE的轨迹是随机的。这两个过程中的任意边缘分布
+<span class="math inline">\({p_{t}(\mathbf{x})}_{t\in[0, T]}\)</span>
+都是一样的。</p>
+<p><img src="/images/Score%20Based%20Models/23.png" srcset="/img/loading.gif" lazyload><br>
+ODE形式有它的优点在于：</p>
+<ul>
+<li>因为ODE比SDE好解，所以ODE的采样速度更快</li>
+<li>因为ODE是不带随机噪声的，整个过程是确定的，是可逆的，所以这个<strong>ODE也可以看做Normalizing
+flows</strong>，可以用来估计概率密度和似然</li>
+</ul>
+<p>但同时由于没有了随机噪声，可能导致多样性更差，实践中生成效果也不如SDE。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Stanford-CS236%E6%B7%B1%E5%BA%A6%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/" class="category-chain-item">Stanford CS236深度生成模型</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/" class="print-no-link">#生成模型</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Score Based Models</div>
+      <div>https://jia040223.github.io/2024/09/24/Score Based Models/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Serendipity</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年9月24日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/09/20/Energy%20Based%20Models/" title="Energy Based Models">
+                        <span class="hidden-mobile">Energy Based Models</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"Ug8725bpf4JJJkltPotjuquU-MdYXbMMI","appKey":"Po3fbdR9RiF08kxafXGlNgd5","path":"window.location.pathname","placeholder":"留言仅限讨论，严禁广告等行为","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"https://ug8725bp.api.lncldglobal.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
