@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://jia040223.github.io/2024/09/24/Score%20Based%20Models/</loc>
+    <loc>https://jia040223.github.io/2024/09/20/Energy%20Based%20Models/</loc>
     
     <lastmod>2024-09-25</lastmod>
     
@@ -11,9 +11,9 @@
   </url>
   
   <url>
-    <loc>https://jia040223.github.io/2024/09/20/Energy%20Based%20Models/</loc>
+    <loc>https://jia040223.github.io/2024/09/24/Score%20Based%20Models/</loc>
     
-    <lastmod>2024-09-20</lastmod>
+    <lastmod>2024-09-25</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
