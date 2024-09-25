@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jia040223.github.io/images/Score%20Based%20Models/0.png">
 <meta property="article:published_time" content="2024-09-24T12:40:58.000Z">
-<meta property="article:modified_time" content="2024-09-24T13:04:06.721Z">
+<meta property="article:modified_time" content="2024-09-25T10:44:27.542Z">
 <meta property="article:author" content="Serendipity">
 <meta property="article:tag" content="生成模型">
 <meta name="twitter:card" content="summary_large_image">
@@ -304,17 +304,17 @@ function。</strong> score function的定义为 <span class="math inline">\(\nab
 p(\mathbf{x})\)</span></p>
 <p>所以我们可以发现，score function是与 <span class="math inline">\(Z
 _{\theta}\)</span> 无关的：</p>
-<p><span class="math display">\[\mathbf{s}_{\theta}(\mathbf{x}) = \nabla
-{\mathbf{x}}\log(\mathbf{x}_{\theta}) = -\nabla
-{\mathbf{x}}f_{\theta}(\mathbf{x}) - \nabla {\mathbf{x}}\log Z_{\theta}
-= -\nabla {\mathbf{x}}f _{\theta}(\mathbf{x})\]</span></p>
+<p><span class="math display">\[\mathbf{s}_{\theta}(\mathbf{x}) =
+\nabla_{\mathbf{x}}\log(\mathbf{x}_{\theta}) =
+-\nabla_{\mathbf{x}}f_{\theta}(\mathbf{x}) - \nabla_{\mathbf{x}}\log
+Z_{\theta} = -\nabla_{\mathbf{x}}f _{\theta}(\mathbf{x})\]</span></p>
 <h1 id="score-based-model">Score Based Model</h1>
 <h2 id="score-matching">Score matching</h2>
 <p>现在我们想要训练一个网络来估计出真实的score
 function。自然地，我们可以最小化真实的score
 function和网络输出的MSE：</p>
 <p><span class="math display">\[\mathcal{L} =\frac{1}{2}
-\mathbb{E}_{p(\mathbf{x})}[||\nabla {\mathbf{x}}\log p(\mathbf{x}) -
+\mathbb{E}_{p(\mathbf{x})}[||\nabla_{\mathbf{x}}\log p(\mathbf{x}) -
 \mathbf{s} _{\theta}(\mathbf{x})||^{2}]\]</span></p>
 <p><img src="/images/Score%20Based%20Models/1.png" srcset="/img/loading.gif" lazyload><br>
 但是这样的一个loss我们是算不出来的，因为我们并不知道真实的 <span class="math inline">\(p(\mathbf{x})\)</span> 是什么。<strong>而score
@@ -382,8 +382,8 @@ function，那么如何用score
 function从这个数据分布中得到样本呢？答案就是朗之万动力学采样(Langevin
 Dynamics):</p>
 <p><span class="math display">\[
-\mathbf{x} {i+1} = \mathbf{x} {i} + \epsilon \nabla {\mathbf{x}}\log
-p(\mathbf{x}) + \sqrt{2 \epsilon}\mathbf{z} {i}, \quad \mathbf{z} _{i}
+\mathbf{x}_{i+1} = \mathbf{x}_{i} + \epsilon \nabla_{\mathbf{x}}\log
+p(\mathbf{x}) + \sqrt{2 \epsilon}\mathbf{z}_{i}, \quad \mathbf{z} _{i}
 \sim \mathcal{N}(\mathbf{0}, \mathbf{I}), \quad i=0,1,\cdots K\
 \]</span></p>
 <p>这里的采样是一个迭代的过程。 <span class="math inline">\(\epsilon\)</span> 是一个很小的量。 <span class="math inline">\(\mathbf{x}_{0}\)</span>
@@ -530,9 +530,9 @@ matching大，但它是对真实数据梯度进行的估计</p>
 <p><img src="/images/Score%20Based%20Models/11.png" srcset="/img/loading.gif" lazyload><br>
 可以看到效果并不好。我们不妨从损失函数来分析一下原因：</p>
 <p><span class="math display">\[
-\mathcal{L}    = \mathbb{E}_{p(\mathbf{x})}[||\nabla {\mathbf{x}}\log
+\mathcal{L}    = \mathbb{E}_{p(\mathbf{x})}[||\nabla_{\mathbf{x}}\log
 p(\mathbf{x}) - \mathbf{s}_{\theta}(\mathbf{x})||^{2}]     = \int
-p(\mathbf{x})||\nabla {\mathbf{x}}\log p(\mathbf{x}) - \mathbf{s}
+p(\mathbf{x})||\nabla_{\mathbf{x}}\log p(\mathbf{x}) - \mathbf{s}
 _{\theta}(\mathbf{x})||^{2}  d \mathbf{x}\
 \]</span></p>
 <p>观察我们用来训练神经网络的损失函数，我们可以发现这个L2项其实是被
@@ -575,7 +575,7 @@ function，并把噪声强度 <span class="math inline">\(\sigma_i\)</span>
 作为一个输入：</p>
 <p><span class="math display">\[
 \mathcal{L} = \frac{1}{L}\sum_\limits {i=1}^{L} \lambda (i)
-\mathbb{E}_{p _{\sigma {i}}(\mathbf{x})}[||\nabla {\mathbf{x}}\log
+\mathbb{E}_{p _{\sigma {i}}(\mathbf{x})}[||\nabla_{\mathbf{x}}\log
 p_{\sigma {i}}(\mathbf{x}) - \mathbf{s} _{\theta}(\mathbf{x,
 \sigma_i})||^{2}]
 \]</span></p>
@@ -593,11 +593,11 @@ dynamics</strong>，具体训练流程如下：</p>
 dynamics迭代次数足够多时，我们可以用<strong>随机微分方程(Stochastic
 Differential Equation, SDE)</strong>来建模这个采样过程。</p>
 <p><span class="math display">\[\mathbf{x}_{i+1} = \mathbf{x}_{i} +
-\epsilon \nabla {\mathbf{x}}\log p(\mathbf{x}_i) + \sqrt{2
+\epsilon \nabla_{\mathbf{x}}\log p(\mathbf{x}_i) + \sqrt{2
 \epsilon}\mathbf{z}_{i}, \quad i=0,1,\cdots K\]</span></p>
 <p>当 <span class="math inline">\(K\to\infty\)</span> 时，我们定义 <span class="math inline">\(\Delta t = \epsilon,\; \Delta t \to 0\)</span></p>
 <p><span class="math display">\[\mathbf{x}_{t+\Delta t} -
-\mathbf{x}_{t}= \nabla {\mathbf{x}}\log p(\mathbf{x}_i)\Delta t +
+\mathbf{x}_{t}= \nabla_{\mathbf{x}}\log p(\mathbf{x}_i)\Delta t +
 \sqrt{2 \Delta t}\mathbf{z}_{i}\]</span></p>
 <p>我们将 <span class="math inline">\(\nabla _{\mathbf{x}}\log
 p(\mathbf{x}_i)\)</span> 和 <span class="math inline">\(\sqrt{2}\)</span> 一般化为 <span class="math inline">\(\mathbf{f}(\mathbf{x}, t)\)</span> 和 <span class="math inline">\(g(t)\)</span> ，这样上面就变成了</p>
@@ -637,7 +637,7 @@ p(\mathbf{x})]\text{d}\mathbf{t} + g(t)\text{d}\mathbf{w}\]</span></p>
 <li>以及score matching的损失函数</li>
 </ul>
 <p><span class="math display">\[\mathbb{E}_{t\in \mathcal{U}(0, T)}
-\mathbb{E}_{p_{t}(\mathbf{x})}[g^2(t)||\nabla {\mathbf{x}}\log
+\mathbb{E}_{p_{t}(\mathbf{x})}[g^2(t)||\nabla_{\mathbf{x}}\log
 p_t(\mathbf{x}) - \mathbf{s}_{\theta}(\mathbf{x})||^2]\]</span></p>
 <p>可以看到，当我们知道了score后，就能解这个反向的SDE了。</p>
 <p><img src="/images/Score%20Based%20Models/21.png" srcset="/img/loading.gif" lazyload><br>
@@ -666,15 +666,15 @@ _{\mathbf{x}}^{2}p(\mathbf{x}, t)\\\end{align*}
 \]</span></p>
 <p>现在我们把福克-普朗克方程变成了这样：</p>
 <p><span class="math display">\[
-\nabla_{t}p(\mathbf{x}, t) = -\nabla
-{\mathbf{x}}[(\mathbf{f}(\mathbf{x}, t) - \frac{1}{2}(g^{2}(t) -
+\nabla_{t}p(\mathbf{x}, t) =
+-\nabla_{\mathbf{x}}[(\mathbf{f}(\mathbf{x}, t) - \frac{1}{2}(g^{2}(t) -
 \sigma^{2}(t))\nabla_\mathbf{x}\log p(\mathbf{x}, t))p(\mathbf{x})] +
 \frac{1}{2}\sigma^{2}(t)\nabla _{\mathbf{x}}^{2}p(\mathbf{x}, t)
 \]</span></p>
 <p>其对应的SDE为：</p>
 <p><span class="math display">\[
 \text{d}\mathbf{x}= [\mathbf{f}(\mathbf{x}, t) - \frac{1}{2}(g^{2}(t) -
-\sigma^{2}(t))\nabla {\mathbf{x}}\log
+\sigma^{2}(t))\nabla_{\mathbf{x}}\log
 p_{t}(\mathbf{x})]\text{d}\mathbf{t} + \sigma(t)\text{d}\mathbf{w}
 \]</span></p>
 <p>因为前后两个SDE是等价的，他们对应的 <span class="math inline">\(p_{t}(\mathbf{x})\)</span>
@@ -682,7 +682,7 @@ p_{t}(\mathbf{x})]\text{d}\mathbf{t} + \sigma(t)\text{d}\mathbf{w}
 ，可以得到一个<strong>常微分方程(Ordinary Differential Equation,
 ODE)</strong>,</p>
 <p><span class="math display">\[\text{d}\mathbf{x}=
-[\mathbf{f}(\mathbf{x}, t) - \frac{1}{2}g^{2}(t)\nabla {\mathbf{x}}\log
+[\mathbf{f}(\mathbf{x}, t) - \frac{1}{2}g^{2}(t)\nabla_{\mathbf{x}}\log
 p_{t}(\mathbf{x})]\text{d}\mathbf{t}\]</span></p>
 <p>下图就展示了SDE和ODE解的过程，可以看到ODE的轨迹是确定光滑的，而SDE的轨迹是随机的。这两个过程中的任意边缘分布
 <span class="math inline">\({p_{t}(\mathbf{x})}_{t\in[0, T]}\)</span>
