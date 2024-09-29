@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jia040223.github.io/images/Diffusion%20Model%E5%8E%9F%E7%90%86/1.png">
 <meta property="article:published_time" content="2024-09-29T10:34:53.000Z">
-<meta property="article:modified_time" content="2024-09-29T11:00:47.463Z">
+<meta property="article:modified_time" content="2024-09-29T17:08:28.988Z">
 <meta property="article:author" content="Serendipity">
 <meta property="article:tag" content="生成模型">
 <meta name="twitter:card" content="summary_large_image">
@@ -499,7 +499,7 @@ N(\frac{1}{\sqrt{\alpha_t} }(x_t-\frac{1-\alpha_t}{\sqrt{1-\bar\alpha_t}
 <p><span class="math display">\[q(x_{t-1}\vert x_t,x_0)\sim
 N(\frac{1}{\sqrt{\alpha_t} }(x_t-\frac{1-\alpha_t}{\sqrt{1-\bar\alpha_t}
 }\epsilon),
-\frac{1-\bar\alpha_t}{(1-\alpha_t)(1-\bar\alpha_{t-1})})\]</span></p>
+\frac{(1-\alpha_t)(1-\bar\alpha_{t-1})}{1-\bar\alpha_t})\]</span></p>
 <p>接下来， <span class="math inline">\(\epsilon\)</span>
 的具体值，我们让模型去拟合就好了。</p>
 <h3 id="损失函数">损失函数</h3>
@@ -516,7 +516,7 @@ x_t))\right]}_{ {L_{t-1} }}\]</span></p>
 即可，为了计算方便，我们也选择与 <span class="math inline">\(q(x_{t-1}\vert x_t,x_0)\)</span> 一样的形式。</p>
 <p><span class="math display">\[p_\theta(\textbf{x}_{t-1}|\textbf{x}_t)
 = \mathcal{N}(\textbf{x}_{t-1}; \mu_\theta(\textbf{x}_t, t),
-\frac{1-\bar\alpha_t}{(1-\alpha_t)(1-\bar\alpha_{t-1})}I)\]</span></p>
+\frac{(1-\alpha_t)(1-\bar\alpha_{t-1})}{1-\bar\alpha_t}I)\]</span></p>
 <p>其中 <span class="math inline">\(\boldsymbol{\mu}_\theta(\mathbf{x}_t, t) =
 \frac{1}{\sqrt{\alpha_t} } \Big( \mathbf{x}_t - \frac{1 -
 \alpha_t}{\sqrt{1 - \bar{\alpha}_t} }
@@ -526,7 +526,7 @@ x_t))\right]}_{ {L_{t-1} }}\]</span></p>
 \mathcal{N}(\mathbf{x}_{t-1}; \frac{1}{\sqrt{\alpha_t} } ( \mathbf{x}_t
 - \frac{1 - \alpha_t}{\sqrt{1 - \bar{\alpha}_t} }
 {\epsilon}_\theta(\mathbf{x}_t, t) ),
-\frac{1-\bar\alpha_t}{(1-\alpha_t)(1-\bar\alpha_{t-1})}I)  \end{align}\]</span></p>
+\frac{(1-\alpha_t)(1-\bar\alpha_{t-1})}{1-\bar\alpha_t}I)  \end{align}\]</span></p>
 <p>带入上面KL散度的公式，可以得到损失函数 <span class="math inline">\(L_t\)</span> 便为：</p>
 <p><span class="math display">\[\begin{aligned} L_t  &amp;=
 \mathbb{E}_{\mathbf{x}_0, \boldsymbol{\epsilon} } \Big[\frac{1}{2 \|
