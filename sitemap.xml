@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jia040223.github.io/2024/09/30/%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97/</loc>
+    
+    <lastmod>2024-09-29</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://jia040223.github.io/2024/09/29/Diffusion%20Model%E5%8E%9F%E7%90%86/</loc>
     
     <lastmod>2024-09-29</lastmod>
@@ -103,6 +112,13 @@
     <priority>0.2</priority>
   </url>
   
+  <url>
+    <loc>https://jia040223.github.io/tags/%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97/</loc>
+    <lastmod>2024-09-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
 
   
   <url>
@@ -114,6 +130,13 @@
   
   <url>
     <loc>https://jia040223.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2024-09-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://jia040223.github.io/categories/%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97/</loc>
     <lastmod>2024-09-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
