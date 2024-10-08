@@ -1,3 +1,4 @@
+https://jia040223.github.io/about/index.html
 https://jia040223.github.io/2024/09/13/VAEs/
 https://jia040223.github.io/2024/09/17/Normalizing%20Flows/
 https://jia040223.github.io/2024/09/29/Diffusion%20Model%E5%8E%9F%E7%90%86/
@@ -6,7 +7,6 @@ https://jia040223.github.io/2024/09/20/Energy%20Based%20Models/
 https://jia040223.github.io/2024/09/24/Score%20Based%20Models/
 https://jia040223.github.io/2024/09/19/%E8%92%99%E7%89%B9%E5%8D%A1%E6%B4%9B%E9%87%87%E6%A0%B7%E6%96%B9%E6%B3%95/
 https://jia040223.github.io/2024/09/18/GANs/
-https://jia040223.github.io/about/index.html
 https://jia040223.github.io/
 https://jia040223.github.io/tags/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/
 https://jia040223.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/
