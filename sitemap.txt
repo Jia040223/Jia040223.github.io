@@ -1,5 +1,6 @@
-https://jia040223.github.io/2024/10/09/%E9%9D%92%E7%94%98%E5%A4%A7%E7%8E%AF%E7%BA%BF/
+https://jia040223.github.io/2024/10/14/Fundamentals-Statistics/
 https://jia040223.github.io/2024/10/08/Fundamentals-Probability/
+https://jia040223.github.io/2024/10/09/%E9%9D%92%E7%94%98%E5%A4%A7%E7%8E%AF%E7%BA%BF/
 https://jia040223.github.io/2024/09/30/%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97/
 https://jia040223.github.io/about/index.html
 https://jia040223.github.io/2024/09/13/VAEs/
