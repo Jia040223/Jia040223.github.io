@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://jia040223.github.io/images/Fundamentals-Probability/0.png">
 <meta property="article:published_time" content="2024-10-20T11:55:51.000Z">
-<meta property="article:modified_time" content="2024-10-20T12:33:45.394Z">
+<meta property="article:modified_time" content="2024-10-21T12:09:14.677Z">
 <meta property="article:author" content="Serendipity">
 <meta property="article:tag" content="机器学习">
 <meta property="article:tag" content="统计">
@@ -335,17 +335,19 @@ Nets）</strong>也是一种有向概率图模型，其中所有的变量都是�
 表示所有变量的联合分布。最终，通过推导，我们得到整体均值向量<span class="math inline">\(\mu = (\mu_1, \mu_2, \dots,
 \mu_{N_G})\)</span>是所有局部均值的拼接。而协方差则<span class="math inline">\(\Sigma = U S^2 U^T\)</span>。其中<span class="math inline">\(S^2\)</span>是标准差对角矩阵的平方。</p>
 <p>具体过程如下：</p>
-<p><img src="/images/Fundamentals-Graphical%20models/4.png" srcset="/img/loading.gif" lazyload><br>
-### 4. 条件独立性（Conditional Independence, CI）<br>
-本部分首先定义了<strong>条件独立性(CI)</strong>的基本概念。<span class="math inline">\(x_A ⊥_G x_B|x_C\)</span>表示在图<span class="math inline">\(G\)</span>中，<span class="math inline">\(A\)</span>与<span class="math inline">\(B\)</span>在给定<span class="math inline">\(C\)</span>的情况下是条件独立的。图<span class="math inline">\(G\)</span>中的条件独立性陈述集合记为<span class="math inline">\(I(G)\)</span>，而在某个分布<span class="math inline">\(p\)</span>中成立的所有条件独立性陈述集合记为<span class="math inline">\(I(p)\)</span>。</p>
+<p><img src="/images/Fundamentals-Graphical%20models/4.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="条件独立性conditional-independence-ci">4.
+条件独立性（Conditional Independence, CI）</h3>
+<p>本部分首先定义了<strong>条件独立性(CI)</strong>的基本概念。<span class="math inline">\(x_A ⊥_G x_B|x_C\)</span>表示在图<span class="math inline">\(G\)</span>中，<span class="math inline">\(A\)</span>与<span class="math inline">\(B\)</span>在给定<span class="math inline">\(C\)</span>的情况下是条件独立的。图<span class="math inline">\(G\)</span>中的条件独立性陈述集合记为<span class="math inline">\(I(G)\)</span>，而在某个分布<span class="math inline">\(p\)</span>中成立的所有条件独立性陈述集合记为<span class="math inline">\(I(p)\)</span>。</p>
 <ul>
 <li>图<span class="math inline">\(G\)</span>被称为分布<span class="math inline">\(p\)</span>的<strong>I-map（独立性图）</strong>或分布<span class="math inline">\(p\)</span>相对于<span class="math inline">\(G\)</span>是马尔科夫的（Markov wrt
 G），当且仅当图G中的所有条件独立性陈述都成立于<span class="math inline">\(p\)</span>中（即<span class="math inline">\(I(G) ⊆
 I(p)\)</span>）。这意味着图<span class="math inline">\(G\)</span>可以作为分布<span class="math inline">\(p\)</span>的代理，帮助我们推理<span class="math inline">\(p\)</span>的条件独立性属性。 *<span class="math inline">\(G\)</span>是<span class="math inline">\(p\)</span>的<strong>最小I-map</strong>，当且仅当没有比<span class="math inline">\(G\)</span>更小的图<span class="math inline">\(G′\)</span>可以满足<span class="math inline">\(I(G&#39;) ⊆ I(p)\)</span>。</li>
 </ul>
-<p><img src="/images/Fundamentals-Graphical%20models/5.png" srcset="/img/loading.gif" lazyload><br>
-#### 4.1 全局马尔科夫性质 (d-separation)<br>
-接下来介绍了如何从有向无环图（DAG）中推导出条件独立性（CI）的概念，具体通过<strong>d-分离</strong>（d-separation）的方式实现。</p>
+<p><img src="/images/Fundamentals-Graphical%20models/5.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="全局马尔科夫性质-d-separation">4.1 全局马尔科夫性质
+(d-separation)</h4>
+<p>接下来介绍了如何从有向无环图（DAG）中推导出条件独立性（CI）的概念，具体通过<strong>d-分离</strong>（d-separation）的方式实现。</p>
 <ul>
 <li><strong>d-分离的定义：</strong>
 对于一条无向路径P，如果以下任意条件之一成立，则P被节点集C（观测集）d-分离：</li>
