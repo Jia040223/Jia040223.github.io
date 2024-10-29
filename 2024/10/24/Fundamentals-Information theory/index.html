@@ -19,22 +19,22 @@
   <meta name="author" content="Serendipity">
   <meta name="keywords" content="">
   
-    <meta name="description" content="一、KL散度 机器学习本质上是对信息的处理，其中一个关键就在于如何衡量从一个信息的分布到另一个信息分布的差别与变化。**KL 散度（Kullback-Leibler Divergence）**作为衡量分布差异的最经典函数，其定义为：  离散情况：  $$D_{KL}(p | q) \equiv \sum_{k&#x3D;1}^{K} p_k \log \frac{p_k}{q_k}$$ 连续情况： $$D_">
+    <meta name="description" content="一、KL散度 机器学习本质上是对信息的处理，其中一个关键就在于如何衡量从一个信息的分布到另一个信息分布的差别与变化。KL 散度（Kullback-Leibler Divergence）作为衡量分布差异的最经典函数，其定义为：  离散情况：  \[D_{KL}(p \| q) \equiv \sum_{k&#x3D;1}^{K} p_k \log \frac{p_k}{q_k}\] 连续情况">
 <meta property="og:type" content="article">
 <meta property="og:title" content="[Probabilistic Machine Learning]: Fundamentals-Information theory">
 <meta property="og:url" content="https://jia040223.github.io/2024/10/24/Fundamentals-Information%20theory/index.html">
 <meta property="og:site_name" content="Serendipity&#39;s Blog">
-<meta property="og:description" content="一、KL散度 机器学习本质上是对信息的处理，其中一个关键就在于如何衡量从一个信息的分布到另一个信息分布的差别与变化。**KL 散度（Kullback-Leibler Divergence）**作为衡量分布差异的最经典函数，其定义为：  离散情况：  $$D_{KL}(p | q) \equiv \sum_{k&#x3D;1}^{K} p_k \log \frac{p_k}{q_k}$$ 连续情况： $$D_">
+<meta property="og:description" content="一、KL散度 机器学习本质上是对信息的处理，其中一个关键就在于如何衡量从一个信息的分布到另一个信息分布的差别与变化。KL 散度（Kullback-Leibler Divergence）作为衡量分布差异的最经典函数，其定义为：  离散情况：  \[D_{KL}(p \| q) \equiv \sum_{k&#x3D;1}^{K} p_k \log \frac{p_k}{q_k}\] 连续情况">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://jia040223.github.io/images/Fundamentals-Probability/0.png">
+<meta property="og:image" content="https://jia040223.github.io/images/Fundamentals-Information%20theory/0.png">
 <meta property="article:published_time" content="2024-10-24T07:02:22.000Z">
-<meta property="article:modified_time" content="2024-10-29T03:19:35.322Z">
+<meta property="article:modified_time" content="2024-10-29T04:07:16.592Z">
 <meta property="article:author" content="Serendipity">
 <meta property="article:tag" content="机器学习">
 <meta property="article:tag" content="概率论与数理统计">
 <meta property="article:tag" content="信息论">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://jia040223.github.io/images/Fundamentals-Probability/0.png">
+<meta name="twitter:image" content="https://jia040223.github.io/images/Fundamentals-Information%20theory/0.png">
   
   
   
@@ -251,7 +251,7 @@
         
         
         
-          111 分钟
+          110 分钟
         
       </span>
     
@@ -293,566 +293,969 @@
             
               <div class="markdown-body">
                 
-                <h2 id="一、KL散度">一、KL散度</h2>
-<p>机器学习本质上是对信息的处理，其中一个关键就在于如何衡量从一个信息的分布到另一个信息分布的差别与变化。**KL 散度（Kullback-Leibler Divergence）**作为衡量分布差异的最经典函数，其定义为：</p>
+                <h2 id="一kl散度">一、KL散度</h2>
+<p>机器学习本质上是对信息的处理，其中一个关键就在于如何衡量从一个信息的分布到另一个信息分布的差别与变化。<strong>KL
+散度（Kullback-Leibler
+Divergence）</strong>作为衡量分布差异的最经典函数，其定义为：</p>
 <ul>
 <li>离散情况：</li>
 </ul>
-<p>$$D_{KL}(p | q) \equiv \sum_{k=1}^{K} p_k \log \frac{p_k}{q_k}$$</p>
+<p><span class="math display">\[D_{KL}(p \| q) \equiv \sum_{k=1}^{K} p_k
+\log \frac{p_k}{q_k}\]</span></p>
 <p>连续情况：</p>
-<p>$$D_{KL}(p | q) \equiv \int dx , p(x) \log \frac{p(x)}{q(x)}$$</p>
-<h3 id="1-KL-散度满足的性质">1. KL 散度满足的性质</h3>
-<h4 id="1-1-连续性">1.1 连续性</h4>
-<p>KL 散度在其参数上是连续的，除非$p_k$​ 或$q_k$​ 为零。如果$p$趋近于零，满足：</p>
-<p>$$\lim_{p \to 0} \frac{p \log p}{q} = 0$$</p>
-<p>这保证了当$p = 0$时，函数仍然连续。然而，当$q = 0$且$p &gt; 0$时，更新的幅度将趋向于无限。</p>
-<h4 id="1-2-非负性">1.2 非负性</h4>
+<p><span class="math display">\[D_{KL}(p \| q) \equiv \int dx \, p(x)
+\log \frac{p(x)}{q(x)}\]</span></p>
+<h3 id="kl-散度满足的性质">1. KL 散度满足的性质</h3>
+<h4 id="连续性">1.1 连续性</h4>
+<p>KL 散度在其参数上是连续的，除非<span class="math inline">\(p_k\)</span>​ 或<span class="math inline">\(q_k\)</span>​ 为零。如果<span class="math inline">\(p\)</span>趋近于零，满足：</p>
+<p><span class="math display">\[\lim_{p \to 0} \frac{p \log p}{q} =
+0\]</span></p>
+<p>这保证了当<span class="math inline">\(p =
+0\)</span>时，函数仍然连续。然而，当<span class="math inline">\(q =
+0\)</span>且<span class="math inline">\(p &gt;
+0\)</span>时，更新的幅度将趋向于无限。</p>
+<h4 id="非负性">1.2 非负性</h4>
 <p>KL 散度总是非负的：</p>
-<p>$$D_{KL}(p | q) \geq 0$$</p>
-<p>当且仅当$p = q$时，KL 散度等于零。证明使用 <strong>Jensen 不等式</strong>：</p>
-<p>$$f\left(\sum_{i=1}^{n} \lambda_i x_i\right) \leq \sum_{i=1}^{n} \lambda_i f(x_i)$$</p>
+<p><span class="math display">\[D_{KL}(p \| q) \geq 0\]</span></p>
+<p>当且仅当<span class="math inline">\(p = q\)</span>时，KL
+散度等于零。证明使用 <strong>Jensen 不等式</strong>：</p>
+<p><span class="math display">\[f\left(\sum_{i=1}^{n} \lambda_i
+x_i\right) \leq \sum_{i=1}^{n} \lambda_i f(x_i)\]</span></p>
 <p>通过推导，可以得到：</p>
-<p>$$\begin{align*} -D_{KL}(p | q) &amp;= -\sum_{x \in A} p(x) \log \frac{p(x)}{q(x)} \&amp;\leq \log \left(\sum_{x \in A} \frac{q(x)}{p(x)}p(x)\right)\ &amp;\leq \log 1 = 0  \end{align*}$$</p>
+<p><span class="math display">\[\begin{align*} -D_{KL}(p \| q) &amp;=
+-\sum_{x \in A} p(x) \log \frac{p(x)}{q(x)} \\&amp;\leq \log
+\left(\sum_{x \in A} \frac{q(x)}{p(x)}p(x)\right)\\ &amp;\leq \log 1 =
+0  \end{align*}\]</span></p>
 <p>非负性方便我们明确优化的目标。</p>
-<p>![](/images/Fundamentals-Information theory/1.png)</p>
-<h4 id="1-3-重参数化不变性">1.3 重参数化不变性</h4>
-<p>KL 散度在随机变量的任意可逆变换下保持不变。如果将随机变量从$x$变换为$y = f(x)$，则有：</p>
-<p>$$p(x) , dx = p(y)  dy$$<br>
-$$q(x) , dx = q(y)$$</p>
+<figure>
+<img src="/images/Fundamentals-Information%20theory/1.png" srcset="/img/loading.gif" lazyload alt="Not Found">
+<figcaption aria-hidden="true">Not Found</figcaption>
+</figure>
+<h4 id="重参数化不变性">1.3 重参数化不变性</h4>
+<p>KL 散度在随机变量的任意可逆变换下保持不变。如果将随机变量从<span class="math inline">\(x\)</span>变换为<span class="math inline">\(y =
+f(x)\)</span>，则有：</p>
+<p><span class="math display">\[p(x) \, dx = p(y)  dy\]</span> <span class="math display">\[q(x) \, dx = q(y)\]</span></p>
 <p>那么 KL 散度可以写成：</p>
-<p>$$D_{KL}(p(x) | q(x)) = \int dx , p(x) \log \frac{p(x)}{q(x)}$$</p>
+<p><span class="math display">\[D_{KL}(p(x) \| q(x)) = \int dx \, p(x)
+\log \frac{p(x)}{q(x)}\]</span></p>
 <p>通过变换得到：</p>
-<p>$$= \int dy , p(y) \log \left( \frac{p(y)}{q(y)} \cdot \frac{dy}{dx} \cdot \frac{dx}{dy} \right)$$</p>
-<p>由于$p(y) dy = p(x) dx$和$q(y) dy = q(x) dx$，可以得到：</p>
-<p>$$D_{KL}(p(x) | q(x)) = D_{KL}(p(y) | q(y))$$</p>
-<p>因此，KL 散度在重参数化下是保持不变的。这表明 KL 散度是关于分布本身的，而不是表示空间的方式。</p>
-<p>![](/images/Fundamentals-Information theory/2.png)</p>
-<h4 id="1-4-对均匀分布的单调性">1.4 对均匀分布的单调性</h4>
-<p>从$N$个元素的均匀分布更新到$N’$个元素的均匀分布，KL 散度为：</p>
-<p>$$D_{KL}(p | q) = \sum_{k} \frac{1}{N’} \log \frac{1/N’}{1/N} = \log \frac{N}{N’}$$</p>
+<p><span class="math display">\[= \int dy \, p(y) \log \left(
+\frac{p(y)}{q(y)} \cdot \frac{dy}{dx} \cdot \frac{dx}{dy}
+\right)\]</span></p>
+<p>由于<span class="math inline">\(p(y) dy = p(x) dx\)</span>和<span class="math inline">\(q(y) dy = q(x) dx\)</span>，可以得到：</p>
+<p><span class="math display">\[D_{KL}(p(x) \| q(x)) = D_{KL}(p(y) \|
+q(y))\]</span></p>
+<p>因此，KL 散度在重参数化下是保持不变的。这表明 KL
+散度是关于分布本身的，而不是表示空间的方式。</p>
+<figure>
+<img src="/images/Fundamentals-Information%20theory/2.png" srcset="/img/loading.gif" lazyload alt="Not Found">
+<figcaption aria-hidden="true">Not Found</figcaption>
+</figure>
+<h4 id="对均匀分布的单调性">1.4 对均匀分布的单调性</h4>
+<p>从<span class="math inline">\(N\)</span>个元素的均匀分布更新到<span class="math inline">\(N&#39;\)</span>个元素的均匀分布，KL 散度为：</p>
+<p><span class="math display">\[D_{KL}(p \| q) = \sum_{k}
+\frac{1}{N&#39;} \log \frac{1/N&#39;}{1/N} = \log
+\frac{N}{N&#39;}\]</span></p>
 <p>这表明更新的幅度与元素数量的比例相关。</p>
-<h4 id="1-5-KL-散度的链式法则">1.5 KL 散度的链式法则</h4>
+<h4 id="kl-散度的链式法则">1.5 KL 散度的链式法则</h4>
 <p>KL 散度满足链式法则：</p>
-<p>$$D_{KL}(p(x, y) | q(x, y)) = \int dx , dy , p(x, y) \log \frac{p(x, y)}{q(x, y)}$$</p>
+<p><span class="math display">\[D_{KL}(p(x, y) \| q(x, y)) = \int dx \,
+dy \, p(x, y) \log \frac{p(x, y)}{q(x, y)}\]</span></p>
 <p>可以分解为：</p>
-<p>$$D_{KL}(p(x) | q(x)) + E_{p(x)}\left[D_{KL}(p(y|x) | q(y|x))\right]$$</p>
+<p><span class="math display">\[D_{KL}(p(x) \| q(x)) +
+E_{p(x)}\left[D_{KL}(p(y|x) \| q(y|x))\right]\]</span></p>
 <p>条件 KL 散度 定义为：</p>
-<p>$$D_{KL}(p(y|x) | q(y|x)) \equiv \int dx , p(x) \int dy , p(y|x) \log \frac{p(y|x)}{q(y|x)}$$</p>
+<p><span class="math display">\[D_{KL}(p(y|x) \| q(y|x)) \equiv \int dx
+\, p(x) \int dy \, p(y|x) \log \frac{p(y|x)}{q(y|x)}\]</span></p>
 <p>此外我们注意到：</p>
-<p>$$D_{KL} (p(x,y) | q(x,y)) \geq D_{KL} (p(y) | q(y))$$</p>
+<p><span class="math display">\[D_{KL} (p(x,y) \| q(x,y)) \geq D_{KL}
+(p(y) \| q(y))\]</span></p>
 <p>对这一结果的一种直观解释是，如果只部分观察随机变量，那么区分两个候选分布比观察全部随机变量更难。</p>
-<p>![](/images/Fundamentals-Information theory/3.png)</p>
-<h3 id="2-Thinking-about-KL">2. Thinking about KL</h3>
+<figure>
+<img src="/images/Fundamentals-Information%20theory/3.png" srcset="/img/loading.gif" lazyload alt="Not Found">
+<figcaption aria-hidden="true">Not Found</figcaption>
+</figure>
+<h3 id="thinking-about-kl">2. Thinking about KL</h3>
 <p>在这一节中，我们主要讨论 KL 散度的一些特性。</p>
-<h4 id="2-1-KL-散度的单位">2.1 KL 散度的单位</h4>
-<p>KL 散度的单位与我们选择的对数的底数有关。对数的不同底数之间的差异只是一个乘法常数的差异，因此 KL 散度的计算方式类似于选择测量信息的单位：</p>
+<h4 id="kl-散度的单位">2.1 KL 散度的单位</h4>
+<p>KL
+散度的单位与我们选择的对数的底数有关。对数的不同底数之间的差异只是一个乘法常数的差异，因此
+KL 散度的计算方式类似于选择测量信息的单位：</p>
 <ul>
-<li>当使用底为 2 的对数时，KL 散度的单位为比特（bits），即“二进制数字”。</li>
+<li>当使用底为 2 的对数时，KL
+散度的单位为比特（bits），即“二进制数字”。</li>
 <li>当使用自然对数（通常用于数学方便）时，单位为纳特（nats），即“自然单位”。</li>
 </ul>
-<p>为了在这两种单位之间进行转换，我们有$\log_2 y = \frac{\log y}{\log 2}$，因此：</p>
-<p>$$1 \text{ bit} = \log_2 \text{ nats} \sim 0.693 \text{ nats}$$</p>
-<p>$$1 \text{ nat} = \frac{1}{\log_2} \text{ bits} \sim 1.44 \text{ bits}$$</p>
-<h4 id="2-2-KL-散度的非对称性">2.2 KL 散度的非对称性</h4>
-<p>KL 散度在其两个参数中不是对称的。尽管看起来非常不合理，但实际上非对称性源于我们要求自然链式法则。在分解分布时，我们需要对被条件化的变量取期望。在 KL 散度中，我们是对第一个参数$p(x)$取期望，这打破了两个分布之间的对称性。</p>
-<p>从更直观的角度来看，从分布$q$更新到$p$所需的信息量通常与从$p$更新到$q$所需的信息量不同。例如，考虑两个 Bernoulli 分布：</p>
+<p>为了在这两种单位之间进行转换，我们有<span class="math inline">\(\log_2 y = \frac{\log y}{\log
+2}\)</span>，因此：</p>
+<p><span class="math display">\[1 \text{ bit} = \log_2 \text{ nats} \sim
+0.693 \text{ nats}\]</span></p>
+<p><span class="math display">\[1 \text{ nat} = \frac{1}{\log_2} \text{
+bits} \sim 1.44 \text{ bits}\]</span></p>
+<h4 id="kl-散度的非对称性">2.2 KL 散度的非对称性</h4>
+<p>KL
+散度在其两个参数中不是对称的。尽管看起来非常不合理，但实际上非对称性源于我们要求自然链式法则。在分解分布时，我们需要对被条件化的变量取期望。在
+KL 散度中，我们是对第一个参数<span class="math inline">\(p(x)\)</span>取期望，这打破了两个分布之间的对称性。</p>
+<p>从更直观的角度来看，从分布<span class="math inline">\(q\)</span>更新到<span class="math inline">\(p\)</span>所需的信息量通常与从<span class="math inline">\(p\)</span>更新到<span class="math inline">\(q\)</span>所需的信息量不同。例如，考虑两个
+Bernoulli 分布：</p>
 <ul>
 <li>第一个分布成功的概率为 0.443；</li>
 <li>第二个分布成功的概率为 0.975。</li>
 </ul>
 <p>计算这两个分布之间的 KL 散度：</p>
-<p>$$\begin{align*} D_{KL}(p | q) &amp;= 0.975 \log \frac{0.975}{0.443} + 0.025 \log \frac{0.025}{0.557} \&amp;= 0.692 \text{ nats} \sim 1.0 \text{ bits}  \end{align*}$$</p>
-<p>这表明，从分布$[0.443, 0.557]$更新到$[0.975, 0.025]$需要 1 比特的信息。</p>
+<p><span class="math display">\[\begin{align*} D_{KL}(p \| q) &amp;=
+0.975 \log \frac{0.975}{0.443} + 0.025 \log \frac{0.025}{0.557} \\&amp;=
+0.692 \text{ nats} \sim 1.0 \text{ bits}  \end{align*}\]</span></p>
+<p>这表明，从分布<span class="math inline">\([0.443,
+0.557]\)</span>更新到<span class="math inline">\([0.975,
+0.025]\)</span>需要 1 比特的信息。</p>
 <p>反过来：</p>
-<p>$$\begin{align*} D_{KL}(q | p) &amp;= 0.443 \log \frac{0.443}{0.975} + 0.557 \log \frac{0.557}{0.025} \&amp;= 1.38 \text{ nats} \sim 2.0 \text{ bits}  \end{align*}$$</p>
-<p>这表明，从分布$[0.975, 0.025]$更新到$[0.443, 0.557]$需要 2 比特的信息。由此可见，从一个接近均匀的分布到几乎确定的分布需要大约 1 比特的信息，而从近乎确定的结果转变到类似于抛硬币的结果则需要更多的信息。</p>
-<h4 id="2-3-KL-散度作为evidence的期望权重">2.3 KL 散度作为evidence的期望权重</h4>
-<p>假设你有两个不同的假设$P$和$Q$，并希望在它们之间选择。你收集了一些数据$D$。贝叶斯定理告诉我们：</p>
-<p>$$Pr(P|D) = \frac{Pr(D|P) \cdot Pr(P)}{Pr(D)}$$</p>
-<p>通常，这需要评估边际似然$Pr(D)$，这在计算上是困难的。如果我们考虑两个假设的概率比率：</p>
-<p>$$\frac{Pr(P|D)}{Pr(Q|D)} = \frac{Pr(D|P)}{Pr(D|Q)} \cdot \frac{Pr(P)}{Pr(Q)}$$</p>
-<p>边际似然$Pr(D)$被消去。取对数后结果如下：</p>
-<p>$$\log \frac{Pr(P|D)}{Pr(Q|D)} = \log \frac{p(D)}{q(D)} + \log \frac{Pr(P)}{Pr(Q)}$$</p>
-<p>后验对数概率比率只是先验对数概率比率加上 I. J. Good 所称的<strong>evidence权重</strong>$D$：</p>
-<p>$$w[P/Q; D] \equiv \log \frac{p(D)}{q(D)}$$</p>
-<p>在这种解释下，KL 散度就是在假设$P$为真时，每次观察提供的$P$相对于$Q$的evidence的期望。</p>
-<h3 id="3-最小化KL散度">3. 最小化KL散度</h3>
+<p><span class="math display">\[\begin{align*} D_{KL}(q \| p) &amp;=
+0.443 \log \frac{0.443}{0.975} + 0.557 \log \frac{0.557}{0.025} \\&amp;=
+1.38 \text{ nats} \sim 2.0 \text{ bits}  \end{align*}\]</span></p>
+<p>这表明，从分布<span class="math inline">\([0.975,
+0.025]\)</span>更新到<span class="math inline">\([0.443,
+0.557]\)</span>需要 2
+比特的信息。由此可见，从一个接近均匀的分布到几乎确定的分布需要大约 1
+比特的信息，而从近乎确定的结果转变到类似于抛硬币的结果则需要更多的信息。</p>
+<h4 id="kl-散度作为evidence的期望权重">2.3 KL
+散度作为evidence的期望权重</h4>
+<p>假设你有两个不同的假设<span class="math inline">\(P\)</span>和<span class="math inline">\(Q\)</span>，并希望在它们之间选择。你收集了一些数据<span class="math inline">\(D\)</span>。贝叶斯定理告诉我们：</p>
+<p><span class="math display">\[Pr(P|D) = \frac{Pr(D|P) \cdot
+Pr(P)}{Pr(D)}\]</span></p>
+<p>通常，这需要评估边际似然<span class="math inline">\(Pr(D)\)</span>，这在计算上是困难的。如果我们考虑两个假设的概率比率：</p>
+<p><span class="math display">\[\frac{Pr(P|D)}{Pr(Q|D)} =
+\frac{Pr(D|P)}{Pr(D|Q)} \cdot \frac{Pr(P)}{Pr(Q)}\]</span></p>
+<p>边际似然<span class="math inline">\(Pr(D)\)</span>被消去。取对数后结果如下：</p>
+<p><span class="math display">\[\log \frac{Pr(P|D)}{Pr(Q|D)} = \log
+\frac{p(D)}{q(D)} + \log \frac{Pr(P)}{Pr(Q)}\]</span></p>
+<p>后验对数概率比率只是先验对数概率比率加上 I. J. Good
+所称的<strong>evidence权重</strong><span class="math inline">\(D\)</span>：</p>
+<p><span class="math display">\[w[P/Q; D] \equiv \log
+\frac{p(D)}{q(D)}\]</span></p>
+<p>在这种解释下，KL 散度就是在假设<span class="math inline">\(P\)</span>为真时，每次观察提供的<span class="math inline">\(P\)</span>相对于<span class="math inline">\(Q\)</span>的evidence的期望。</p>
+<h3 id="最小化kl散度">3. 最小化KL散度</h3>
 <p>在具体问题时，我们往往需要对KL散度进行最小化。</p>
-<h4 id="3-1-正向与反向-KL">3.1 正向与反向 KL</h4>
-<p>KL 散度的非对称性意味着，通过最小化$D_{KL}(p | q)$（也称为正向 KL ）来寻找一个接近于$p$的分布$q$，与通过最小化$D_{KL}(q | p)$（也称为反向 KL ）来寻找$q$会有一定区别。</p>
-<p><strong>示例：</strong> 考虑一个双峰分布$p$，我们用一个单峰高斯分布$q$来近似。为了防止$D_{KL}(p | q)$变为无穷大，我们必须当$p &gt; 0$时有$q &gt; 0$（即$q$必须在$p$的每个非零点上都有支持），因此$q$会覆盖两个峰，这称为<strong>模式覆盖（mode-covering）或零避免行为（orange curve）</strong>。相反，为了防止$D_{KL}(q | p)$变为无穷大，我们必须有$q = 0$当$p = 0$时，这会导致<strong>模式追寻（mode-seeking）或零强制行为（green curve）</strong>。</p>
-<p>![](/images/Fundamentals-Information theory/4.png)</p>
-<h4 id="3-2-矩（Moment）投影（模式覆盖）">3.2 矩（Moment）投影（模式覆盖）</h4>
-<p>当我们通过最小化正向 KL 来计算$q$时：</p>
-<p>$$q = \arg \min_q D_{KL}(p | q)$$</p>
-<p>我们不妨假设$q$是一种指数族分布：</p>
-<p>$$q(x) = h(x) \exp\left[\eta^T T(x) - \log Z(\eta)\right]$$</p>
+<h4 id="正向与反向-kl">3.1 正向与反向 KL</h4>
+<p>KL 散度的非对称性意味着，通过最小化<span class="math inline">\(D_{KL}(p \| q)\)</span>（也称为正向 KL
+）来寻找一个接近于<span class="math inline">\(p\)</span>的分布<span class="math inline">\(q\)</span>，与通过最小化<span class="math inline">\(D_{KL}(q \| p)\)</span>（也称为反向 KL
+）来寻找<span class="math inline">\(q\)</span>会有一定区别。</p>
+<p><strong>示例：</strong> 考虑一个双峰分布<span class="math inline">\(p\)</span>，我们用一个单峰高斯分布<span class="math inline">\(q\)</span>来近似。为了防止<span class="math inline">\(D_{KL}(p \| q)\)</span>变为无穷大，我们必须当<span class="math inline">\(p &gt; 0\)</span>时有<span class="math inline">\(q
+&gt; 0\)</span>（即<span class="math inline">\(q\)</span>必须在<span class="math inline">\(p\)</span>的每个非零点上都有支持），因此<span class="math inline">\(q\)</span>会覆盖两个峰，这称为<strong>模式覆盖（mode-covering）或零避免行为（orange
+curve）</strong>。相反，为了防止<span class="math inline">\(D_{KL}(q \|
+p)\)</span>变为无穷大，我们必须有<span class="math inline">\(q =
+0\)</span>当<span class="math inline">\(p =
+0\)</span>时，这会导致<strong>模式追寻（mode-seeking）或零强制行为（green
+curve）</strong>。</p>
+<figure>
+<img src="/images/Fundamentals-Information%20theory/4.png" srcset="/img/loading.gif" lazyload alt="Not Found">
+<figcaption aria-hidden="true">Not Found</figcaption>
+</figure>
+<h4 id="矩moment投影模式覆盖">3.2 矩（Moment）投影（模式覆盖）</h4>
+<p>当我们通过最小化正向 KL 来计算<span class="math inline">\(q\)</span>时：</p>
+<p><span class="math display">\[q = \arg \min_q D_{KL}(p \|
+q)\]</span></p>
+<p>我们不妨假设<span class="math inline">\(q\)</span>是一种指数族分布：</p>
+<p><span class="math display">\[q(x) = h(x) \exp\left[\eta^T T(x) - \log
+Z(\eta)\right]\]</span></p>
 <p>最优性的一阶条件如下：</p>
-<p>$$\frac{\partial \eta_i D_{KL}(p | q)}{\partial \eta_i} = -\frac{\partial \eta_i}{\partial \eta_i} \int p(x) \log q(x) dx$$</p>
+<p><span class="math display">\[\frac{\partial \eta_i D_{KL}(p \|
+q)}{\partial \eta_i} = -\frac{\partial \eta_i}{\partial \eta_i} \int
+p(x) \log q(x) dx\]</span></p>
 <p>继续推导可得：</p>
-<p>$$\begin{align*} \partial_{\eta_i} D_{KL}(p | q) &amp;= -\partial_{\eta_i} \int p(x) \log q(x) , dx  \ &amp;= -\partial_{\eta_i} \int p(x) \left( \eta^T T(x) - \log Z(\eta) \right) , dx  \ &amp;= -\partial_{\eta_i} \int \left(  p(x) T_i(x) , dx - E_{q(x)}[T_i(x)] \right)dx  \ &amp;= -E_{p(x)}[T_i(x)] + E_{q(x)}[T_i(x)] = 0  \end{align*}$$</p>
-<p>可以看到，当梯度为0时候，最优的$q$匹配$p$的矩，因此该过程称为<strong>矩匹配（moment matching）</strong>。这种优化被称<strong>矩投影（M-projection）。</strong></p>
-<p><strong>示例：</strong> 假设真实目标分布$p$是一个相关的二维高斯分布：</p>
-<p>$$p(x) = N(x|\mu, \Sigma) = N(x|\mu, \Lambda^{-1})$$</p>
-<p>我们将其近似为一个由两个一维高斯分布组成的分布$q$：</p>
-<p>$$q(x|m, V) = N(x_1|m_1, v_1) N(x_2|m_2, v_2)$$</p>
-<p>进行矩匹配后，最优的$q$形状为：</p>
-<p>$$q(x) = N(x_1|\mu_1, \Sigma_{11}) N(x_2|\mu_2, \Sigma_{22})$$</p>
-<p>如下图所示，结果分布$q$覆盖了$p$，即模式覆盖。</p>
-<p>![](/images/Fundamentals-Information theory/5.png)</p>
-<h4 id="3-3-信息（Information）投影（模式追寻）">3.3 信息（Information）投影（模式追寻）</h4>
-<p>现在假设我们通过最小化反向 KL 来计算$q$：</p>
-<p>$$q = \arg \min_q D_{KL}(q | p)$$</p>
-<p>这称为<strong>信息投影（I-projection）</strong>。这个优化问题通常更容易计算，因为目标需要对$q$进行期望计算，而我们可以选择一个可处理的分布族。</p>
+<p><span class="math display">\[\begin{align*} \partial_{\eta_i}
+D_{KL}(p \| q) &amp;= -\partial_{\eta_i} \int p(x) \log q(x) \, dx  \\
+&amp;= -\partial_{\eta_i} \int p(x) \left( \eta^T T(x) - \log Z(\eta)
+\right) \, dx  \\ &amp;= -\partial_{\eta_i} \int \left(  p(x) T_i(x) \,
+dx - E_{q(x)}[T_i(x)] \right)dx  \\ &amp;= -E_{p(x)}[T_i(x)] +
+E_{q(x)}[T_i(x)] = 0  \end{align*}\]</span></p>
+<p>可以看到，当梯度为0时候，最优的<span class="math inline">\(q\)</span>匹配<span class="math inline">\(p\)</span>的矩，因此该过程称为<strong>矩匹配（moment
+matching）</strong>。这种优化被称<strong>矩投影（M-projection）。</strong></p>
+<p><strong>示例：</strong> 假设真实目标分布<span class="math inline">\(p\)</span>是一个相关的二维高斯分布：</p>
+<p><span class="math display">\[p(x) = N(x|\mu, \Sigma) = N(x|\mu,
+\Lambda^{-1})\]</span></p>
+<p>我们将其近似为一个由两个一维高斯分布组成的分布<span class="math inline">\(q\)</span>：</p>
+<p><span class="math display">\[q(x|m, V) = N(x_1|m_1, v_1) N(x_2|m_2,
+v_2)\]</span></p>
+<p>进行矩匹配后，最优的<span class="math inline">\(q\)</span>形状为：</p>
+<p><span class="math display">\[q(x) = N(x_1|\mu_1, \Sigma_{11})
+N(x_2|\mu_2, \Sigma_{22})\]</span></p>
+<p>如下图所示，结果分布<span class="math inline">\(q\)</span>覆盖了<span class="math inline">\(p\)</span>，即模式覆盖。</p>
+<figure>
+<img src="/images/Fundamentals-Information%20theory/5.png" srcset="/img/loading.gif" lazyload alt="Not Found">
+<figcaption aria-hidden="true">Not Found</figcaption>
+</figure>
+<h4 id="信息information投影模式追寻">3.3
+信息（Information）投影（模式追寻）</h4>
+<p>现在假设我们通过最小化反向 KL 来计算<span class="math inline">\(q\)</span>：</p>
+<p><span class="math display">\[q = \arg \min_q D_{KL}(q \|
+p)\]</span></p>
+<p>这称为<strong>信息投影（I-projection）</strong>。这个优化问题通常更容易计算，因为目标需要对<span class="math inline">\(q\)</span>进行期望计算，而我们可以选择一个可处理的分布族。</p>
 <p><strong>示例：</strong> 考虑真实分布是一个全协方差高斯分布：</p>
-<p>$$p(x) = N(x|\mu, \Lambda^{-1})$$</p>
-<p>并让$q$为对角高斯分布：</p>
-<p>$$q(x) = N(x|m, \text{diag}(v))$$</p>
+<p><span class="math display">\[p(x) = N(x|\mu,
+\Lambda^{-1})\]</span></p>
+<p>并让<span class="math inline">\(q\)</span>为对角高斯分布：</p>
+<p><span class="math display">\[q(x) = N(x|m,
+\text{diag}(v))\]</span></p>
 <p>可以证明，最优的变分参数为：</p>
-<p>$$m = \mu$$<br>
-$$v_i = \Lambda^{-1}_{ii}$$</p>
+<p><span class="math display">\[m = \mu\]</span> <span class="math display">\[v_i = \Lambda^{-1}_{ii}\]</span></p>
 <p>证明过程如下：</p>
-<p>![](/images/Fundamentals-Information theory/6.png)</p>
-<p>![](/images/Fundamentals-Information theory/7.png)</p>
-<p>如下图所示，我们看到后验方差过于狭窄，即近似后验过于自信。然而，值得注意的是，最小化反向 KL 并不总是导致过于紧凑的近似。</p>
-<p>![](/images/Fundamentals-Information theory/8.png)</p>
-<h3 id="4-KL-散度的重要性质">4. KL 散度的重要性质</h3>
-<h4 id="4-1-压缩引理（Compression-lemma）">4.1 压缩引理（Compression lemma）</h4>
-<p>一个KL散度的重要的通用结论是<strong>压缩引理</strong>，其指出，对于任何分布$P$和$Q$，以及在这些分布的定义域上定义的标量函数$ϕ$，都有以下不等式：</p>
-<p>$$E_P[ϕ] \leq \log E_Q\left[e^{ϕ}\right] + D_{KL}(P | Q)$$</p>
+<p><img src="/images/Fundamentals-Information%20theory/6.png" srcset="/img/loading.gif" lazyload alt="Not Found"> <img src="/images/Fundamentals-Information%20theory/7.png" srcset="/img/loading.gif" lazyload alt="Not Found">
+如下图所示，我们看到后验方差过于狭窄，即近似后验过于自信。然而，值得注意的是，最小化反向
+KL 并不总是导致过于紧凑的近似。</p>
+<figure>
+<img src="/images/Fundamentals-Information%20theory/8.png" srcset="/img/loading.gif" lazyload alt="Not Found">
+<figcaption aria-hidden="true">Not Found</figcaption>
+</figure>
+<h3 id="kl-散度的重要性质">4. KL 散度的重要性质</h3>
+<h4 id="压缩引理compression-lemma">4.1 压缩引理（Compression
+lemma）</h4>
+<p>一个KL散度的重要的通用结论是<strong>压缩引理</strong>，其指出，对于任何分布<span class="math inline">\(P\)</span>和<span class="math inline">\(Q\)</span>，以及在这些分布的定义域上定义的标量函数<span class="math inline">\(ϕ\)</span>，都有以下不等式：</p>
+<p><span class="math display">\[E_P[ϕ] \leq \log E_Q\left[e^{ϕ}\right] +
+D_{KL}(P \| Q)\]</span></p>
 <p><strong>证明过程：</strong></p>
-<p>考虑分布$g(x)$：<br>
-$$g(x) = \frac{q(x)}{Z} e^{ϕ(x)}$$</p>
-<p>其中$Z$是分区函数：<br>
-$$Z = \int dx , q(x) e^{ϕ(x)}$$</p>
-<p>计算$D_{KL}(P | G)$：<br>
-$$D_{KL}(P | G) = D_{KL}(P | Q) - E_P[ϕ(x)] + \log(Z) \geq 0$$</p>
-<p>压缩引理的另一种形式是 <strong>Donsker-Varadhan 变分</strong>表示：</p>
-<p>$$D_{KL}(P | Q) = \sup_{ϕ} \left( E_P[ϕ(x)] - \log E_Q\left[e^{ϕ(x)}\right] \right)$$</p>
+<p>考虑分布<span class="math inline">\(g(x)\)</span>：<br>
+<span class="math display">\[g(x) = \frac{q(x)}{Z} e^{ϕ(x)}\]</span></p>
+<p>其中<span class="math inline">\(Z\)</span>是分区函数：<br>
+<span class="math display">\[Z = \int dx \, q(x) e^{ϕ(x)}\]</span></p>
+<p>计算<span class="math inline">\(D_{KL}(P \| G)\)</span>：<br>
+<span class="math display">\[D_{KL}(P \| G) = D_{KL}(P \| Q) - E_P[ϕ(x)]
++ \log(Z) \geq 0\]</span></p>
+<p>压缩引理的另一种形式是 <strong>Donsker-Varadhan
+变分</strong>表示：</p>
+<p><span class="math display">\[D_{KL}(P \| Q) = \sup_{ϕ} \left(
+E_P[ϕ(x)] - \log E_Q\left[e^{ϕ(x)}\right] \right)\]</span></p>
 <p>这样我们便为KL散度提供了一个下界。</p>
-<h4 id="4-2-KL-散度的数据处理不等式（Data-processing-inequality-for-KL）">4.2 KL 散度的数据处理不等式（Data processing inequality for KL）</h4>
-<p><strong>数据处理不等式</strong>表明，任何对来自两个不同分布的样本进行处理的操作都会使这两个样本趋向彼此。具体来说，考虑两个不同的分布$p(x)$和$q(x)$，通过概率通道$t(y|x)$处理后，得到的分布满足：</p>
-<p>$$D_{KL}(p(x) | q(x)) \geq D_{KL}(p(y) | q(y))$$</p>
+<h4 id="kl-散度的数据处理不等式data-processing-inequality-for-kl">4.2 KL
+散度的数据处理不等式（Data processing inequality for KL）</h4>
+<p><strong>数据处理不等式</strong>表明，任何对来自两个不同分布的样本进行处理的操作都会使这两个样本趋向彼此。具体来说，考虑两个不同的分布<span class="math inline">\(p(x)\)</span>和<span class="math inline">\(q(x)\)</span>，通过概率通道<span class="math inline">\(t(y|x)\)</span>处理后，得到的分布满足：</p>
+<p><span class="math display">\[D_{KL}(p(x) \| q(x)) \geq D_{KL}(p(y) \|
+q(y))\]</span></p>
 <p>证明过程：</p>
-<p>$$\begin{align*} D_{KL} (p(x) | q(x)) &amp;= \int dx , p(x) \log \frac{p(x)}{q(x)} \ &amp;= \int dx , \int dy , p(x) t(y|x) \log \frac{p(x) t(y|x)}{q(x) t(y|x)} \ &amp;= \int dx , \int dy , p(x, y) \log \frac{p(x, y)}{q(x, y)} \ &amp;= -\int dy , p(y) \int dx , p(x|y) \log \frac{q(x, y)}{p(x, y)} \ &amp;\geq - \int dy , p(y) \log \left( \int dx , p(x|y) \frac{q(x, y)}{p(x, y)} \right) \ &amp;= - \int dy , p(y) \log \left( \frac{q(y)}{p(y)} \int dx , q(x|y) \right) \ &amp;= \int dy , p(y) \log \frac{p(y)}{q(y)} \&amp;= D_{KL} (p(y) | q(y)) \end{align*}$$</p>
+<p><span class="math display">\[\begin{align*} D_{KL} (p(x) \| q(x))
+&amp;= \int dx \, p(x) \log \frac{p(x)}{q(x)} \\ &amp;= \int dx \, \int
+dy \, p(x) t(y|x) \log \frac{p(x) t(y|x)}{q(x) t(y|x)} \\ &amp;= \int dx
+\, \int dy \, p(x, y) \log \frac{p(x, y)}{q(x, y)} \\ &amp;= -\int dy \,
+p(y) \int dx \, p(x|y) \log \frac{q(x, y)}{p(x, y)} \\ &amp;\geq - \int
+dy \, p(y) \log \left( \int dx \, p(x|y) \frac{q(x, y)}{p(x, y)} \right)
+\\ &amp;= - \int dy \, p(y) \log \left( \frac{q(y)}{p(y)} \int dx \,
+q(x|y) \right) \\ &amp;= \int dy \, p(y) \log \frac{p(y)}{q(y)} \\&amp;=
+D_{KL} (p(y) \| q(y)) \end{align*}\]</span></p>
 <p><strong>数据处理不等式</strong>表明，对随机样本的任何处理都会使这两个分布更难以区分，即这样导致了信息的损失。</p>
-<h3 id="5-KL散度与最大似然估计">5. KL散度与最大似然估计</h3>
-<p>目标：我们希望找到一个分布$q$，使其与真实分布$p$的KL散度最小化：<br>
-$$q^* = \arg \min_q D_{KL}(p | q) =\arg \min_q (\int p(x) \log p(x) dx - \int p(x) \log q(x) dx)$$</p>
-<p>经验分布：$p$是经验分布$p_D$​指的是它只在观察到的训练数据上有概率，其余地方为零：<br>
-$$p_D(x) = \frac{1}{N} \sum_{n=1}^N \delta(x - x_n)$$</p>
-<p>其中$\delta$是<strong>狄拉克函数</strong>。</p>
+<h3 id="kl散度与最大似然估计">5. KL散度与最大似然估计</h3>
+<p>目标：我们希望找到一个分布<span class="math inline">\(q\)</span>，使其与真实分布<span class="math inline">\(p\)</span>的KL散度最小化：<br>
+<span class="math display">\[q^* = \arg \min_q D_{KL}(p \| q) =\arg
+\min_q (\int p(x) \log p(x) dx - \int p(x) \log q(x) dx)\]</span></p>
+<p>经验分布：<span class="math inline">\(p\)</span>是经验分布<span class="math inline">\(p_D\)</span>​指的是它只在观察到的训练数据上有概率，其余地方为零：<br>
+<span class="math display">\[p_D(x) = \frac{1}{N} \sum_{n=1}^N \delta(x
+- x_n)\]</span></p>
+<p>其中<span class="math inline">\(\delta\)</span>是<strong>狄拉克函数</strong>。</p>
 <p>利用狄拉克函数的特性，可以推导出：<br>
-$$D_{KL}(p_D | q) = -\int p_D(x) \log q(x) dx + C = -\frac{1}{N} \sum_{n} \log q(x_n) + C$$</p>
-<p>这里$C$是与$q$无关的常数。</p>
+<span class="math display">\[D_{KL}(p_D \| q) = -\int p_D(x) \log q(x)
+dx + C = -\frac{1}{N} \sum_{n} \log q(x_n) + C\]</span></p>
+<p>这里<span class="math inline">\(C\)</span>是与<span class="math inline">\(q\)</span>无关的常数。</p>
 <p>可以将上述推导重写为：<br>
-$$D_{KL}(p_D | q) = H_{ce}(p_D, q) - H(p_D)$$</p>
-<p>其中$H_{ce}$​ 是<strong>交叉熵</strong>，定义为：<br>
-$$H_{ce}(p, q) = -\sum_k p_k \log q_k$$</p>
-<p>​交叉熵$H_{ce}(p_D, q)$是在训练集上评估$q$的平均负对数似然。</p>
+<span class="math display">\[D_{KL}(p_D \| q) = H_{ce}(p_D, q) -
+H(p_D)\]</span></p>
+<p>其中<span class="math inline">\(H_{ce}\)</span>​
+是<strong>交叉熵</strong>，定义为：<br>
+<span class="math display">\[H_{ce}(p, q) = -\sum_k p_k \log
+q_k\]</span></p>
+<p>​交叉熵<span class="math inline">\(H_{ce}(p_D,
+q)\)</span>是在训练集上评估<span class="math inline">\(q\)</span>的平均负对数似然。</p>
 <p>所以最小化KL散度与经验分布的过程等价于最大化似然，这意味着我们在训练过程中希望找到一个能很好地拟合训练数据的分布。</p>
 <p>基于似然的训练方法过于依赖训练集。经验分布仅在有限的数据点上有概率质量，而在其它地方为零，这可能导致对真实分布的不合理假设。即使数据集很大，实际数据来源的空间通常更大，因此需要通过在“相似”输入之间共享概率质量来平滑经验分布。</p>
-<h3 id="6-KL散度与贝叶斯推断">6. KL散度与贝叶斯推断</h3>
-<p>贝叶斯推断可以被看作是一个特定的最小化问题，目标是使得新的联合分布$p(\theta, D)$尽可能接近先验分布$q(\theta, D)$，同时满足已知数据$D_0$​ 的约束条件：</p>
-<p>$$p(\theta, D) = \arg\min D_{KL}(p(\theta, D) | q(\theta, D)) \quad \text{subject to} \quad p(D) = \delta(D - D_0)$$</p>
-<p>这里$\delta(D - D_0)$是一个将所有质量集中在数据集$D_0$​ 上的狄拉克分布。</p>
+<h3 id="kl散度与贝叶斯推断">6. KL散度与贝叶斯推断</h3>
+<p>贝叶斯推断可以被看作是一个特定的最小化问题，目标是使得新的联合分布<span class="math inline">\(p(\theta, D)\)</span>尽可能接近先验分布<span class="math inline">\(q(\theta, D)\)</span>，同时满足已知数据<span class="math inline">\(D_0\)</span>​ 的约束条件：</p>
+<p><span class="math display">\[p(\theta, D) = \arg\min D_{KL}(p(\theta,
+D) \| q(\theta, D)) \quad \text{subject to} \quad p(D) = \delta(D -
+D_0)\]</span></p>
+<p>这里<span class="math inline">\(\delta(D -
+D_0)\)</span>是一个将所有质量集中在数据集<span class="math inline">\(D_0\)</span>​ 上的狄拉克分布。</p>
 <p>将KL散度写成链式法则的形式，可以得出：</p>
-<p>$$D_{KL}(p(\theta, D) | q(\theta, D)) = D_{KL}(p(D) | q(D)) + D_{KL}(p(\theta|D) | q(\theta|D))$$</p>
+<p><span class="math display">\[D_{KL}(p(\theta, D) \| q(\theta, D)) =
+D_{KL}(p(D) \| q(D)) + D_{KL}(p(\theta|D) \| q(\theta|D))\]</span></p>
 <p>根据贝叶斯公式，我们有：</p>
-<p>$$q(\theta, D) = q(D)q(\theta|D) = q(\theta)q(D|\theta) \Rightarrow q(\theta|D) = \frac{q(D|\theta) q(\theta)}{q(D)}$$</p>
-<p>这里注意到$q(\theta|D)$与$q(D|\theta), q(\theta), q(D)$之间的关系，但它们都是同一分布的不同表示。</p>
+<p><span class="math display">\[q(\theta, D) = q(D)q(\theta|D) =
+q(\theta)q(D|\theta) \Rightarrow q(\theta|D) = \frac{q(D|\theta)
+q(\theta)}{q(D)}\]</span></p>
+<p>这里注意到<span class="math inline">\(q(\theta|D)\)</span>与<span class="math inline">\(q(D|\theta), q(\theta),
+q(D)\)</span>之间的关系，但它们都是同一分布的不同表示。</p>
 <p>通过KL散度的链式法则，更新后的条件分布保持不变：</p>
-<p>$$p(\theta|D) = q(\theta|D)$$</p>
+<p><span class="math display">\[p(\theta|D) = q(\theta|D)\]</span></p>
 <p>然而，关于参数的边际信念则会发生变化：</p>
-<p>$$p(\theta) = \int dD , p(D)q(\theta|D)= ∫dDδ(D−D_0​)q(θ∣D)=q(θ∣D=D_0​)$$</p>
+<p><span class="math display">\[p(\theta) = \int dD \, p(D)q(\theta|D)=
+∫dDδ(D−D_0​)q(θ∣D)=q(θ∣D=D_0​)\]</span></p>
 <p>这正是我们在观察到数据时，从先验信念更新得到的后验分布</p>
-<p>这一更新过程的一个自然扩展是，如果我们有额外的测量误差，而这些误差是可理解的，那么我们不应将更新的信念完全依赖于观察数据的狄拉克函数，而应使用一个我们理解的分布$p(D)$。例如，我们可能不确切知道数据的精确值，但相信经过测量后，它呈现某种均值和标准差的高斯分布。</p>
+<p>这一更新过程的一个自然扩展是，如果我们有额外的测量误差，而这些误差是可理解的，那么我们不应将更新的信念完全依赖于观察数据的狄拉克函数，而应使用一个我们理解的分布<span class="math inline">\(p(D)\)</span>。例如，我们可能不确切知道数据的精确值，但相信经过测量后，它呈现某种均值和标准差的高斯分布。</p>
 <p>通过这种方式，参数的条件分布保持不变，但参数的边际概率则更新为：</p>
-<p>$$p(\theta) = \int dD , p(D)q(\theta|D)$$</p>
+<p><span class="math display">\[p(\theta) = \int dD \,
+p(D)q(\theta|D)\]</span></p>
 <p>这个贝叶斯规则的广义形式有时被称为<strong>Jeffrey的条件化规则</strong>。</p>
-<h3 id="7-KL散度与指数族">7. KL散度与指数族</h3>
-<p>对于一个具有自然参数$\eta$、基础测度$h(x)$和充分统计量$T(x)$的指数族分布$p(x)$表示为：<br>
-$$p(x) = h(x) \exp\left[\eta^T T(x) - A(\eta)\right]$$</p>
-<p>其中，$A(\eta) = \log Z$是对数分区函数，定义为：<br>
-$$A(\eta) = \log \int h(x) \exp(\eta^T T(x)) dx$$</p>
-<p>对于同一指数族中的两个分布$p(x|\eta_1)$和$p(x|\eta_2)$，KL散度的闭式解为：<br>
-$$D_{KL}(p(x|\eta_1) | p(x|\eta_2)) = E_{\eta_1}\left[(\eta_1 - \eta_2)^T T(x) - A(\eta_1) + A(\eta_2)\right]$$</p>
+<h3 id="kl散度与指数族">7. KL散度与指数族</h3>
+<p>对于一个具有自然参数<span class="math inline">\(\eta\)</span>、基础测度<span class="math inline">\(h(x)\)</span>和充分统计量<span class="math inline">\(T(x)\)</span>的指数族分布<span class="math inline">\(p(x)\)</span>表示为：<br>
+<span class="math display">\[p(x) = h(x) \exp\left[\eta^T T(x) -
+A(\eta)\right]\]</span></p>
+<p>其中，<span class="math inline">\(A(\eta) = \log
+Z\)</span>是对数分区函数，定义为：<br>
+<span class="math display">\[A(\eta) = \log \int h(x) \exp(\eta^T T(x))
+dx\]</span></p>
+<p>对于同一指数族中的两个分布<span class="math inline">\(p(x|\eta_1)\)</span>和<span class="math inline">\(p(x|\eta_2)\)</span>，KL散度的闭式解为：<br>
+<span class="math display">\[D_{KL}(p(x|\eta_1) \| p(x|\eta_2)) =
+E_{\eta_1}\left[(\eta_1 - \eta_2)^T T(x) - A(\eta_1) +
+A(\eta_2)\right]\]</span></p>
 <p>或者用期望表示为：<br>
-$$= (\eta_1 - \eta_2)^T \mu_1 - A(\eta_1) + A(\eta_2)$$</p>
-<p>其中$\mu_j = E_{\eta_j}[T(x)]$。</p>
+<span class="math display">\[= (\eta_1 - \eta_2)^T \mu_1 - A(\eta_1) +
+A(\eta_2)\]</span></p>
+<p>其中<span class="math inline">\(\mu_j =
+E_{\eta_j}[T(x)]\)</span>。</p>
 <p><strong>两个高斯分布的KL散度</strong></p>
-<p>对于两个多元高斯分布$N(x|\mu_1, \Sigma_1)$和$N(x|\mu_2, \Sigma_2)$，KL散度为：</p>
-<p>$$D_{KL}(N(x|\mu_1, \Sigma_1) | N(x|\mu_2, \Sigma_2)) = \frac{1}{2}\left[\text{tr}(\Sigma_2^{-1} \Sigma_1) + (\mu_2 - \mu_1)^T \Sigma_2^{-1} (\mu_2 - \mu_1) - D + \log\left(\frac{\det(\Sigma_2)}{\det(\Sigma_1)}\right)\right]$$</p>
+<p>对于两个多元高斯分布<span class="math inline">\(N(x|\mu_1,
+\Sigma_1)\)</span>和<span class="math inline">\(N(x|\mu_2,
+\Sigma_2)\)</span>，KL散度为：</p>
+<p><span class="math display">\[D_{KL}(N(x|\mu_1, \Sigma_1) \|
+N(x|\mu_2, \Sigma_2)) = \frac{1}{2}\left[\text{tr}(\Sigma_2^{-1}
+\Sigma_1) + (\mu_2 - \mu_1)^T \Sigma_2^{-1} (\mu_2 - \mu_1) - D +
+\log\left(\frac{\det(\Sigma_2)}{\det(\Sigma_1)}\right)\right]\]</span></p>
 <p>在标量情况下：</p>
-<p>$$D_{KL}(N(x|\mu_1, \sigma_1) | N(x|\mu_2, \sigma_2)) = \log\left(\frac{\sigma_2}{\sigma_1}\right) + \frac{\sigma_1^2 + (\mu_1 - \mu_2)^2}{2\sigma_2^2} - \frac{1}{2}$$</p>
-<h3 id="8-使用Fisher信息矩阵近似KL散度">8. 使用Fisher信息矩阵近似KL散度</h3>
-<p>设$p_\theta(x)$和$p_{\theta’}(x)$是两个分布，其中$\theta’ = \theta + \delta$。KL散度可以表示为：<br>
-$$D_{KL}(p_\theta | p_{\theta’}) = E_{p_\theta(x)}\left[\log p_\theta(x) - \log p_{\theta’}(x)\right]$$</p>
+<p><span class="math display">\[D_{KL}(N(x|\mu_1, \sigma_1) \|
+N(x|\mu_2, \sigma_2)) = \log\left(\frac{\sigma_2}{\sigma_1}\right) +
+\frac{\sigma_1^2 + (\mu_1 - \mu_2)^2}{2\sigma_2^2} -
+\frac{1}{2}\]</span></p>
+<h3 id="使用fisher信息矩阵近似kl散度">8.
+使用Fisher信息矩阵近似KL散度</h3>
+<p>设<span class="math inline">\(p_\theta(x)\)</span>和<span class="math inline">\(p_{\theta&#39;}(x)\)</span>是两个分布，其中<span class="math inline">\(\theta&#39; = \theta +
+\delta\)</span>。KL散度可以表示为：<br>
+<span class="math display">\[D_{KL}(p_\theta \| p_{\theta&#39;}) =
+E_{p_\theta(x)}\left[\log p_\theta(x) - \log
+p_{\theta&#39;}(x)\right]\]</span></p>
 <p>使用二阶泰勒展开进行近似：<br>
-$$D_{KL}(p_\theta | p_{\theta’}) \approx -\delta^T E\left[\nabla \log p_\theta(x)\right] - \frac{1}{2} \delta^T E\left[\nabla^2 \log p_\theta(x)\right] \delta$$</p>
+<span class="math display">\[D_{KL}(p_\theta \| p_{\theta&#39;}) \approx
+-\delta^T E\left[\nabla \log p_\theta(x)\right] - \frac{1}{2} \delta^T
+E\left[\nabla^2 \log p_\theta(x)\right] \delta\]</span></p>
 <p>由于期望评分函数为零（第一项为0），我们得到：<br>
-$$D_{KL}(p_\theta | p_{\theta’}) \approx \frac{1}{2} \delta^T F(\theta) \delta$$</p>
+<span class="math display">\[D_{KL}(p_\theta \| p_{\theta&#39;}) \approx
+\frac{1}{2} \delta^T F(\theta) \delta\]</span></p>
 <p>其中，Fisher信息矩阵定义为：<br>
-$$F = -E\left[\nabla^2 \log p_\theta(x)\right] = E\left[(\nabla \log p_\theta(x))(\nabla \log p_\theta(x))^T\right]$$</p>
-<h3 id="9-与Bregman散度的关系">9. 与Bregman散度的关系</h3>
-<p>设$f : \Omega \to \mathbb{R}$是一个在闭凸集$\Omega$上连续可微且严格凸的函数，Bregman散度定义为：<br>
-$$B_f(w | v) = f(w) - f(v) - (w - v)^T \nabla f(v)$$</p>
-<p>这个定义可以理解为一个非线性度量，度量了点$w$与点$v$之间的距离。</p>
+<span class="math display">\[F = -E\left[\nabla^2 \log
+p_\theta(x)\right] = E\left[(\nabla \log p_\theta(x))(\nabla \log
+p_\theta(x))^T\right]\]</span></p>
+<h3 id="与bregman散度的关系">9. 与Bregman散度的关系</h3>
+<p>设<span class="math inline">\(f : \Omega \to
+\mathbb{R}\)</span>是一个在闭凸集<span class="math inline">\(\Omega\)</span>上连续可微且严格凸的函数，Bregman散度定义为：<br>
+<span class="math display">\[B_f(w \| v) = f(w) - f(v) - (w - v)^T
+\nabla f(v)\]</span></p>
+<p>这个定义可以理解为一个非线性度量，度量了点<span class="math inline">\(w\)</span>与点<span class="math inline">\(v\)</span>之间的距离。</p>
 <p>引入函数的线性近似：<br>
-$$\hat{f}_v(w) = f(v) + (w - v)^T \nabla f(v)$$</p>
+<span class="math display">\[\hat{f}_v(w) = f(v) + (w - v)^T \nabla
+f(v)\]</span></p>
 <p>Bregman散度实际上是实际值与线性近似值之间的差：<br>
-$$B_f(w | v) = f(w) - \hat{f}_v(w)$$</p>
-<p>由于$f$是凸函数，因此有$B_f(w | v) \geq 0$。</p>
-<p>如果$f(w) = |w|^2$，则$B_f(w | v) = |w - v|^2$表示平方欧几里得距离。</p>
-<p>如果$f(w) = w^T Q w$，则Bregman散度表示为平方Mahalanobis距离。</p>
-<p>如果$w$是指数族分布的自然参数，且$f(w) = \log Z(w) = A(w)$，则Bregman散度等同于KL散度。</p>
-<p>$$\begin{align*} B_f(\eta_q | \eta_p) &amp;= A(\eta_q) - A(\eta_p) - (\eta_q - \eta_p)^T \nabla_{\eta_p} A(\eta_p) \ &amp;= A(\eta_q) - A(\eta_p) - (\eta_q - \eta_p)^T E_p[T(x)] \ &amp;= D_{KL}(p | q) \end{align*}$$</p>
-<p>![](/images/Fundamentals-Information theory/9.png)</p>
-<h2 id="二、熵">二、熵</h2>
-<h3 id="1-离散随机变量的熵">1. 离散随机变量的熵</h3>
-<p>离散随机变量$X$的熵$H(X)$定义为：</p>
-<p>$$H(X) \equiv -\sum_{k=1}^{K} p(X = k) \log p(X = k) = -E_X[\log p(X)]$$</p>
-<p>熵也可以用不同的对数底数表示，常用的是底数为 2（单位为 bits）或底数为$e$（单位为 nats）。熵可以表示为与均匀分布之间的 KL 散度的关系：</p>
-<p>$$H(X) = \log K - D_{KL}(p(X) | u(X))$$</p>
-<p>其中与均匀分布$u(X)$的 KL 散度为：</p>
-<p>$$D_{KL}(p(X) | u(X)) = \sum_{k=1}^{K} p(X = k) \log p(X = k) - \frac{1}{K}$$</p>
-<p>因此，如果$p$是均匀分布，KL 散度为零，熵达到最大值$\log K$。</p>
-<p>特别的，对于二元随机变量$X \in {0, 1}$，我们可以表示为：</p>
-<p>$$H(X) = -[p(X = 1) \log p(X = 1) + p(X = 0) \log p(X = 0)]$$</p>
+<span class="math display">\[B_f(w \| v) = f(w) -
+\hat{f}_v(w)\]</span></p>
+<p>由于<span class="math inline">\(f\)</span>是凸函数，因此有<span class="math inline">\(B_f(w \| v) \geq 0\)</span>。</p>
+<p>如果<span class="math inline">\(f(w) = \|w\|^2\)</span>，则<span class="math inline">\(B_f(w \| v) = \|w -
+v\|^2\)</span>表示平方欧几里得距离。</p>
+<p>如果<span class="math inline">\(f(w) = w^T Q
+w\)</span>，则Bregman散度表示为平方Mahalanobis距离。</p>
+<p>如果<span class="math inline">\(w\)</span>是指数族分布的自然参数，且<span class="math inline">\(f(w) = \log Z(w) =
+A(w)\)</span>，则Bregman散度等同于KL散度。</p>
+<p><span class="math display">\[\begin{align*} B_f(\eta_q \| \eta_p)
+&amp;= A(\eta_q) - A(\eta_p) - (\eta_q - \eta_p)^T \nabla_{\eta_p}
+A(\eta_p) \\ &amp;= A(\eta_q) - A(\eta_p) - (\eta_q - \eta_p)^T
+E_p[T(x)] \\ &amp;= D_{KL}(p \| q) \end{align*}\]</span></p>
+<figure>
+<img src="/images/Fundamentals-Information%20theory/9.png" srcset="/img/loading.gif" lazyload alt="Not Found">
+<figcaption aria-hidden="true">Not Found</figcaption>
+</figure>
+<h2 id="二熵">二、熵</h2>
+<h3 id="离散随机变量的熵">1. 离散随机变量的熵</h3>
+<p>离散随机变量<span class="math inline">\(X\)</span>的熵<span class="math inline">\(H(X)\)</span>定义为：</p>
+<p><span class="math display">\[H(X) \equiv -\sum_{k=1}^{K} p(X = k)
+\log p(X = k) = -E_X[\log p(X)]\]</span></p>
+<p>熵也可以用不同的对数底数表示，常用的是底数为 2（单位为
+bits）或底数为<span class="math inline">\(e\)</span>（单位为
+nats）。熵可以表示为与均匀分布之间的 KL 散度的关系：</p>
+<p><span class="math display">\[H(X) = \log K - D_{KL}(p(X) \|
+u(X))\]</span></p>
+<p>其中与均匀分布<span class="math inline">\(u(X)\)</span>的 KL
+散度为：</p>
+<p><span class="math display">\[D_{KL}(p(X) \| u(X)) = \sum_{k=1}^{K}
+p(X = k) \log p(X = k) - \frac{1}{K}\]</span></p>
+<p>因此，如果<span class="math inline">\(p\)</span>是均匀分布，KL
+散度为零，熵达到最大值<span class="math inline">\(\log K\)</span>。</p>
+<p>特别的，对于二元随机变量<span class="math inline">\(X \in \{0,
+1\}\)</span>，我们可以表示为：</p>
+<p><span class="math display">\[H(X) = -[p(X = 1) \log p(X = 1) + p(X =
+0) \log p(X = 0)]\]</span></p>
 <p>即：</p>
-<p>$$H(X) = -[\theta \log \theta + (1 - \theta) \log(1 - \theta)]$$</p>
-<p>这被称为二元熵函数$H(\theta)$。</p>
-<p>![](/images/Fundamentals-Information theory/10.png)</p>
-<h3 id="2-连续随机变量的微分熵">2. 连续随机变量的微分熵</h3>
-<p>对于连续随机变量$X$及其概率密度函数$p(x)$，微分熵定义为：</p>
-<p>$$h(X) \equiv -\int_X dx , p(x) \log p(x)$$</p>
-<p>例如，$d$维高斯分布的熵为：</p>
-<p>$$h(N(\mu, \Sigma)) = \frac{1}{2} \log |2\pi e \Sigma| = \frac{d}{2} + \frac{d}{2} \log(2\pi) + \frac{1}{2} \log |\Sigma|$$</p>
+<p><span class="math display">\[H(X) = -[\theta \log \theta + (1 -
+\theta) \log(1 - \theta)]\]</span></p>
+<p>这被称为二元熵函数<span class="math inline">\(H(\theta)\)</span>。</p>
+<figure>
+<img src="/images/Fundamentals-Information%20theory/10.png" srcset="/img/loading.gif" lazyload alt="Not Found">
+<figcaption aria-hidden="true">Not Found</figcaption>
+</figure>
+<h3 id="连续随机变量的微分熵">2. 连续随机变量的微分熵</h3>
+<p>对于连续随机变量<span class="math inline">\(X\)</span>及其概率密度函数<span class="math inline">\(p(x)\)</span>，微分熵定义为：</p>
+<p><span class="math display">\[h(X) \equiv -\int_X dx \, p(x) \log
+p(x)\]</span></p>
+<p>例如，<span class="math inline">\(d\)</span>维高斯分布的熵为：</p>
+<p><span class="math display">\[h(N(\mu, \Sigma)) = \frac{1}{2} \log
+|2\pi e \Sigma| = \frac{d}{2} + \frac{d}{2} \log(2\pi) + \frac{1}{2}
+\log |\Sigma|\]</span></p>
 <p>在一维情况下：</p>
-<p>$$h(N(\mu, \sigma^2)) = \frac{1}{2} \log(2\pi e \sigma^2)$$</p>
+<p><span class="math display">\[h(N(\mu, \sigma^2)) = \frac{1}{2}
+\log(2\pi e \sigma^2)\]</span></p>
 <p><strong>需要注意的是</strong>，与离散情况不同，微分熵可以为负值，因为概率密度函数可以大于1。</p>
-<p>微分熵可以通过量化的有限精度来理解。可以证明，对于连续随机变量$X$的$n$位量化，熵近似为：</p>
-<p>$$h(X) + n$$</p>
+<p>微分熵可以通过量化的有限精度来理解。可以证明，对于连续随机变量<span class="math inline">\(X\)</span>的<span class="math inline">\(n\)</span>位量化，熵近似为：</p>
+<p><span class="math display">\[h(X) + n\]</span></p>
 <p>以均匀分布为例子：</p>
-<p>![](/images/Fundamentals-Information theory/11.png)</p>
-<p>此外，微分熵缺乏<strong>重参数不变性</strong>。例如，如果我们变换随机变量$y = f(x)$，熵将会变换：</p>
-<p>$$p(y) dy = p(x) dx \Rightarrow p(y) = p(x) \left|\frac{dy}{dx}\right|^{-1}$$</p>
+<figure>
+<img src="/images/Fundamentals-Information%20theory/11.png" srcset="/img/loading.gif" lazyload alt="Not Found">
+<figcaption aria-hidden="true">Not Found</figcaption>
+</figure>
+<p>此外，微分熵缺乏<strong>重参数不变性</strong>。例如，如果我们变换随机变量<span class="math inline">\(y = f(x)\)</span>，熵将会变换：</p>
+<p><span class="math display">\[p(y) dy = p(x) dx \Rightarrow p(y) =
+p(x) \left|\frac{dy}{dx}\right|^{-1}\]</span></p>
 <p>因此，微分熵变换为：</p>
-<p>$$h(X) = -\int dx , p(x) \log p(x) = h(Y) - \int dy , p(y) \log \left|\frac{dy}{dx}\right|$$</p>
+<p><span class="math display">\[h(X) = -\int dx \, p(x) \log p(x) = h(Y)
+- \int dy \, p(y) \log \left|\frac{dy}{dx}\right|\]</span></p>
 <p>这意味着，即使是简单的单位转换也会改变微分熵的值。</p>
-<p>![](/images/Fundamentals-Information theory/12.png)</p>
-<h3 id="3-典型集">3 典型集</h3>
-<p>概率分布的典型集是信息内容接近于从该分布随机样本的期望信息内容的元素集合。更具体地，对于支持$x \in X$的分布$p(x)$，定义$\epsilon$-典型集$A^{N}_{ϵ} \subseteq X^N$为：</p>
-<p>$$H(p(x)) - ϵ \leq -\frac{1}{N} \log p(x_1, \ldots, x_N) \leq H(p(x)) + ϵ$$</p>
-<p>如果我们假设$p(x_1, \ldots, x_N) = \prod_{n=1}^{N} p(x_n)$，则中间项可以解释为 N-sample 的经验熵估计。**渐近均分性质（AEP）**表明，随着$N \to \infty$，这个值（在概率上）会收敛到真实的熵。因此，典型集的概率接近于 1，从而成为从$p(x)$生成的结果的compact summary。</p>
-<h3 id="4-交叉熵和困惑度">4. 交叉熵和困惑度</h3>
-<p>模型分布$q$与真实分布$p$之间距离的标准方法是 KL 散度：</p>
-<p>$$D_{KL}(p | q) = \sum_{x} p(x) \log \frac{p(x)}{q(x)} = H_{ce}(p, q) - H(p)$$</p>
-<p>其中，<strong>交叉熵</strong>$H_{ce}(p, q)$定义为：</p>
-<p>$$H_{ce}(p, q) = -\sum_{x} p(x) \log q(x)$$</p>
-<p>而$H(p) = H_{ce}(p, p)$是熵，它是与模型无关的常数。</p>
+<figure>
+<img src="/images/Fundamentals-Information%20theory/12.png" srcset="/img/loading.gif" lazyload alt="Not Found">
+<figcaption aria-hidden="true">Not Found</figcaption>
+</figure>
+<h3 id="典型集">3 典型集</h3>
+<p>概率分布的典型集是信息内容接近于从该分布随机样本的期望信息内容的元素集合。更具体地，对于支持<span class="math inline">\(x \in X\)</span>的分布<span class="math inline">\(p(x)\)</span>，定义<span class="math inline">\(\epsilon\)</span>-典型集<span class="math inline">\(A^{N}_{ϵ} \subseteq X^N\)</span>为：</p>
+<p><span class="math display">\[H(p(x)) - ϵ \leq -\frac{1}{N} \log
+p(x_1, \ldots, x_N) \leq H(p(x)) + ϵ\]</span></p>
+<p>如果我们假设<span class="math inline">\(p(x_1, \ldots, x_N) =
+\prod_{n=1}^{N} p(x_n)\)</span>，则中间项可以解释为 N-sample
+的经验熵估计。<strong>渐近均分性质（AEP）</strong>表明，随着<span class="math inline">\(N \to
+\infty\)</span>，这个值（在概率上）会收敛到真实的熵。因此，典型集的概率接近于
+1，从而成为从<span class="math inline">\(p(x)\)</span>生成的结果的compact summary。</p>
+<h3 id="交叉熵和困惑度">4. 交叉熵和困惑度</h3>
+<p>模型分布<span class="math inline">\(q\)</span>与真实分布<span class="math inline">\(p\)</span>之间距离的标准方法是 KL 散度：</p>
+<p><span class="math display">\[D_{KL}(p \| q) = \sum_{x} p(x) \log
+\frac{p(x)}{q(x)} = H_{ce}(p, q) - H(p)\]</span></p>
+<p>其中，<strong>交叉熵</strong><span class="math inline">\(H_{ce}(p,
+q)\)</span>定义为：</p>
+<p><span class="math display">\[H_{ce}(p, q) = -\sum_{x} p(x) \log
+q(x)\]</span></p>
+<p>而<span class="math inline">\(H(p) = H_{ce}(p,
+p)\)</span>是熵，它是与模型无关的常数。</p>
 <p>在语言建模中，通常报告的替代性能度量称为<strong>困惑度</strong>，定义为：</p>
-<p>$$\text{perplexity}(p, q) \equiv 2^{H_{ce}(p, q)}$$</p>
-<p>可以通过以下方式计算交叉熵的经验近似： 假设我们用基于从$p$中采样的数据的经验分布来近似真实分布：</p>
-<p>$$p_D(x|D) = \frac{1}{N} \sum_{n=1}^{N} I(x = x_n)$$</p>
+<p><span class="math display">\[\text{perplexity}(p, q) \equiv
+2^{H_{ce}(p, q)}\]</span></p>
+<p>可以通过以下方式计算交叉熵的经验近似： 假设我们用基于从<span class="math inline">\(p\)</span>中采样的数据的经验分布来近似真实分布：</p>
+<p><span class="math display">\[p_D(x|D) = \frac{1}{N} \sum_{n=1}^{N}
+I(x = x_n)\]</span></p>
 <p>在这种情况下，交叉熵为：</p>
-<p>$$H = -\frac{1}{N} \sum_{n=1}^{N} \log p(x_n) = -\frac{1}{N} \log \prod_{n=1}^{N} p(x_n)$$</p>
+<p><span class="math display">\[H = -\frac{1}{N} \sum_{n=1}^{N} \log
+p(x_n) = -\frac{1}{N} \log \prod_{n=1}^{N} p(x_n)\]</span></p>
 <p>相应的困惑度为：</p>
-<p>$$\text{perplexity}(p_D, p) = 2^{-\frac{1}{N} \log\left(\prod_{n=1}^{N} p(x_n)\right)} = \left(\prod_{n=1}^{N} p(x_n)\right)^{-\frac{1}{N}} =  \sqrt[N]{\prod_{n=1}^{N} \frac{1}{p(x_n)}}$$</p>
-<p>在语言模型中，我们通常在预测下一个单词时考虑前面的单词。例如，在二元模型中，我们使用二阶马尔可夫模型的形式$p(x_n|x_{n-1})$。假设模型预测每个单词是同样可能的，而与上下文无关，即$p(x_n|x_{n-1}) = \frac{1}{K}$，其中$K$是词汇表中的单词数量。此时，困惑度为：</p>
-<p>$$\left(\left(\frac{1}{K}\right)^{N}\right)^{-\frac{1}{N}} = K$$</p>
-<p>如果某些符号比其他符号更可能，且模型正确反映了这一点，则其困惑度将低于$K$。然而，我们有$H(p^<em>) \leq H_{ce}(p^</em>, p)$, 因此我们无法将困惑度降低到$2^{-H(p^*)}$之下。</p>
-<h2 id="三、-互信息">三、 互信息</h2>
+<p><span class="math display">\[\text{perplexity}(p_D, p) =
+2^{-\frac{1}{N} \log\left(\prod_{n=1}^{N} p(x_n)\right)} =
+\left(\prod_{n=1}^{N} p(x_n)\right)^{-\frac{1}{N}}
+=  \sqrt[N]{\prod_{n=1}^{N} \frac{1}{p(x_n)}}\]</span></p>
+<p>在语言模型中，我们通常在预测下一个单词时考虑前面的单词。例如，在二元模型中，我们使用二阶马尔可夫模型的形式<span class="math inline">\(p(x_n|x_{n-1})\)</span>。假设模型预测每个单词是同样可能的，而与上下文无关，即<span class="math inline">\(p(x_n|x_{n-1}) = \frac{1}{K}\)</span>，其中<span class="math inline">\(K\)</span>是词汇表中的单词数量。此时，困惑度为：</p>
+<p><span class="math display">\[\left(\left(\frac{1}{K}\right)^{N}\right)^{-\frac{1}{N}}
+= K\]</span></p>
+<p>如果某些符号比其他符号更可能，且模型正确反映了这一点，则其困惑度将低于<span class="math inline">\(K\)</span>。然而，我们有<span class="math inline">\(H(p^*) \leq H_{ce}(p^*, p)\)</span>,
+因此我们无法将困惑度降低到<span class="math inline">\(2^{-H(p^*)}\)</span>之下。</p>
+<h2 id="三-互信息">三、 互信息</h2>
 <p>KL散度告诉了我们如何衡量两个分布之间的区别，而两个分布之间的相关性则需要通过互信息来进行衡量。</p>
-<h3 id="1-定义">1. 定义</h3>
-<p><strong>互信息</strong>$I(X; Y)$衡量了随机变量$X$和$Y$之间的信息增益，定义为：<br>
-$$I(X; Y) \equiv D_{KL}(p(x, y) | p(x)p(y)) = \sum_{y \in Y} \sum_{x \in X} p(x, y) \log \frac{p(x, y)}{p(x)p(y)}$$<br>
-很容易看出，互信息是非负的：</p>
-<p>$$I(X; Y) = D_{KL}(p(x, y) | p(x)p(y)) \geq 0$$</p>
-<p>当且仅当$p(x, y) = p(x)p(y)$时，等号成立。</p>
-<h3 id="2-解释">2. 解释</h3>
+<h3 id="定义">1. 定义</h3>
+<p><strong>互信息</strong><span class="math inline">\(I(X;
+Y)\)</span>衡量了随机变量<span class="math inline">\(X\)</span>和<span class="math inline">\(Y\)</span>之间的信息增益，定义为：<br>
+<span class="math display">\[I(X; Y) \equiv D_{KL}(p(x, y) \| p(x)p(y))
+= \sum_{y \in Y} \sum_{x \in X} p(x, y) \log \frac{p(x,
+y)}{p(x)p(y)}\]</span> 很容易看出，互信息是非负的：</p>
+<p><span class="math display">\[I(X; Y) = D_{KL}(p(x, y) \| p(x)p(y))
+\geq 0\]</span></p>
+<p>当且仅当<span class="math inline">\(p(x, y) =
+p(x)p(y)\)</span>时，等号成立。</p>
+<h3 id="解释">2. 解释</h3>
 <p>互信息可以用联合熵和条件熵重新表示：</p>
-<p>$$I(X; Y) = H(X) - H(X|Y) = H(Y) - H(Y|X)$$</p>
-<p>这表明观察$Y$后，关于$X$的不确定性减少的值，反之亦然。此外，互信息还可以表示为：</p>
-<p>$$I(X; Y) = H(X, Y) - H(X|Y) - H(Y|X)$$</p>
+<p><span class="math display">\[I(X; Y) = H(X) - H(X|Y) = H(Y) -
+H(Y|X)\]</span></p>
+<p>这表明观察<span class="math inline">\(Y\)</span>后，关于<span class="math inline">\(X\)</span>的不确定性减少的值，反之亦然。此外，互信息还可以表示为：</p>
+<p><span class="math display">\[I(X; Y) = H(X, Y) - H(X|Y) -
+H(Y|X)\]</span></p>
 <p>或者：</p>
-<p>$$I(X; Y) = H(X) + H(Y) - H(X, Y)$$</p>
+<p><span class="math display">\[I(X; Y) = H(X) + H(Y) - H(X,
+Y)\]</span></p>
 <p>具体关系可以通过下面的图很直观的展示出来：</p>
-<p>![](/images/Fundamentals-Information theory/13.png)</p>
-<h3 id="3-数据处理不等式">3 数据处理不等式</h3>
-<p>数据处理不等式表明，对于未知变量$X$，如果我们观察到它的噪声函数$Y$，并对噪声观测进行处理以生成新变量$Z$，则对未知量$X$的信息量不会增加。这可以形式化为：</p>
-<p>$$I(X; Y) \geq I(X; Z)$$</p>
+<figure>
+<img src="/images/Fundamentals-Information%20theory/13.png" srcset="/img/loading.gif" lazyload alt="Not Found">
+<figcaption aria-hidden="true">Not Found</figcaption>
+</figure>
+<h3 id="数据处理不等式">3 数据处理不等式</h3>
+<p>数据处理不等式表明，对于未知变量<span class="math inline">\(X\)</span>，如果我们观察到它的噪声函数<span class="math inline">\(Y\)</span>，并对噪声观测进行处理以生成新变量<span class="math inline">\(Z\)</span>，则对未知量<span class="math inline">\(X\)</span>的信息量不会增加。这可以形式化为：</p>
+<p><span class="math display">\[I(X; Y) \geq I(X; Z)\]</span></p>
 <p>证明如下：</p>
-<p>$$I(X;Y,Z)=I(X;Z)+I(X;Y∣Z)=I(X;Y)+I(X;Z∣Y)$$</p>
-<p>由于$X \perp Z | Y$，我们有$I(X; Z | Y) = 0$，因此：</p>
-<p>$$I(X; Z) + I(X; Y | Z) = I(X; Y)$$</p>
-<p>因为$I(X; Y | Z) \geq 0$，所以：</p>
-<p>$$I(X; Y) \geq I(X; Z)$$</p>
-<p>**数据处理不等式（Data Processing Inequality, DPI）**表明，在一个马尔可夫链$X \to Y \to Z$中，关于$X$的信息在通过$Y$传递到$Z$的过程中不会增加。</p>
-<h3 id="4-充分统计量">4. 充分统计量</h3>
-<p>设有链关系$\theta \to X \to s(X)$，其中$\theta$是待推断的参数，$X$是观测数据，$s(X)$是从数据中提取的统计量。通过数据处理不等式，得出$I(\theta; s(X)) \leq I(\theta; X)$。这意味着，通过$s(X)$获取的信息不可能超过通过$X$获取的信息。</p>
-<p>当不等式成立为等式时，称$s(X)$是$X$的<strong>充分统计量</strong>。也就是说，知道$s(X)$就足够推断$\theta$，并且从$s(X)$可以重建$X$。</p>
-<p>如果统计量$s(X)$包含关于$\theta$的所有相关信息，并且不包含冗余信息，则称$s(X)$是<strong>最小充分统计量</strong>。它最大限度地压缩数据，而不丢失与推断$\theta$相关的信息。</p>
-<p>例如，对于$N$次伯努利试验，最小充分统计量是$N$和成功次数$N_1 = n$（即$I(X_n = 1)$）。对于已知方差的高斯分布，推断均值只需知道经验均值和样本数量。</p>
-<p>指数族分布是最小充分统计量的代表，因为它们包含的信息仅限于某些统计量的约束。根据 <strong>Pitman-Koopman-Darmois 定理</strong>，只有在样本数量增加时，才存在具有有限维充分统计量的指数族分布。</p>
-<h3 id="5-多元互信息">5. 多元互信息</h3>
+<p><span class="math display">\[I(X;Y,Z)=I(X;Z)+I(X;Y∣Z)=I(X;Y)+I(X;Z∣Y)\]</span></p>
+<p>由于<span class="math inline">\(X \perp Z | Y\)</span>，我们有<span class="math inline">\(I(X; Z | Y) = 0\)</span>，因此：</p>
+<p><span class="math display">\[I(X; Z) + I(X; Y | Z) = I(X;
+Y)\]</span></p>
+<p>因为<span class="math inline">\(I(X; Y | Z) \geq
+0\)</span>，所以：</p>
+<p><span class="math display">\[I(X; Y) \geq I(X; Z)\]</span></p>
+<p><strong>数据处理不等式（Data Processing Inequality,
+DPI）</strong>表明，在一个马尔可夫链<span class="math inline">\(X \to Y
+\to Z\)</span>中，关于<span class="math inline">\(X\)</span>的信息在通过<span class="math inline">\(Y\)</span>传递到<span class="math inline">\(Z\)</span>的过程中不会增加。</p>
+<h3 id="充分统计量">4. 充分统计量</h3>
+<p>设有链关系<span class="math inline">\(\theta \to X \to
+s(X)\)</span>，其中<span class="math inline">\(\theta\)</span>是待推断的参数，<span class="math inline">\(X\)</span>是观测数据，<span class="math inline">\(s(X)\)</span>是从数据中提取的统计量。通过数据处理不等式，得出<span class="math inline">\(I(\theta; s(X)) \leq I(\theta;
+X)\)</span>。这意味着，通过<span class="math inline">\(s(X)\)</span>获取的信息不可能超过通过<span class="math inline">\(X\)</span>获取的信息。</p>
+<p>当不等式成立为等式时，称<span class="math inline">\(s(X)\)</span>是<span class="math inline">\(X\)</span>的<strong>充分统计量</strong>。也就是说，知道<span class="math inline">\(s(X)\)</span>就足够推断<span class="math inline">\(\theta\)</span>，并且从<span class="math inline">\(s(X)\)</span>可以重建<span class="math inline">\(X\)</span>。</p>
+<p>如果统计量<span class="math inline">\(s(X)\)</span>包含关于<span class="math inline">\(\theta\)</span>的所有相关信息，并且不包含冗余信息，则称<span class="math inline">\(s(X)\)</span>是<strong>最小充分统计量</strong>。它最大限度地压缩数据，而不丢失与推断<span class="math inline">\(\theta\)</span>相关的信息。</p>
+<p>例如，对于<span class="math inline">\(N\)</span>次伯努利试验，最小充分统计量是<span class="math inline">\(N\)</span>和成功次数<span class="math inline">\(N_1 = n\)</span>（即<span class="math inline">\(I(X_n =
+1)\)</span>）。对于已知方差的高斯分布，推断均值只需知道经验均值和样本数量。</p>
+<p>指数族分布是最小充分统计量的代表，因为它们包含的信息仅限于某些统计量的约束。根据
+<strong>Pitman-Koopman-Darmois
+定理</strong>，只有在样本数量增加时，才存在具有有限维充分统计量的指数族分布。</p>
+<h3 id="多元互信息">5. 多元互信息</h3>
 <p>多元互信息主要用来衡量一组随机变量之间的相关性。</p>
-<h4 id="5-1-总相关性（Total-Correlation）">5.1. 总相关性（Total Correlation）</h4>
-<p>多元互信息最简单的定义之一是使用<strong>总相关性（Total Correlation）<strong>或</strong>多信息（Multi-Information）</strong>，定义为：<br>
-$$TC({X_1, \dots, X_D}) ≜ D_{KL} \left( p(x) \middle| \prod_{d} p(x_d) \right)$$</p>
+<h4 id="总相关性total-correlation">5.1. 总相关性（Total
+Correlation）</h4>
+<p>多元互信息最简单的定义之一是使用<strong>总相关性（Total
+Correlation）</strong>或<strong>多信息（Multi-Information）</strong>，定义为：<br>
+<span class="math display">\[TC(\{X_1, \dots, X_D\}) ≜ D_{KL} \left(
+p(x) \middle\| \prod_{d} p(x_d) \right)\]</span></p>
 <p>其等价表达式为：<br>
-$$TC({X_1, \dots, X_D}) = \sum_{d} H(x_d) - H(x)$$</p>
-<p>其中，$H(x)$是联合熵，$H(x_d)$是边际熵。对三个变量$X, Y, Z$，总相关性为：<br>
-$$TC(X, Y, Z) = H(X) + H(Y) + H(Z) - H(X, Y, Z)$$</p>
-<p>联合熵$H(X,Y,Z)$的定义是：<br>
-$$H(X, Y, Z) = - \sum_{x, y, z} p(x, y, z) \log p(x, y, z)$$</p>
-<p>总相关性描述了所有变量之间的整体依赖关系。如果$p(x) = \prod_d p(x_d)$，即变量是独立的，那么总相关性为零。即使只有一对变量是相互依赖的，总相关性也会为正。</p>
-<h4 id="5-2-相互作用信息（Interaction-Information-Co-Information）">5.2. 相互作用信息（Interaction Information, Co-Information）</h4>
-<p>为了克服总相关性只要任意两个变量相互作用就为正的缺点，可以引入<strong>多元互信息（multivariate mutual information (MMI)），<strong>也叫做</strong>相互作用信息（Interaction Information）<strong>或者</strong>共信息（Co-Information）</strong>。这个定义基于条件互信息的递归定义：<br>
-$$I(X_1; \dots ; X_D) = I(X_1; \dots ; X_{D-1}) - I(X_1; \dots ; X_{D-1} | X_D)$$</p>
-<p>对于三个变量$X, Y, Z$，其定义为：<br>
-$$I(X; Y; Z) = I(X; Y) - I(X; Y | Z)$$</p>
-<p>这可以解释为：当条件变量$Z$已知时，互信息$I(X;Y)$的变化。同样，可以写成：<br>
-$$I(X; Y; Z) = I(X; Z) - I(X; Z | Y)$$<br>
-$$I(X; Y; Z) =I(Y; Z) - I(Y; Z | X)$$</p>
+<span class="math display">\[TC(\{X_1, \dots, X_D\}) = \sum_{d} H(x_d) -
+H(x)\]</span></p>
+<p>其中，<span class="math inline">\(H(x)\)</span>是联合熵，<span class="math inline">\(H(x_d)\)</span>是边际熵。对三个变量<span class="math inline">\(X, Y, Z\)</span>，总相关性为：<br>
+<span class="math display">\[TC(X, Y, Z) = H(X) + H(Y) + H(Z) - H(X, Y,
+Z)\]</span></p>
+<p>联合熵<span class="math inline">\(H(X,Y,Z)\)</span>的定义是：<br>
+<span class="math display">\[H(X, Y, Z) = - \sum_{x, y, z} p(x, y, z)
+\log p(x, y, z)\]</span></p>
+<p>总相关性描述了所有变量之间的整体依赖关系。如果<span class="math inline">\(p(x) = \prod_d
+p(x_d)\)</span>，即变量是独立的，那么总相关性为零。即使只有一对变量是相互依赖的，总相关性也会为正。</p>
+<h4 id="相互作用信息interaction-information-co-information">5.2.
+相互作用信息（Interaction Information, Co-Information）</h4>
+<p>为了克服总相关性只要任意两个变量相互作用就为正的缺点，可以引入<strong>多元互信息（multivariate
+mutual information
+(MMI)），</strong>也叫做<strong>相互作用信息（Interaction
+Information）</strong>或者<strong>共信息（Co-Information）</strong>。这个定义基于条件互信息的递归定义：<br>
+<span class="math display">\[I(X_1; \dots ; X_D) = I(X_1; \dots ;
+X_{D-1}) - I(X_1; \dots ; X_{D-1} | X_D)\]</span></p>
+<p>对于三个变量<span class="math inline">\(X, Y,
+Z\)</span>，其定义为：<br>
+<span class="math display">\[I(X; Y; Z) = I(X; Y) - I(X; Y |
+Z)\]</span></p>
+<p>这可以解释为：当条件变量<span class="math inline">\(Z\)</span>已知时，互信息<span class="math inline">\(I(X;Y)\)</span>的变化。同样，可以写成：<br>
+<span class="math display">\[I(X; Y; Z) = I(X; Z) - I(X; Z | Y)\]</span>
+<span class="math display">\[I(X; Y; Z) =I(Y; Z) - I(Y; Z |
+X)\]</span></p>
 <p>这意味着：相互作用信息是两个变量之间的互信息在条件第三个变量已知时的变化。<br>
 根据条件互信息的定义，可以推导出：<br>
-$$I(X; Z | Y) = I(Z; X, Y) - I(Y; Z)$$</p>
+<span class="math display">\[I(X; Z | Y) = I(Z; X, Y) - I(Y;
+Z)\]</span></p>
 <p>因此，式子可以重新写成：<br>
-$$I(X; Y; Z) = I(X; Z) + I(Y; Z) - I(X, Y; Z)$$</p>
-<p>这说明，相互作用信息是变量$X$和$Y$单独提供的关于$Z$的信息与它们联合提供的信息之间的差异。</p>
+<span class="math display">\[I(X; Y; Z) = I(X; Z) + I(Y; Z) - I(X, Y;
+Z)\]</span></p>
+<p>这说明，相互作用信息是变量<span class="math inline">\(X\)</span>和<span class="math inline">\(Y\)</span>单独提供的关于<span class="math inline">\(Z\)</span>的信息与它们联合提供的信息之间的差异。</p>
 <p>上面的关系可以通过下面的图来直观展示：</p>
-<p>![](/images/Fundamentals-Information theory/14.png)</p>
-<h4 id="5-3-协同与冗余（Synergy-and-Redundancy）">5.3. 协同与冗余（Synergy and Redundancy）</h4>
-<p>相互作用信息$I(X; Y; Z)$可以为正、零或负，取决于变量之间的关系：</p>
+<figure>
+<img src="/images/Fundamentals-Information%20theory/14.png" srcset="/img/loading.gif" lazyload alt="Not Found">
+<figcaption aria-hidden="true">Not Found</figcaption>
+</figure>
+<h4 id="协同与冗余synergy-and-redundancy">5.3. 协同与冗余（Synergy and
+Redundancy）</h4>
+<p>相互作用信息<span class="math inline">\(I(X; Y;
+Z)\)</span>可以为正、零或负，取决于变量之间的关系：</p>
 <ul>
-<li>如果$I(X; Z) + I(Y; Z) &gt; I(X, Y; Z)$，说明$X$和$Y$提供了关于$Z$的冗余信息，此时$I(X; Y; Z) &gt; 0$。</li>
-<li>如果$I(X; Z) + I(Y; Z) &lt; I(X, Y; Z)$，说明联合观察$X$和$Y$提供了额外的关于$Z$的信息，存在协同作用，此时$I(X; Y; Z) &lt; 0$。</li>
+<li>如果<span class="math inline">\(I(X; Z) + I(Y; Z) &gt; I(X, Y;
+Z)\)</span>，说明<span class="math inline">\(X\)</span>和<span class="math inline">\(Y\)</span>提供了关于<span class="math inline">\(Z\)</span>的冗余信息，此时<span class="math inline">\(I(X; Y; Z) &gt; 0\)</span>。</li>
+<li>如果<span class="math inline">\(I(X; Z) + I(Y; Z) &lt; I(X, Y;
+Z)\)</span>，说明联合观察<span class="math inline">\(X\)</span>和<span class="math inline">\(Y\)</span>提供了额外的关于<span class="math inline">\(Z\)</span>的信息，存在协同作用，此时<span class="math inline">\(I(X; Y; Z) &lt; 0\)</span>。</li>
 </ul>
-<h4 id="5-4-相互作用信息与因果关系（MMI-and-Causality）">5.4. 相互作用信息与因果关系（MMI and Causality）</h4>
-<p>MMI 的符号可以用于区分不同的有向图模型，这些模型有时可以用来解释因果关系。例如：</p>
-<p>共同原因模型（Common Cause Model）：例如$X \leftarrow Z \rightarrow Y$，其中$Z$是$X$和$Y$的共同原因。此时，条件化在$Z$上会使$X$和$Y$独立，因此$I(X; Y | Z) \leq I(X; Y)$，所以$I(X; Y; Z) \geq 0$。</p>
-<p>共同结果模型（Common Effect Model）：例如$X \rightarrow Z \leftarrow Y$，其中$Z$是$X$和$Y$的共同结果。此时，条件化在$Z$上会使$X$和$Y$相关，因此$I(X; Y | Z) \geq I(X; Y)$，所以$I(X; Y; Z) \leq 0$。</p>
-<p>同样，对于$X \rightarrow Z \rightarrow Y$，此时，条件化在$Z$上会使$X$和$Y$独立，因此$I(X; Y | Z) \leq I(X; Y)$，所以$I(X; Y; Z) \geq 0$。</p>
-<h4 id="5-5-相互作用信息与熵的关系（MMI-and-Entropy）">5.5. 相互作用信息与熵的关系（MMI and Entropy）</h4>
+<h4 id="相互作用信息与因果关系mmi-and-causality">5.4.
+相互作用信息与因果关系（MMI and Causality）</h4>
+<p>MMI
+的符号可以用于区分不同的有向图模型，这些模型有时可以用来解释因果关系。例如：</p>
+<p>共同原因模型（Common Cause Model）：例如<span class="math inline">\(X
+\leftarrow Z \rightarrow Y\)</span>，其中<span class="math inline">\(Z\)</span>是<span class="math inline">\(X\)</span>和<span class="math inline">\(Y\)</span>的共同原因。此时，条件化在<span class="math inline">\(Z\)</span>上会使<span class="math inline">\(X\)</span>和<span class="math inline">\(Y\)</span>独立，因此<span class="math inline">\(I(X; Y | Z) \leq I(X; Y)\)</span>，所以<span class="math inline">\(I(X; Y; Z) \geq 0\)</span>。</p>
+<p>共同结果模型（Common Effect Model）：例如<span class="math inline">\(X \rightarrow Z \leftarrow Y\)</span>，其中<span class="math inline">\(Z\)</span>是<span class="math inline">\(X\)</span>和<span class="math inline">\(Y\)</span>的共同结果。此时，条件化在<span class="math inline">\(Z\)</span>上会使<span class="math inline">\(X\)</span>和<span class="math inline">\(Y\)</span>相关，因此<span class="math inline">\(I(X; Y | Z) \geq I(X; Y)\)</span>，所以<span class="math inline">\(I(X; Y; Z) \leq 0\)</span>。</p>
+<p>同样，对于<span class="math inline">\(X \rightarrow Z \rightarrow
+Y\)</span>，此时，条件化在<span class="math inline">\(Z\)</span>上会使<span class="math inline">\(X\)</span>和<span class="math inline">\(Y\)</span>独立，因此<span class="math inline">\(I(X; Y | Z) \leq I(X; Y)\)</span>，所以<span class="math inline">\(I(X; Y; Z) \geq 0\)</span>。</p>
+<h4 id="相互作用信息与熵的关系mmi-and-entropy">5.5.
+相互作用信息与熵的关系（MMI and Entropy）</h4>
 <p>MMI 还可以用熵来表达。我们知道：<br>
-$$I(X; Y) = H(X) + H(Y) - H(X, Y)$$</p>
+<span class="math display">\[I(X; Y) = H(X) + H(Y) - H(X,
+Y)\]</span></p>
 <p>和<br>
-$$I(X; Y | Z) = H(X, Z) + H(Y, Z) - H(Z) - H(X, Y, Z)$$</p>
-<p>因此，可以将$I(X; Y; Z)$重新写为：<br>
-$$I(X; Y; Z) = [H(X) + H(Y) + H(Z)] - [H(X, Y) + H(X, Z) + H(Y, Z)] + H(X, Y, Z)$$</p>
+<span class="math display">\[I(X; Y | Z) = H(X, Z) + H(Y, Z) - H(Z) -
+H(X, Y, Z)\]</span></p>
+<p>因此，可以将<span class="math inline">\(I(X; Y;
+Z)\)</span>重新写为：<br>
+<span class="math display">\[I(X; Y; Z) = [H(X) + H(Y) + H(Z)] - [H(X,
+Y) + H(X, Z) + H(Y, Z)] + H(X, Y, Z)\]</span></p>
 <p>跟集合比较相似。对于多个变量，MMI 可以推广为：<br>
-$$I(X_1, \dots, X_D) = - \sum_{T \subseteq {1, \dots, D}} (-1)^{|T|} H(T)$$</p>
+<span class="math display">\[I(X_1, \dots, X_D) = - \sum_{T \subseteq
+\{1, \dots, D\}} (-1)^{|T|} H(T)\]</span></p>
 <p>对于大小为 1, 2 和 3 的变量集，其展开为：<br>
-$$I_1 = H_1$$</p>
-<p>$$I_{12} = H_1 + H_2 - H_{12}$$</p>
-<p>$$I_{123} = H_1 + H_2 + H_3 - H_{12} - H_{13} - H_{23} + H_{123}$$</p>
-<p>通过 <strong>Möbius 反演公式</strong>，可以得到熵和互信息的对偶关系：<br>
-$$H(S) = - \sum_{T \subseteq S} (-1)^{|T|} I(T)$$</p>
+<span class="math display">\[I_1 = H_1\]</span></p>
+<p><span class="math display">\[I_{12} = H_1 + H_2 - H_{12}\]</span></p>
+<p><span class="math display">\[I_{123} = H_1 + H_2 + H_3 - H_{12} -
+H_{13} - H_{23} + H_{123}\]</span></p>
+<p>通过 <strong>Möbius
+反演公式</strong>，可以得到熵和互信息的对偶关系：<br>
+<span class="math display">\[H(S) = - \sum_{T \subseteq S} (-1)^{|T|}
+I(T)\]</span></p>
 <p>使用链式规则，我们还可以得到 3 变量互信息的另一种形式：<br>
-$$I(X; Y; Z) = H(Z) - H(Z | X) - H(Z | Y) + H(Z | X, Y)$$</p>
-<h3 id="6-互信息的变分界限">6. 互信息的变分界限</h3>
+<span class="math display">\[I(X; Y; Z) = H(Z) - H(Z | X) - H(Z | Y) +
+H(Z | X, Y)\]</span></p>
+<h3 id="互信息的变分界限">6. 互信息的变分界限</h3>
 <p>在直接计算互信息不可行的情况下，我们有一些估计其上界和下界的方法。</p>
-<h4 id="6-1-上界（Upper-Bound）">6.1 上界（Upper Bound）</h4>
-<p>假设联合分布$p(x, y)$难以直接计算，但我们可以从$p(x)$采样，并且能够计算条件分布$p(y|x)$。同时我们用$q(y)$来近似$p(y)$，此时互信息可以表示为：</p>
-<p>$$I(x; y) = \mathbb{E}<em>{p(x,y)}\left[ \log \frac{p(y|x)}{q(y)} \right] - D</em>{KL}(p(y) \parallel q(y))$$</p>
+<h4 id="上界upper-bound">6.1 上界（Upper Bound）</h4>
+<p>假设联合分布<span class="math inline">\(p(x,
+y)\)</span>难以直接计算，但我们可以从<span class="math inline">\(p(x)\)</span>采样，并且能够计算条件分布<span class="math inline">\(p(y|x)\)</span>。同时我们用<span class="math inline">\(q(y)\)</span>来近似<span class="math inline">\(p(y)\)</span>，此时互信息可以表示为：</p>
+<p><span class="math display">\[I(x; y) = \mathbb{E}_{p(x,y)}\left[ \log
+\frac{p(y|x)}{q(y)} \right] - D_{KL}(p(y) \parallel q(y))\]</span></p>
 <p>通过去掉KL散度项，我们得到一个互信息的上界：</p>
-<p>$$I(x; y) \leq \mathbb{E}<em>{p(x)}\left[ D</em>{KL}(p(y|x) \parallel q(y)) \right]$$</p>
-<p>该上界是当$q(y) = p(y)$时等号成立。</p>
-<p>![](/images/Fundamentals-Information theory/15.png)</p>
-<p>可以这么理解，互信息$I(Y; X) = H(Y) - H(Y | X)$，我们假设已知$p(y|x)$，因此可以很好地估计条件熵$H(Y | X)$。然而，关于边缘熵$H(Y)$，我们无法直接知道，所以我们用某个分布$q(y)$来对其进行上界估计。由于KL散度是非负的，因此我们的模型$q(y)$无法比真实的$p(y)$表现得更好，这意味着我们对$H(Y)$的估计总是偏大的，从而得到了互信息的估计的一个上界。</p>
-<h4 id="6-2-BA下界（BA-Lower-Bound）">6.2 BA下界（BA Lower Bound）</h4>
-<p>假设我们可以计算$p(x)$，并且用$q(x|y)$来近似$p(x|y)$。那么互信息的变分下界为：</p>
-<p>$$\begin{align*} I(x; y) &amp;= \mathbb{E}<em>{p(x,y)} \left[ \log \frac{p(x|y)}{p(x)} \right] \         &amp;= \mathbb{E}</em>{p(x,y)} \left[ \log \frac{q(x|y)}{p(x)} \right] + \mathbb{E}<em>{p(y)} \left[ D</em>{\mathrm{KL}} (p(x|y) \parallel q(x|y)) \right] \         &amp;\geq \mathbb{E}<em>{p(x,y)} \left[ \log \frac{q(x|y)}{p(x)} \right] \         &amp;= \mathbb{E}</em>{p(x,y)} \left[ \log q(x|y) \right] + h(x) \end{align*}$$</p>
-<p>这首先被Barber和Agakov提出，所以叫做<strong>BA下界</strong>。它的关键思想是使用容易计算的$q(x|y)$来近似$p(x|y)$，从而给出互信息的下界。</p>
-<h4 id="6-3-NWJ下界（NWJ-Lower-Bound）">6.3 NWJ下界（NWJ Lower Bound）</h4>
-<p>NWJ下界是通过重新参数化$q(x|y)$得到的。我们可以设：</p>
-<p>$$q(x|y) = \frac{p(x)e^{f(x,y)}}{Z(y)}$$</p>
-<p>其中$Z(y) = \mathbb{E}_{p(x)} \left[ e^{f(x,y)} \right]$是归一化常数。这样我们可以得到新的变分下界：</p>
-<p>$$\begin{align*}  \mathbb{E}<em>{p(x,y)} \left[ \log \frac{p(x) e^{f(x,y)}}{p(x) Z(y)} \right] &amp;= \mathbb{E}</em>{p(x,y)} \left[ f(x, y) \right] - \mathbb{E}<em>{p(y)} \left[ \log Z(y) \right] \ &amp;= \mathbb{E}</em>{p(x,y)} \left[ f(x, y) \right] - \mathbb{E}<em>{p(y)} \left[ \log \mathbb{E}</em>{p(x)} \left[ e^{f(x,y)} \right] \right] \ &amp;\equiv I_{\text{DV}}(X; Y)  \end{align*}$$</p>
+<p><span class="math display">\[I(x; y) \leq \mathbb{E}_{p(x)}\left[
+D_{KL}(p(y|x) \parallel q(y)) \right]\]</span></p>
+<p>该上界是当<span class="math inline">\(q(y) =
+p(y)\)</span>时等号成立。</p>
+<figure>
+<img src="/images/Fundamentals-Information%20theory/15.png" srcset="/img/loading.gif" lazyload alt="Not Found">
+<figcaption aria-hidden="true">Not Found</figcaption>
+</figure>
+<p>可以这么理解，互信息<span class="math inline">\(I(Y; X) = H(Y) - H(Y
+| X)\)</span>，我们假设已知<span class="math inline">\(p(y|x)\)</span>，因此可以很好地估计条件熵<span class="math inline">\(H(Y | X)\)</span>。然而，关于边缘熵<span class="math inline">\(H(Y)\)</span>，我们无法直接知道，所以我们用某个分布<span class="math inline">\(q(y)\)</span>来对其进行上界估计。由于KL散度是非负的，因此我们的模型<span class="math inline">\(q(y)\)</span>无法比真实的<span class="math inline">\(p(y)\)</span>表现得更好，这意味着我们对<span class="math inline">\(H(Y)\)</span>的估计总是偏大的，从而得到了互信息的估计的一个上界。</p>
+<h4 id="ba下界ba-lower-bound">6.2 BA下界（BA Lower Bound）</h4>
+<p>假设我们可以计算<span class="math inline">\(p(x)\)</span>，并且用<span class="math inline">\(q(x|y)\)</span>来近似<span class="math inline">\(p(x|y)\)</span>。那么互信息的变分下界为：</p>
+<p><span class="math display">\[\begin{align*} I(x; y) &amp;=
+\mathbb{E}_{p(x,y)} \left[ \log \frac{p(x|y)}{p(x)} \right]
+\\         &amp;= \mathbb{E}_{p(x,y)} \left[ \log \frac{q(x|y)}{p(x)}
+\right] + \mathbb{E}_{p(y)} \left[ D_{\mathrm{KL}} (p(x|y) \parallel
+q(x|y)) \right] \\         &amp;\geq \mathbb{E}_{p(x,y)} \left[ \log
+\frac{q(x|y)}{p(x)} \right] \\         &amp;= \mathbb{E}_{p(x,y)} \left[
+\log q(x|y) \right] + h(x) \end{align*}\]</span></p>
+<p>这首先被Barber和Agakov提出，所以叫做<strong>BA下界</strong>。它的关键思想是使用容易计算的<span class="math inline">\(q(x|y)\)</span>来近似<span class="math inline">\(p(x|y)\)</span>，从而给出互信息的下界。</p>
+<h4 id="nwj下界nwj-lower-bound">6.3 NWJ下界（NWJ Lower Bound）</h4>
+<p>NWJ下界是通过重新参数化<span class="math inline">\(q(x|y)\)</span>得到的。我们可以设：</p>
+<p><span class="math display">\[q(x|y) =
+\frac{p(x)e^{f(x,y)}}{Z(y)}\]</span></p>
+<p>其中<span class="math inline">\(Z(y) = \mathbb{E}_{p(x)} \left[
+e^{f(x,y)}
+\right]\)</span>是归一化常数。这样我们可以得到新的变分下界：</p>
+<p><span class="math display">\[\begin{align*}  \mathbb{E}_{p(x,y)}
+\left[ \log \frac{p(x) e^{f(x,y)}}{p(x) Z(y)} \right] &amp;=
+\mathbb{E}_{p(x,y)} \left[ f(x, y) \right] - \mathbb{E}_{p(y)} \left[
+\log Z(y) \right] \\ &amp;= \mathbb{E}_{p(x,y)} \left[ f(x, y) \right] -
+\mathbb{E}_{p(y)} \left[ \log \mathbb{E}_{p(x)} \left[ e^{f(x,y)}
+\right] \right] \\ &amp;\equiv I_{\text{DV}}(X;
+Y)  \end{align*}\]</span></p>
 <p>这被叫做<strong>Donsker-Varadhan下界</strong>，为了进一步简化，可以用线性上界来逼近log函数</p>
-<p>$$\log x \leq \frac{x}{a} + \log a - 1$$</p>
+<p><span class="math display">\[\log x \leq \frac{x}{a} + \log a -
+1\]</span></p>
 <p>最终得到<strong>NWJ下界</strong>的形式如下：</p>
-<p>$$I(X; Y) \geq \mathbb{E}<em>{p(x,y)} \left[ f(x, y) \right] - e^{-1} \mathbb{E}</em>{p(y)} Z(y) \equiv I_{\text{NWJ}}(X; Y)$$</p>
+<p><span class="math display">\[I(X; Y) \geq \mathbb{E}_{p(x,y)} \left[
+f(x, y) \right] - e^{-1} \mathbb{E}_{p(y)} Z(y) \equiv I_{\text{NWJ}}(X;
+Y)\]</span></p>
 <p>这个下界不需要归一化的分布（实践中我们使用蒙特卡洛采样估计就行），因此更易于计算。</p>
-<h4 id="6-4-InfoNCE下界（InfoNCE-Lower-Bound）">6.4 InfoNCE下界（InfoNCE Lower Bound）</h4>
-<p>如果我们对<strong>DV下界</strong>进行多样本扩展，则可以得到<strong>InfoNCE下界</strong>。即对于每个样本$(x_i, y_i)$，我们不只考虑它本身的联合分布，而是通过和其他样本进行对比来估计 mutual information。</p>
-<p>假设我们有$K$对样本${(x_i, y_i)}_{i=1}^K$​ ，其中$x_i$​ 和$y_i$来自联合分布$p(x, y)$，而$y_j$（对于$i \neq j$）来自边缘分布$p(y)$。为每一对$(x_i, y_i)$，我们希望通过对比它与其他负样本（$(x_i, y_j)$其中$j \neq i$）来计算 mutual information。最终其形式为：</p>
-<p>$$I_{NCE} = \mathbb{E} \left[ \frac{1}{K} \sum_{i=1}^{K} \log \frac{e^{f(x_i, y_i)}}{\frac{1}{K} \sum_{j=1}^{K} e^{f(x_i, y_j)}} \right]$$</p>
-<p>![](/images/Fundamentals-Information theory/16.png)</p>
-<p>其中，$f(x_i, y_i)$是可学习的判别函数，表示$x_i$​ 和$y_i$​ 的关联性。这样便通过对比联合分布和边缘分布的采样来估计互信息。InfoNCE下界的一个缺点是，如果互信息较大，则需要较大的样本数$K$来得到准确的估计。</p>
-<h3 id="7-相关网络（Relevance-Networks）">7. 相关网络（Relevance Networks）</h3>
-<p><strong>相关网络</strong>是通过一组相关变量来构建的图网络。在这个网络中，如果两个变量$X_i$和$X_j$之间的互信息高于某个阈值，就会在它们之间添加一条边。这种方法可以应用于高斯分布情况下的变量，也可以扩展到离散随机变量。</p>
-<p>在高斯分布情况下，两个变量之间的互信息可以通过它们的**相关系数（Correlation Coefficient）**计算，公式为：<br>
-$$I(X_i ; X_j ) = -\frac{1}{2} \log(1 - \rho_{ij}^2)$$</p>
-<p>其中$\rho_{ij}$是$X_i$和$X_j$的相关系数。这种情况下的图称为协方差图（Covariance Graph）。</p>
+<h4 id="infonce下界infonce-lower-bound">6.4 InfoNCE下界（InfoNCE Lower
+Bound）</h4>
+<p>如果我们对<strong>DV下界</strong>进行多样本扩展，则可以得到<strong>InfoNCE下界</strong>。即对于每个样本<span class="math inline">\((x_i,
+y_i)\)</span>，我们不只考虑它本身的联合分布，而是通过和其他样本进行对比来估计
+mutual information。</p>
+<p>假设我们有<span class="math inline">\(K\)</span>对样本<span class="math inline">\(\{(x_i, y_i)\}_{i=1}^K\)</span>​ ，其中<span class="math inline">\(x_i\)</span>​ 和<span class="math inline">\(y_i\)</span>来自联合分布<span class="math inline">\(p(x, y)\)</span>，而<span class="math inline">\(y_j\)</span>（对于<span class="math inline">\(i
+\neq j\)</span>）来自边缘分布<span class="math inline">\(p(y)\)</span>。为每一对<span class="math inline">\((x_i,
+y_i)\)</span>，我们希望通过对比它与其他负样本（<span class="math inline">\((x_i, y_j)\)</span>其中<span class="math inline">\(j \neq i\)</span>）来计算 mutual
+information。最终其形式为：</p>
+<p><span class="math display">\[I_{NCE} = \mathbb{E} \left[ \frac{1}{K}
+\sum_{i=1}^{K} \log \frac{e^{f(x_i, y_i)}}{\frac{1}{K} \sum_{j=1}^{K}
+e^{f(x_i, y_j)}} \right]\]</span></p>
+<figure>
+<img src="/images/Fundamentals-Information%20theory/16.png" srcset="/img/loading.gif" lazyload alt="Not Found">
+<figcaption aria-hidden="true">Not Found</figcaption>
+</figure>
+<p>其中，<span class="math inline">\(f(x_i,
+y_i)\)</span>是可学习的判别函数，表示<span class="math inline">\(x_i\)</span>​ 和<span class="math inline">\(y_i\)</span>​
+的关联性。这样便通过对比联合分布和边缘分布的采样来估计互信息。InfoNCE下界的一个缺点是，如果互信息较大，则需要较大的样本数<span class="math inline">\(K\)</span>来得到准确的估计。</p>
+<h3 id="相关网络relevance-networks">7. 相关网络（Relevance
+Networks）</h3>
+<p><strong>相关网络</strong>是通过一组相关变量来构建的图网络。在这个网络中，如果两个变量<span class="math inline">\(X_i\)</span>和<span class="math inline">\(X_j\)</span>之间的互信息高于某个阈值，就会在它们之间添加一条边。这种方法可以应用于高斯分布情况下的变量，也可以扩展到离散随机变量。</p>
+<p>在高斯分布情况下，两个变量之间的互信息可以通过它们的<strong>相关系数（Correlation
+Coefficient）</strong>计算，公式为：<br>
+<span class="math display">\[I(X_i ; X_j ) = -\frac{1}{2} \log(1 -
+\rho_{ij}^2)\]</span></p>
+<p>其中<span class="math inline">\(\rho_{ij}\)</span>是<span class="math inline">\(X_i\)</span>和<span class="math inline">\(X_j\)</span>的相关系数。这种情况下的图称为协方差图（Covariance
+Graph）。</p>
 <p>相关网络有一个主要问题：它通常会产生非常稠密的图。因为大多数变量在一定程度上都会与其他大多数变量相互依赖，即使我们对互信息进行了阈值处理，图中仍可能存在大量的边。例如：</p>
-<p>假设$X_1$​ 直接影响$X_2$​，而$X_2$​ 又直接影响$X_3$​，此时它们组成了一个信号传导，$X_1 \to X_2 \to X_3$。在这种情况下，$X_1$和$X_3$​ 之间也会有非零的互信息，因此会有一条$1-3$的边，虽然它们之间没有直接的依赖关系。这样，图可能会在很多情况下甚至会变得完全连接。</p>
-<h2 id="四-数据压缩（源编码）">四. 数据压缩（源编码）</h2>
+<p>假设<span class="math inline">\(X_1\)</span>​ 直接影响<span class="math inline">\(X_2\)</span>​，而<span class="math inline">\(X_2\)</span>​ 又直接影响<span class="math inline">\(X_3\)</span>​，此时它们组成了一个信号传导，<span class="math inline">\(X_1 \to X_2 \to X_3\)</span>。在这种情况下，<span class="math inline">\(X_1\)</span>和<span class="math inline">\(X_3\)</span>​
+之间也会有非零的互信息，因此会有一条<span class="math inline">\(1-3\)</span>的边，虽然它们之间没有直接的依赖关系。这样，图可能会在很多情况下甚至会变得完全连接。</p>
+<h2 id="四.-数据压缩源编码">四. 数据压缩（源编码）</h2>
 <p>数据压缩是信息理论的核心内容之一，也与概率机器学习密切相关。其基本思想是，我们对数据样本的不同种类建模，并且能够为出现频率最高的那些种类分配短的编码字，为出现频率较低的种类保留更长的编码。因此，数据压缩的能力需要发现数据中的潜在模式及其相对频率。</p>
-<h3 id="1-无损压缩（Lossless-Compression）">1. 无损压缩（Lossless Compression）</h3>
-<p>对于离散数据（如自然语言），总是可以以一种方式进行压缩，使我们能够唯一地恢复原始数据。这称为无损压缩。<strong>克劳德·香农</strong>证明了，从分布$p$中获取的数据所需的平均比特数至少为$H(p)$，这被称为<strong>源编码定理</strong>。</p>
-<p>根据源编码定理，期望所需的比特数$R$满足以下不等式：</p>
-<p>$$R \geq H(p)$$</p>
-<p>其中$H(p)$是分布$p$的熵。使用非真实模型$q$进行压缩会导致多出的比特数，这正是 KL 散度的非负性所表明的。具体地，</p>
-<p>$$H_{ce}(p, q) \geq H(p)$$</p>
-<p>其中$H_{ce}(p, q)$是使用模型$q$对数据进行压缩时的交叉熵。</p>
-<p>常见的无损编码技术包括 Huffman 编码、算术编码和非对称数字符号系统（Asymmetric Numeral Systems）等。</p>
-<h3 id="2-有损压缩与率失真权衡（Lossy-Compression-and-the-Rate-Distortion-Tradeoff）">2. 有损压缩与率失真权衡（Lossy Compression and the Rate-Distortion Tradeoff）</h3>
+<h3 id="无损压缩lossless-compression">1. 无损压缩（Lossless
+Compression）</h3>
+<p>对于离散数据（如自然语言），总是可以以一种方式进行压缩，使我们能够唯一地恢复原始数据。这称为无损压缩。<strong>克劳德·香农</strong>证明了，从分布<span class="math inline">\(p\)</span>中获取的数据所需的平均比特数至少为<span class="math inline">\(H(p)\)</span>，这被称为<strong>源编码定理</strong>。</p>
+<p>根据源编码定理，期望所需的比特数<span class="math inline">\(R\)</span>满足以下不等式：</p>
+<p><span class="math display">\[R \geq H(p)\]</span></p>
+<p>其中<span class="math inline">\(H(p)\)</span>是分布<span class="math inline">\(p\)</span>的熵。使用非真实模型<span class="math inline">\(q\)</span>进行压缩会导致多出的比特数，这正是 KL
+散度的非负性所表明的。具体地，</p>
+<p><span class="math display">\[H_{ce}(p, q) \geq H(p)\]</span></p>
+<p>其中<span class="math inline">\(H_{ce}(p, q)\)</span>是使用模型<span class="math inline">\(q\)</span>对数据进行压缩时的交叉熵。</p>
+<p>常见的无损编码技术包括 Huffman
+编码、算术编码和非对称数字符号系统（Asymmetric Numeral Systems）等。</p>
+<h3 id="有损压缩与率失真权衡lossy-compression-and-the-rate-distortion-tradeoff">2.
+有损压缩与率失真权衡（Lossy Compression and the Rate-Distortion
+Tradeoff）</h3>
 <p>对于实值信号（如图像和声音），首先需要对信号进行量化，得到一系列符号。然后可以使用无损编码方法来压缩这些离散符号序列。但是，在解压缩时会丢失一些信息，因此这种方法称为有损压缩。</p>
-<p>有损压缩中存在一个重要的权衡关系，即压缩表示的大小（使用的符号数量）和由此产生的误差之间的权衡。我们使用了**变分信息瓶颈（Variational Information Bottleneck）**的术语来量化这种权衡，尤其是在无监督设置下。</p>
+<p>有损压缩中存在一个重要的权衡关系，即压缩表示的大小（使用的符号数量）和由此产生的误差之间的权衡。我们使用了<strong>变分信息瓶颈（Variational
+Information
+Bottleneck）</strong>的术语来量化这种权衡，尤其是在无监督设置下。</p>
 <ul>
-<li><strong>Distortion</strong>$D$<strong>的定义</strong>：</li>
+<li><strong>Distortion</strong><span class="math inline">\(D\)</span><strong>的定义</strong>：</li>
 </ul>
-<p>我们可以通过编码解码模型，假设有一个随机编码器$e(z|x)$、一个随机解码器$d(x|z)$和一个先验边际$m(z)$,我们可以得到最终损失信息，即对失真的量化$D$如下：</p>
-<p>$$D = - \int p(x) \int e(z|x) \log d(x|z) , dz , dx$$</p>
-<p>如果解码器$d(x|z)$是一个确定性模型加上高斯噪声$N(x | f_d(z), \sigma^2)$，而编码器$e(z|x)$是确定性的$\delta(z - f_e(x))$，那么可以简化为：</p>
-<p>$$D = \frac{1}{\sigma^2} \mathbb{E}_{p(x)} | f_d(f_e(x)) - x |_2^2$$</p>
-<p>![](/images/Fundamentals-Information theory/17.png)</p>
+<p>我们可以通过编码解码模型，假设有一个随机编码器<span class="math inline">\(e(z|x)\)</span>、一个随机解码器<span class="math inline">\(d(x|z)\)</span>和一个先验边际<span class="math inline">\(m(z)\)</span>,我们可以得到最终损失信息，即对失真的量化<span class="math inline">\(D\)</span>如下：</p>
+<p><span class="math display">\[D = - \int p(x) \int e(z|x) \log d(x|z)
+\, dz \, dx\]</span></p>
+<p>如果解码器<span class="math inline">\(d(x|z)\)</span>是一个确定性模型加上高斯噪声<span class="math inline">\(N(x | f_d(z), \sigma^2)\)</span>，而编码器<span class="math inline">\(e(z|x)\)</span>是确定性的<span class="math inline">\(\delta(z - f_e(x))\)</span>，那么可以简化为：</p>
+<p><span class="math display">\[D = \frac{1}{\sigma^2} \mathbb{E}_{p(x)}
+\| f_d(f_e(x)) - x \|_2^2\]</span></p>
+<figure>
+<img src="/images/Fundamentals-Information%20theory/17.png" srcset="/img/loading.gif" lazyload alt="Not Found">
+<figcaption aria-hidden="true">Not Found</figcaption>
+</figure>
 <ul>
-<li><strong>Rate</strong>$R$<strong>的定义：</strong></li>
+<li><strong>Rate</strong><span class="math inline">\(R\)</span><strong>的定义：</strong></li>
 </ul>
-<p>$$\begin{align*} R &amp;= \int p(x) \int e(z|x) \log \frac{e(z|x)}{m(z)} , dz , dx \&amp;=\mathbb{E}<em>{p(x)}[ H</em>{ce}​(e(z|x),m(z))−H(e(z|x))] \end{align*}$$</p>
-<p>这里$m(z)$是先验边际分布。通过 KL 散度的平均来定义了这个率：</p>
-<p>$$R = \mathbb{E}<em>{p(x)} \left[ D</em>{KL}(e(z|x) | m(z)) \right]$$</p>
-<p>这反映的是$z$后验分布与$z$的边缘分布的区别。如果我们使用$m(z)$来设计一个最优编码，那么$R$就是使用$m(z)$而不是实际的后验分布$p(z) = \int dx , p(x)e(z|x)$进行编码时所需支付的额外比特数。</p>
-<p>![](/images/Fundamentals-Information theory/18.png)</p>
-<ul>
-<li><strong>Rate-Distortion Bounds：</strong></li>
-</ul>
+<p><span class="math display">\[\begin{align*} R &amp;= \int p(x) \int
+e(z|x) \log \frac{e(z|x)}{m(z)} \, dz \, dx \\&amp;=\mathbb{E}_{p(x)}[
+H_{ce}​(e(z|x),m(z))−H(e(z|x))] \end{align*}\]</span></p>
+<p>这里<span class="math inline">\(m(z)\)</span>是先验边际分布。通过 KL
+散度的平均来定义了这个率：</p>
+<p><span class="math display">\[R = \mathbb{E}_{p(x)} \left[
+D_{KL}(e(z|x) \| m(z)) \right]\]</span></p>
+<p>这反映的是<span class="math inline">\(z\)</span>后验分布与<span class="math inline">\(z\)</span>的边缘分布的区别。如果我们使用<span class="math inline">\(m(z)\)</span>来设计一个最优编码，那么<span class="math inline">\(R\)</span>就是使用<span class="math inline">\(m(z)\)</span>而不是实际的后验分布<span class="math inline">\(p(z) = \int dx \,
+p(x)e(z|x)\)</span>进行编码时所需支付的额外比特数。</p>
+<p><img src="/images/Fundamentals-Information%20theory/18.png" srcset="/img/loading.gif" lazyload alt="Not Found"> * <strong>Rate-Distortion Bounds：</strong></p>
 <p>根据前面提到的<strong>互信息的变分界限（BA下界和上界）</strong>，我们有以下不等式：</p>
-<p>$$H - D \leq I(x; z) \leq R$$</p>
-<p>其中$H$是（微分）熵。</p>
+<p><span class="math display">\[H - D \leq I(x; z) \leq R\]</span></p>
+<p>其中<span class="math inline">\(H\)</span>是（微分）熵。</p>
 <ul>
 <li><strong>Rate-Distortion Curve：</strong></li>
 </ul>
-<p>可实现的$R$和$D$值形成的曲线称为<strong>率失真曲线（Rate-Distortion Curve）</strong>。这条曲线展示了在不同$R$和$D$条件下的可达值。例如，当$D = 0$时，我们可以完美地编码和解码数据，此时$R \geq H$，即所需的最小比特数为数据的熵。</p>
-<p>![](/images/Fundamentals-Information theory/19.png)</p>
-<p>水平的底线对应于零失真设置，即$D = 0$。这可以通过使用$e(z|x) = \delta(z - x)$的简单编码器来实现。</p>
-<p>左侧的垂直线对应于零率设置，即潜变量与$z$独立。在这种情况下，解码器$d(x|z)$与$z$无关。即此时$I(x; z)$为0。这种模型能够达到的最小失真仍然是数据的熵，即$D \geq H$。</p>
-<p>使用互信息的变分界限可以更精确地刻画率和失真之间的权衡关系。实际上，我们无法在对角线上达到点，因为这要求在不等式中均取等号，即需要我们的模型$e(z|x)$和$d(x|z)$是完美的，这被称为“非参数限制”。在有限数据设置中，我们总会产生额外的误差，因此 RD 曲线会向上偏移。</p>
-<p>我们可以通过最小化以下目标函数$J$来生成不同的解决方案：</p>
-<p>$$J = D + \beta R$$</p>
-<p>其中：$D$是失真（distortion），表示编码与解码之间的误差。$R$是rate，表示编码所需的比特数。$\beta$是一个权重超参数，用于调节失真和rate之间的平衡。</p>
+<p>可实现的<span class="math inline">\(R\)</span>和<span class="math inline">\(D\)</span>值形成的曲线称为<strong>率失真曲线（Rate-Distortion
+Curve）</strong>。这条曲线展示了在不同<span class="math inline">\(R\)</span>和<span class="math inline">\(D\)</span>条件下的可达值。例如，当<span class="math inline">\(D =
+0\)</span>时，我们可以完美地编码和解码数据，此时<span class="math inline">\(R \geq
+H\)</span>，即所需的最小比特数为数据的熵。</p>
+<p><img src="/images/Fundamentals-Information%20theory/19.png" srcset="/img/loading.gif" lazyload alt="Not Found"> 水平的底线对应于零失真设置，即<span class="math inline">\(D = 0\)</span>。这可以通过使用<span class="math inline">\(e(z|x) = \delta(z -
+x)\)</span>的简单编码器来实现。</p>
+<p>左侧的垂直线对应于零率设置，即潜变量与<span class="math inline">\(z\)</span>独立。在这种情况下，解码器<span class="math inline">\(d(x|z)\)</span>与<span class="math inline">\(z\)</span>无关。即此时<span class="math inline">\(I(x;
+z)\)</span>为0。这种模型能够达到的最小失真仍然是数据的熵，即<span class="math inline">\(D \geq H\)</span>。</p>
+<p>使用互信息的变分界限可以更精确地刻画率和失真之间的权衡关系。实际上，我们无法在对角线上达到点，因为这要求在不等式中均取等号，即需要我们的模型<span class="math inline">\(e(z|x)\)</span>和<span class="math inline">\(d(x|z)\)</span>是完美的，这被称为“非参数限制”。在有限数据设置中，我们总会产生额外的误差，因此
+RD 曲线会向上偏移。</p>
+<p>我们可以通过最小化以下目标函数<span class="math inline">\(J\)</span>来生成不同的解决方案：</p>
+<p><span class="math display">\[J = D + \beta R\]</span></p>
+<p>其中：<span class="math inline">\(D\)</span>是失真（distortion），表示编码与解码之间的误差。<span class="math inline">\(R\)</span>是rate，表示编码所需的比特数。<span class="math inline">\(\beta\)</span>是一个权重超参数，用于调节失真和rate之间的平衡。</p>
 <p>目标函数可以展开为：</p>
-<p>$$J = \int dx , p(x) \int dz , e(z|x) \left( -\log d(x|z) + \beta \log \frac{e(z|x)}{m(z)} \right)$$</p>
-<p>当$\beta = 1$时，公式与变分自编码器（VAE）目标一致:</p>
-<p>$$\mathcal{L} = - (D + R) = E_{p(x)} \left[ E_{e(z|x)}[\log d(x|z)] - E_{e(z|x)} \left[ \log \frac{e(z|x)}{m(z)} \right] \right]$$</p>
-<h3 id="3-信息瓶颈（The-information-bottleneck）">3. 信息瓶颈（The information bottleneck）</h3>
-<h4 id="3-1-原版信息瓶颈（Vanilla-IB）">3.1 原版信息瓶颈（Vanilla IB）</h4>
-<p>信息瓶颈（The information bottleneck）的目标是通过引入一个中间表示$z$，在输入$x$和输出$y$之间传递信息。我们说$z$是$x$的表示，可以用条件分布$p(z|x)$来描述。</p>
+<p><span class="math display">\[J = \int dx \, p(x) \int dz \, e(z|x)
+\left( -\log d(x|z) + \beta \log \frac{e(z|x)}{m(z)}
+\right)\]</span></p>
+<p>当<span class="math inline">\(\beta =
+1\)</span>时，公式与变分自编码器（VAE）目标一致:</p>
+<p><span class="math display">\[\mathcal{L} = - (D + R) = E_{p(x)}
+\left[ E_{e(z|x)}[\log d(x|z)] - E_{e(z|x)} \left[ \log
+\frac{e(z|x)}{m(z)} \right] \right]\]</span></p>
+<h3 id="信息瓶颈the-information-bottleneck">3. 信息瓶颈（The information
+bottleneck）</h3>
+<h4 id="原版信息瓶颈vanilla-ib">3.1 原版信息瓶颈（Vanilla IB）</h4>
+<p>信息瓶颈（The information
+bottleneck）的目标是通过引入一个中间表示<span class="math inline">\(z\)</span>，在输入<span class="math inline">\(x\)</span>和输出<span class="math inline">\(y\)</span>之间传递信息。我们说<span class="math inline">\(z\)</span>是<span class="math inline">\(x\)</span>的表示，可以用条件分布<span class="math inline">\(p(z|x)\)</span>来描述。</p>
 <ul>
-<li><strong>充分性</strong>：表示$z$对于任务$y$是充分的，条件为$y \perp x | z$，或等价于$I(z; y) = I(x; y)$，即$H(y|z) = H(y|x)$。</li>
-<li><strong>最小充分统计量</strong>：如果$z$是充分的，并且没有其他$z$具有更小的$I(z; x)$值，则称其为最小充分统计量。</li>
+<li><strong>充分性</strong>：表示<span class="math inline">\(z\)</span>对于任务<span class="math inline">\(y\)</span>是充分的，条件为<span class="math inline">\(y \perp x | z\)</span>，或等价于<span class="math inline">\(I(z; y) = I(x; y)\)</span>，即<span class="math inline">\(H(y|z) = H(y|x)\)</span>。</li>
+<li><strong>最小充分统计量</strong>：如果<span class="math inline">\(z\)</span>是充分的，并且没有其他<span class="math inline">\(z\)</span>具有更小的<span class="math inline">\(I(z; x)\)</span>值，则称其为最小充分统计量。</li>
 </ul>
-<p>目标是找到一个表示$z$，使得$I(z; y)$最大化，同时$I(z; x)$最小化，即优化以下目标：</p>
-<p>$$\min_\beta I(z; x) - I(z; y)$$</p>
-<p>其中$\beta \geq 0$，优化的分布为$p(z|x)$和$p(y|z)$。</p>
-<p>在信息瓶颈原理中，我们假设$Z$是$X$的一个函数，但与$Y$独立，形成图模型$Z \leftarrow X \rightarrow Y$。这对应于以下联合分布：</p>
-<p>$$p(x, y, z) = p(z|x) p(y|x) p(x)$$</p>
-<p>这表明$Z$可以捕捉$X$的任何信息，但不能包含仅与$Y$相关的信息。优化的表示只捕获对$Y$有用的关于$X$的信息，并且$Z$应该最小化对$X$的信息，以避免“浪费容量”。</p>
-<p>![](/images/Fundamentals-Information theory/20.png)</p>
-<p>如果所有随机变量都是离散的，并且$z = e(x)$是$x$的确定性函数，则可以使用传统算法来最小化信息瓶颈目标。如果所有变量都是联合高斯的，目标也可以通过解析求解。但一般情况下，精确求解该问题是不可行的。</p>
-<h4 id="3-2-变分信息瓶颈（Variational-IB）">3.2. 变分信息瓶颈（Variational IB）</h4>
-<p>根据 KL 散度的非负性，我们介绍到对于任意分布$q$，有：</p>
-<p>$$\int dx p(x) \log p(x) \geq \int dx p(x) \log q(x)$$</p>
+<p>目标是找到一个表示<span class="math inline">\(z\)</span>，使得<span class="math inline">\(I(z; y)\)</span>最大化，同时<span class="math inline">\(I(z; x)\)</span>最小化，即优化以下目标：</p>
+<p><span class="math display">\[\min_\beta I(z; x) - I(z;
+y)\]</span></p>
+<p>其中<span class="math inline">\(\beta \geq
+0\)</span>，优化的分布为<span class="math inline">\(p(z|x)\)</span>和<span class="math inline">\(p(y|z)\)</span>。</p>
+<p>在信息瓶颈原理中，我们假设<span class="math inline">\(Z\)</span>是<span class="math inline">\(X\)</span>的一个函数，但与<span class="math inline">\(Y\)</span>独立，形成图模型<span class="math inline">\(Z \leftarrow X \rightarrow
+Y\)</span>。这对应于以下联合分布：</p>
+<p><span class="math display">\[p(x, y, z) = p(z|x) p(y|x)
+p(x)\]</span></p>
+<p>这表明<span class="math inline">\(Z\)</span>可以捕捉<span class="math inline">\(X\)</span>的任何信息，但不能包含仅与<span class="math inline">\(Y\)</span>相关的信息。优化的表示只捕获对<span class="math inline">\(Y\)</span>有用的关于<span class="math inline">\(X\)</span>的信息，并且<span class="math inline">\(Z\)</span>应该最小化对<span class="math inline">\(X\)</span>的信息，以避免“浪费容量”。</p>
+<p><img src="/images/Fundamentals-Information%20theory/20.png" srcset="/img/loading.gif" lazyload alt="Not Found"> 如果所有随机变量都是离散的，并且<span class="math inline">\(z = e(x)\)</span>是<span class="math inline">\(x\)</span>的确定性函数，则可以使用传统算法来最小化信息瓶颈目标。如果所有变量都是联合高斯的，目标也可以通过解析求解。但一般情况下，精确求解该问题是不可行的。</p>
+<h4 id="变分信息瓶颈variational-ib">3.2. 变分信息瓶颈（Variational
+IB）</h4>
+<p>根据 KL 散度的非负性，我们介绍到对于任意分布<span class="math inline">\(q\)</span>，有：</p>
+<p><span class="math display">\[\int dx p(x) \log p(x) \geq \int dx p(x)
+\log q(x)\]</span></p>
 <p>首先定义符号：</p>
-<p>*$e(z|x) = p(z|x)$：编码器<br>
-*$b(z|y) \approx p(z|y)$：反向编码器<br>
-*$d(y|z) \approx p(y|z)$：分类器（解码器）<br>
-*$m(z) \approx p(z)$：边际分布</p>
-<p>推导$I(z; y)$：</p>
-<p>$$\begin{align*} I(z; y) &amp;= \int ! dydz , p(y, z) \log \frac{p(y, z)}{p(y)p(z)} \ &amp;= \int ! dydz , p(y, z) \log p(y|z) - \int ! dydz , p(y, z) \log p(y) \ &amp;= \int ! dydz , p(z)p(y|z) \log p(y|z) - \text{const} \ &amp;\geq \int ! dydz , p(y, z) \log d(y|z) \ &amp;= \langle \log d(y|z) \rangle \end{align*}$$</p>
-<p>这里利用了$H(p(y))$是与表示无关的常量。符号$\langle \cdot \rangle$表示对联合分布$p(x, y, z)$相关项的期望值</p>
-<p>随后，通过从$p(y, z) = \int dx , p(x)p(y|x)p(z|x)$采样，近似求期望值。</p>
-<p>同样地，我们可以推导$I(z; x)$的上界：</p>
-<p>$$\begin{align*} I(z; x) &amp;= \int dzdx , p(x, z) \log \frac{p(z, x)}{p(x)p(z)} \ &amp;= \int dzdx , p(x, z) \log p(z|x) - \int dz , p(z) \log p(z) \ &amp;\leq \int dzdx , p(x, z) \log p(z|x) - \int dz , p(z) \log m(z) \ &amp;= \int dzdx , p(x, z) \log \frac{e(z|x)}{m(z)} \ &amp;= \langle \log e(z|x) \rangle - \langle \log m(z) \rangle \end{align*}$$</p>
-<p>通过近似从$p(x, z) = p(x)p(z|x)$采样，我们可以计算期望。</p>
+<p><em><span class="math inline">\(e(z|x) = p(z|x)\)</span>：编码器
+</em><span class="math inline">\(b(z|y) \approx
+p(z|y)\)</span>：反向编码器 <em><span class="math inline">\(d(y|z)
+\approx p(y|z)\)</span>：分类器（解码器） </em><span class="math inline">\(m(z) \approx p(z)\)</span>：边际分布</p>
+<p>推导<span class="math inline">\(I(z; y)\)</span>：</p>
+<p><span class="math display">\[\begin{align*} I(z; y) &amp;= \int \!
+dydz \, p(y, z) \log \frac{p(y, z)}{p(y)p(z)} \\ &amp;= \int \! dydz \,
+p(y, z) \log p(y|z) - \int \! dydz \, p(y, z) \log p(y) \\ &amp;= \int
+\! dydz \, p(z)p(y|z) \log p(y|z) - \text{const} \\ &amp;\geq \int \!
+dydz \, p(y, z) \log d(y|z) \\ &amp;= \langle \log d(y|z) \rangle
+\end{align*}\]</span></p>
+<p>这里利用了<span class="math inline">\(H(p(y))\)</span>是与表示无关的常量。符号<span class="math inline">\(\langle \cdot \rangle\)</span>表示对联合分布<span class="math inline">\(p(x, y, z)\)</span>相关项的期望值</p>
+<p>随后，通过从<span class="math inline">\(p(y, z) = \int dx \,
+p(x)p(y|x)p(z|x)\)</span>采样，近似求期望值。</p>
+<p>同样地，我们可以推导<span class="math inline">\(I(z;
+x)\)</span>的上界：</p>
+<p><span class="math display">\[\begin{align*} I(z; x) &amp;= \int dzdx
+\, p(x, z) \log \frac{p(z, x)}{p(x)p(z)} \\ &amp;= \int dzdx \, p(x, z)
+\log p(z|x) - \int dz \, p(z) \log p(z) \\ &amp;\leq \int dzdx \, p(x,
+z) \log p(z|x) - \int dz \, p(z) \log m(z) \\ &amp;= \int dzdx \, p(x,
+z) \log \frac{e(z|x)}{m(z)} \\ &amp;= \langle \log e(z|x) \rangle -
+\langle \log m(z) \rangle \end{align*}\]</span></p>
+<p>通过近似从<span class="math inline">\(p(x, z) =
+p(x)p(z|x)\)</span>采样，我们可以计算期望。</p>
 <p>综合以上结果，我们得到信息瓶颈目标函数的上界：</p>
-<p>$$\beta I(x; z) - I(z; y) \leq \beta (\langle \log e(z|x) \rangle - \langle \log m(z) \rangle) - \langle \log d(y|z) \rangle$$</p>
+<p><span class="math display">\[\beta I(x; z) - I(z; y) \leq \beta
+(\langle \log e(z|x) \rangle - \langle \log m(z) \rangle) - \langle \log
+d(y|z) \rangle\]</span></p>
 <p>因此，VIB 的<strong>目标函数</strong>可以表示为：</p>
-<p>$$\begin{align*} L_{VIB} &amp;= \beta , \mathbb{E}<em>{p_D(x)e(z|x)} \left[ \log e(z|x) - \log m(z) \right] - \mathbb{E}</em>{p_D(x)e(z|x)d(y|z)} \left[ \log d(y|z) \right] \ &amp;= -\mathbb{E}<em>{p_D(x)e(z|x)d(y|z)} \left[ \log d(y|z) \right]  + \beta , \mathbb{E}</em>{p_D(x)} \left[ D_{KL} \left( e(z|x) \parallel m(z) \right) \right] \end{align*}$$</p>
-<p>这个目标函数可以通过随机梯度下降（SGD）对编码器、解码器和边际分布的参数进行最小化。我们假设这些分布是可重参数化的。对于编码器$e(z|x)$，通常使用条件高斯分布；对于解码器$d(y|z)$，通常使用 softmax 分类器。对于边际分布$m(z)$，由于其需要近似聚合的后验分布$p(z)$，通常使用灵活的模型，比如高斯混合模型。</p>
-<p>![](/images/Fundamentals-Information theory/21.png)</p>
-<h4 id="3-3-条件熵瓶颈（Conditional-Entropy-Bottleneck）">3.3 条件熵瓶颈（Conditional Entropy Bottleneck）</h4>
-<p>信息瓶颈的基本目标是最大化互信息$I(Z; Y)$的同时最小化互信息$I(Z; X)$。可以表示为：</p>
-<p>$$\min I(X; Z) - \lambda I(Y; Z) \quad (\lambda \geq 0)$$</p>
-<p>然而，从信息图的视角来看，$I(Z; X)$中包含了一些与$Y$相关的信息。一个合理的替代目标是最小化残余互信息$I(X; Z | Y)$：</p>
-<p>$$\min I(X; Z | Y) - \lambda’ I(Y; Z) \quad (\lambda’ \geq 0)$$</p>
+<p><span class="math display">\[\begin{align*} L_{VIB} &amp;= \beta \,
+\mathbb{E}_{p_D(x)e(z|x)} \left[ \log e(z|x) - \log m(z) \right] -
+\mathbb{E}_{p_D(x)e(z|x)d(y|z)} \left[ \log d(y|z) \right] \\ &amp;=
+-\mathbb{E}_{p_D(x)e(z|x)d(y|z)} \left[ \log d(y|z) \right]  + \beta \,
+\mathbb{E}_{p_D(x)} \left[ D_{KL} \left( e(z|x) \parallel m(z) \right)
+\right] \end{align*}\]</span></p>
+<p>这个目标函数可以通过随机梯度下降（SGD）对编码器、解码器和边际分布的参数进行最小化。我们假设这些分布是可重参数化的。对于编码器<span class="math inline">\(e(z|x)\)</span>，通常使用条件高斯分布；对于解码器<span class="math inline">\(d(y|z)\)</span>，通常使用 softmax
+分类器。对于边际分布<span class="math inline">\(m(z)\)</span>，由于其需要近似聚合的后验分布<span class="math inline">\(p(z)\)</span>，通常使用灵活的模型，比如高斯混合模型。</p>
+<figure>
+<img src="/images/Fundamentals-Information%20theory/21.png" srcset="/img/loading.gif" lazyload alt="Not Found">
+<figcaption aria-hidden="true">Not Found</figcaption>
+</figure>
+<h4 id="条件熵瓶颈conditional-entropy-bottleneck">3.3
+条件熵瓶颈（Conditional Entropy Bottleneck）</h4>
+<p>信息瓶颈的基本目标是最大化互信息<span class="math inline">\(I(Z;
+Y)\)</span>的同时最小化互信息<span class="math inline">\(I(Z;
+X)\)</span>。可以表示为：</p>
+<p><span class="math display">\[\min I(X; Z) - \lambda I(Y; Z) \quad
+(\lambda \geq 0)\]</span></p>
+<p>然而，从信息图的视角来看，<span class="math inline">\(I(Z;
+X)\)</span>中包含了一些与<span class="math inline">\(Y\)</span>相关的信息。一个合理的替代目标是最小化残余互信息<span class="math inline">\(I(X; Z | Y)\)</span>：</p>
+<p><span class="math display">\[\min I(X; Z | Y) - \lambda&#39; I(Y; Z)
+\quad (\lambda&#39; \geq 0)\]</span></p>
 <p>这就是<strong>条件熵瓶颈（CEB）</strong>。</p>
-<p>![](/images/Fundamentals-Information theory/22.png)</p>
-<p>我们假设$p(Z | X, Y) = p(Z | X)$，则根据条件互信息的定义：</p>
-<p>$$I(X; Z | Y) = I(X; Z) - I(Y; Z)$$</p>
-<p>因此，CEB 可以看作是标准的 IB 方法，当$\lambda’ = \lambda + 1$时，两者等价。</p>
-<p>![](/images/Fundamentals-Information theory/23.png)</p>
-<p>相较于$I(X; Z)$，$I(X; Z | Y)$的上界更容易确定，因为我们在$Y$的条件下进行计算。利用$p(Z | X, Y) = p(Z | X)$的性质，可以得出：</p>
-<p>$$\begin{align*} I(X; Z | Y) &amp;= I(X; Z) - I(Y; Z) \ &amp;= H(Z) - H(Z | X) - [H(Z) - H(Z | Y)] \ &amp;= - H(Z | X) + H(Z | Y) \ &amp;= \int dz dx , p(x, z) \log p(z | x) \ &amp;\leq \int dz dx , p(x, z) \log e(z | x) - \int dz dy , p(z, y) \log b(z | y) \ &amp;= \langle \log e(z | x) \rangle - \langle \log b(z | y) \rangle \end{align*}$$</p>
+<p><img src="/images/Fundamentals-Information%20theory/22.png" srcset="/img/loading.gif" lazyload alt="Not Found"> 我们假设<span class="math inline">\(p(Z | X, Y) = p(Z
+| X)\)</span>，则根据条件互信息的定义：</p>
+<p><span class="math display">\[I(X; Z | Y) = I(X; Z) - I(Y;
+Z)\]</span></p>
+<p>因此，CEB 可以看作是标准的 IB 方法，当<span class="math inline">\(\lambda&#39; = \lambda +
+1\)</span>时，两者等价。</p>
+<p><img src="/images/Fundamentals-Information%20theory/23.png" srcset="/img/loading.gif" lazyload alt="Not Found"> 相较于<span class="math inline">\(I(X;
+Z)\)</span>，<span class="math inline">\(I(X; Z |
+Y)\)</span>的上界更容易确定，因为我们在<span class="math inline">\(Y\)</span>的条件下进行计算。利用<span class="math inline">\(p(Z | X, Y) = p(Z |
+X)\)</span>的性质，可以得出：</p>
+<p><span class="math display">\[\begin{align*} I(X; Z | Y) &amp;= I(X;
+Z) - I(Y; Z) \\ &amp;= H(Z) - H(Z | X) - [H(Z) - H(Z | Y)] \\ &amp;= -
+H(Z | X) + H(Z | Y) \\ &amp;= \int dz dx \, p(x, z) \log p(z | x) \\
+&amp;\leq \int dz dx \, p(x, z) \log e(z | x) - \int dz dy \, p(z, y)
+\log b(z | y) \\ &amp;= \langle \log e(z | x) \rangle - \langle \log b(z
+| y) \rangle \end{align*}\]</span></p>
 <p>结合以上推导，我们得到最终的条件熵瓶颈<strong>目标</strong>：</p>
-<p>$$\min \beta \left( \langle \log e(z|x) \rangle - \langle \log b(z|y) \rangle \right) - \langle \log d(y|z) \rangle$$</p>
-<p>学习条件反向编码器$b(z|y)$通常比学习无条件边际$m(z)$更容易。此外，我们知道，当$I(X; Z | Y) = I(X; Z) - I(Y; Z) = 0$时，此时的$\beta$值对应于一个最优的表示。相比之下，在使用信息瓶颈（IB）时，如何衡量与最优性的距离并不明确。</p>
-<h2 id="五、算法信息理论">五、算法信息理论</h2>
-<p>考虑一个从均匀伯努利分布独立生成的长度为$n$的比特序列。该分布每个元素的最大熵为$H_2(0.5) = 1$，因此长度为$n$的序列的编码长度为$- \log_2 p(D|\theta) = - \sum_{i=1}^{n} \log_2 \text{Ber}(x_i | \theta = 0.5) = n$。然而，从直观上来看，这样的序列并没有包含太多信息。</p>
+<p><span class="math display">\[\min \beta \left( \langle \log e(z|x)
+\rangle - \langle \log b(z|y) \rangle \right) - \langle \log d(y|z)
+\rangle\]</span></p>
+<p>学习条件反向编码器<span class="math inline">\(b(z|y)\)</span>通常比学习无条件边际<span class="math inline">\(m(z)\)</span>更容易。此外，我们知道，当<span class="math inline">\(I(X; Z | Y) = I(X; Z) - I(Y; Z) =
+0\)</span>时，此时的<span class="math inline">\(\beta\)</span>值对应于一个最优的表示。相比之下，在使用信息瓶颈（IB）时，如何衡量与最优性的距离并不明确。</p>
+<h2 id="五算法信息理论">五、算法信息理论</h2>
+<p>考虑一个从均匀伯努利分布独立生成的长度为<span class="math inline">\(n\)</span>的比特序列。该分布每个元素的最大熵为<span class="math inline">\(H_2(0.5) = 1\)</span>，因此长度为<span class="math inline">\(n\)</span>的序列的编码长度为<span class="math inline">\(- \log_2 p(D|\theta) = - \sum_{i=1}^{n} \log_2
+\text{Ber}(x_i | \theta = 0.5) =
+n\)</span>。然而，从直观上来看，这样的序列并没有包含太多信息。</p>
 <p>可见统的信息理论主要基于某个随机分布的性质，这种分布被假设为生成我们观察到的数据。然而，这种理论并没有很好地反映出人们对“信息”的直观理解，而算法信息理论提出了一种不同的方法来量化一个序列的信息量。</p>
-<h3 id="1-Kolmogorov复杂性">1. Kolmogorov复杂性</h3>
-<p><strong>Kolmogorov复杂性</strong>是算法信息理论的核心概念，定义为生成特定比特字符串$x = x_{1:n}$的最短程序的长度。这一程序被输入到一个通用图灵机$U$中，以生成字符串$x$。公式定义为：</p>
-<p>$$K(x) = \min_{p \in B^*} [\ell(p) : U(p) = x]$$</p>
-<p><em>$B^</em>$是任意长度比特字符串的集合。<br>
-*$\ell(p)$是程序$p$的长度。</p>
+<h3 id="kolmogorov复杂性">1. Kolmogorov复杂性</h3>
+<p><strong>Kolmogorov复杂性</strong>是算法信息理论的核心概念，定义为生成特定比特字符串<span class="math inline">\(x =
+x_{1:n}\)</span>的最短程序的长度。这一程序被输入到一个通用图灵机<span class="math inline">\(U\)</span>中，以生成字符串<span class="math inline">\(x\)</span>。公式定义为：</p>
+<p><span class="math display">\[K(x) = \min_{p \in B^*} [\ell(p) : U(p)
+= x]\]</span></p>
+<p><em><span class="math inline">\(B^*\)</span>是任意长度比特字符串的集合。
+</em><span class="math inline">\(\ell(p)\)</span>是程序<span class="math inline">\(p\)</span>的长度。</p>
 <p>Kolmogorov复杂性具有一些类似于<strong>Shannon熵</strong>的性质。我们可以忽略常数项，得到以下不等式：</p>
-<p>$$K(x|y) \leq K(x) \leq K(x, y)$$</p>
+<p><span class="math display">\[K(x|y) \leq K(x) \leq K(x,
+y)\]</span></p>
 <p>这些不等式的解释如下：</p>
-<p>*$K(x∣y)$：在已知$y$的情况下，生成$x$的最短程序长度。<br>
-*$K(x)$：生成$x$的最短程序长度。<br>
-*$K(x, y)$：生成$x$和$y$的最短程序长度。</p>
-<p>这些不等式表明，已知条件信息$y$会减少生成$x$所需的信息量。</p>
+<p><em><span class="math inline">\(K(x∣y)\)</span>：在已知<span class="math inline">\(y\)</span>的情况下，生成<span class="math inline">\(x\)</span>的最短程序长度。 </em><span class="math inline">\(K(x)\)</span>：生成<span class="math inline">\(x\)</span>的最短程序长度。 *<span class="math inline">\(K(x, y)\)</span>：生成<span class="math inline">\(x\)</span>和<span class="math inline">\(y\)</span>的最短程序长度。</p>
+<p>这些不等式表明，已知条件信息<span class="math inline">\(y\)</span>会减少生成<span class="math inline">\(x\)</span>所需的信息量。</p>
 <p>尽管Kolmogorov复杂性是一个理论上重要的概念，但它是不可计算的。为了解决这个问题，引入了<strong>Levin复杂性</strong>：</p>
-<p>$$L(x) = \min_{p \in B^*} [\ell(p) + \log(\text{time}(p)) : U(p) = x]$$</p>
-<p>*$\text{time}(p)$是程序$p$的运行时间。</p>
+<p><span class="math display">\[L(x) = \min_{p \in B^*} [\ell(p) +
+\log(\text{time}(p)) : U(p) = x]\]</span></p>
+<p>*<span class="math inline">\(\text{time}(p)\)</span>是程序<span class="math inline">\(p\)</span>的运行时间。</p>
 <p>Levin复杂性可以通过“Levin搜索”或“通用搜索”来计算，即以时间片的方式运行所有程序，直到第一个程序停止。这种方法的时间复杂度为：</p>
-<p>$$\text{time}(LS(x)) = 2^{L(x)}$$</p>
-<p>虽然Levin复杂性是可计算的，但计算效率仍然较低。为此，可以通过参数化的近似来得到Kolmogorov复杂性的上界。例如，假设$q$是某个比特字符串的分布，可以证明：</p>
-<p>$$K(x) \leq -\log q(x) + K(q)$$</p>
-<p>如果$q$是一个参数化模型，可以通过$q$参数的编码长度来近似$K(q)$。</p>
-<p>Kolmogorov复杂性还可以用于定义序列的随机性定义，而无需使用随机变量或通信信道的概念。我们定义一个字符串$x$是可压缩的，当其最短描述长度小于字符串本身的长度：</p>
-<p>$$K(x) &lt; \ell(x) = n$$</p>
+<p><span class="math display">\[\text{time}(LS(x)) =
+2^{L(x)}\]</span></p>
+<p>虽然Levin复杂性是可计算的，但计算效率仍然较低。为此，可以通过参数化的近似来得到Kolmogorov复杂性的上界。例如，假设<span class="math inline">\(q\)</span>是某个比特字符串的分布，可以证明：</p>
+<p><span class="math display">\[K(x) \leq -\log q(x) + K(q)\]</span></p>
+<p>如果<span class="math inline">\(q\)</span>是一个参数化模型，可以通过<span class="math inline">\(q\)</span>参数的编码长度来近似<span class="math inline">\(K(q)\)</span>。</p>
+<p>Kolmogorov复杂性还可以用于定义序列的随机性定义，而无需使用随机变量或通信信道的概念。我们定义一个字符串<span class="math inline">\(x\)</span>是可压缩的，当其最短描述长度小于字符串本身的长度：</p>
+<p><span class="math display">\[K(x) &lt; \ell(x) = n\]</span></p>
 <p>否则，称字符串为算法随机的。这种随机性定义称为<strong>Martin-Löf随机性</strong>。</p>
 <p>例如：</p>
 <ul>
-<li>字符串$x = (10101010 \ldots)$是可压缩的，因为它是模式“10”的重复。</li>
-<li>字符串$x = (11001001 \ldots)$也是可压缩的，但不如前者明显，因为它是$\pi^2$的二进制扩展。</li>
-<li>字符串$x = (10110110 \ldots)$被认为是“真正随机的”，因为它来源于量子波动。</li>
+<li>字符串<span class="math inline">\(x = (10101010
+\ldots)\)</span>是可压缩的，因为它是模式“10”的重复。</li>
+<li>字符串<span class="math inline">\(x = (11001001
+\ldots)\)</span>也是可压缩的，但不如前者明显，因为它是<span class="math inline">\(\pi^2\)</span>的二进制扩展。</li>
+<li>字符串<span class="math inline">\(x = (10110110
+\ldots)\)</span>被认为是“真正随机的”，因为它来源于量子波动。</li>
 </ul>
 <p>基于序列的信息理论为著名的<strong>Lempel-Ziv无损数据压缩方案</strong>奠定了基础，这形成了<strong>zip编码</strong>的基础。利用Kolmogorov复杂性，我们可以定义一种普遍相似性度量：</p>
-<p>$$d(x, y) = \frac{\max[K(x|y), K(y|x)]}{\max[K(x), K(y)]}$$</p>
-<p>其中，诸如$K(x)$的项可以通过某种通用压缩器（如LZ）的编码成本进行近似。这导致了**规范化压缩距离（NCD）**的出现。</p>
-<h3 id="2-Solomonoff归纳">2. Solomonoff归纳</h3>
-<p>在<strong>Solomonoff归纳</strong>中，我们关注的是预测问题。假设我们观察到了一系列数据$x_{1:t}$​，这些数据来自某个未知的分布$\mu(x_{1:t})$。我们的目标是通过某个模型$\nu$来近似这个分布，以便预测未来的值，即$\nu(x_{t+1}|x_{1:t})$。这被称为归纳问题。</p>
-<p>我们假设$\nu$属于模型集合$M$，其中$M$是一个可数模型（分布）的集合。对于每个模型$\nu$，我们有一个先验概率$w_\nu$​。在Solomonoff归纳中，模型集合$M$被假设为所有可计算函数的集合，先验定义为：</p>
-<p>$$w_\nu = 2^{-K(\nu)}$$</p>
-<p>这个“通用先验”能够建模任何可计算的分布$\mu$。这里的权重选择是基于<strong>奥卡姆剃刀原理</strong>，即我们应该偏好那些最简单的能够解释数据的模型。</p>
+<p><span class="math display">\[d(x, y) = \frac{\max[K(x|y),
+K(y|x)]}{\max[K(x), K(y)]}\]</span></p>
+<p>其中，诸如<span class="math inline">\(K(x)\)</span>的项可以通过某种通用压缩器（如LZ）的编码成本进行近似。这导致了<strong>规范化压缩距离（NCD）</strong>的出现。</p>
+<h3 id="solomonoff归纳">2. Solomonoff归纳</h3>
+<p>在<strong>Solomonoff归纳</strong>中，我们关注的是预测问题。假设我们观察到了一系列数据<span class="math inline">\(x_{1:t}\)</span>​，这些数据来自某个未知的分布<span class="math inline">\(\mu(x_{1:t})\)</span>。我们的目标是通过某个模型<span class="math inline">\(\nu\)</span>来近似这个分布，以便预测未来的值，即<span class="math inline">\(\nu(x_{t+1}|x_{1:t})\)</span>。这被称为归纳问题。</p>
+<p>我们假设<span class="math inline">\(\nu\)</span>属于模型集合<span class="math inline">\(M\)</span>，其中<span class="math inline">\(M\)</span>是一个可数模型（分布）的集合。对于每个模型<span class="math inline">\(\nu\)</span>，我们有一个先验概率<span class="math inline">\(w_\nu\)</span>​。在Solomonoff归纳中，模型集合<span class="math inline">\(M\)</span>被假设为所有可计算函数的集合，先验定义为：</p>
+<p><span class="math display">\[w_\nu = 2^{-K(\nu)}\]</span></p>
+<p>这个“通用先验”能够建模任何可计算的分布<span class="math inline">\(\mu\)</span>。这里的权重选择是基于<strong>奥卡姆剃刀原理</strong>，即我们应该偏好那些最简单的能够解释数据的模型。</p>
 <p>给定这个先验，我们可以使用以下贝叶斯混合模型计算序列的先验预测分布：</p>
-<p>$$\xi(x_{1:t}) = \sum_{\nu \in M} w_\nu \nu(x_{1:t})$$</p>
-<p>从这个先验预测分布出发，我们可以在时间步骤$t$计算后验预测分布：</p>
-<p>$$\begin{align*} \xi(x_t|x_{&lt;t}) &amp;= \frac{\xi(x_{1:t})}{\xi(x_{&lt;t})} \ &amp;= \frac{\sum_{\nu \in M} w_\nu \nu(x_{1:t})}{\xi(x_{&lt;t})} \ &amp;= \sum_{\nu \in M} w_\nu \frac{\nu(x_{1:t})}{\xi(x_{&lt;t})} \ &amp;= \sum_{\nu \in M} w_\nu \frac{\nu(x_{&lt;t})}{\xi(x_{&lt;t})} \nu(x_t|x_{&lt;t}) \ &amp;= \sum_{\nu \in M} w(\nu|x_{&lt;t}) \nu(x_t|x_{&lt;t}) \end{align*}$$</p>
+<p><span class="math display">\[\xi(x_{1:t}) = \sum_{\nu \in M} w_\nu
+\nu(x_{1:t})\]</span></p>
+<p>从这个先验预测分布出发，我们可以在时间步骤<span class="math inline">\(t\)</span>计算后验预测分布：</p>
+<p><span class="math display">\[\begin{align*} \xi(x_t|x_{&lt;t}) &amp;=
+\frac{\xi(x_{1:t})}{\xi(x_{&lt;t})} \\ &amp;= \frac{\sum_{\nu \in M}
+w_\nu \nu(x_{1:t})}{\xi(x_{&lt;t})} \\ &amp;= \sum_{\nu \in M} w_\nu
+\frac{\nu(x_{1:t})}{\xi(x_{&lt;t})} \\ &amp;= \sum_{\nu \in M} w_\nu
+\frac{\nu(x_{&lt;t})}{\xi(x_{&lt;t})} \nu(x_t|x_{&lt;t}) \\ &amp;=
+\sum_{\nu \in M} w(\nu|x_{&lt;t}) \nu(x_t|x_{&lt;t})
+\end{align*}\]</span></p>
 <p>在最后一步中，我们利用了后验权重的性质：</p>
-<p>$$w(\nu|x_{1:t}) = \frac{p(\nu|x_{1:t})}{p(x_{1:t})} = \frac{w_\nu \nu(x_{1:t})}{\xi(x_{1:t})}$$</p>
-<p>考虑在每个时间步骤$t$上，比较这种预测分布与真实分布的准确性。我们用平方误差来表示：</p>
-<p>$$s_t(x_{&lt;t}) = \sum_{x_t \in X} (\mu(x_t|x_{&lt;t}) - \xi(x_t|x_{&lt;t}))^2$$</p>
-<p>考虑到直到时间$n$的总期望误差：</p>
-<p>$$S_n = \sum_{t=1}^{n} \sum_{x_{&lt;t} \in X} \mu(x_{&lt;t}) s_t(x_{&lt;t})$$</p>
+<p><span class="math display">\[w(\nu|x_{1:t}) =
+\frac{p(\nu|x_{1:t})}{p(x_{1:t})} = \frac{w_\nu
+\nu(x_{1:t})}{\xi(x_{1:t})}\]</span></p>
+<p>考虑在每个时间步骤<span class="math inline">\(t\)</span>上，比较这种预测分布与真实分布的准确性。我们用平方误差来表示：</p>
+<p><span class="math display">\[s_t(x_{&lt;t}) = \sum_{x_t \in X}
+(\mu(x_t|x_{&lt;t}) - \xi(x_t|x_{&lt;t}))^2\]</span></p>
+<p>考虑到直到时间<span class="math inline">\(n\)</span>的总期望误差：</p>
+<p><span class="math display">\[S_n = \sum_{t=1}^{n} \sum_{x_{&lt;t} \in
+X} \mu(x_{&lt;t}) s_t(x_{&lt;t})\]</span></p>
 <p>Solomonoff证明了这个预测器的总误差在极限情况下的一个重要<strong>界限</strong>：</p>
-<p>$$S_\infty \leq \ln(w^{-1}_\mu) = K(\mu) \ln 2$$</p>
+<p><span class="math display">\[S_\infty \leq \ln(w^{-1}_\mu) = K(\mu)
+\ln 2\]</span></p>
 <p>这一结果表明，总误差被生成数据的环境复杂性所界定，简单的环境易于学习，最优预测器的预测迅速接近真实值。</p>
-<p>我们还可以考虑一种假设，即数据是由某个未知的确定性程序$p$生成的，满足$U(p) = x^<em>$，其中$x^</em>$是观察到的前缀$x = x_{1:t}$的无限扩展。假设程序的先验定义为：</p>
-<p>$$\Pr(p) = 2^{-\ell(p)}$$</p>
+<p>我们还可以考虑一种假设，即数据是由某个未知的确定性程序<span class="math inline">\(p\)</span>生成的，满足<span class="math inline">\(U(p) = x^*\)</span>，其中<span class="math inline">\(x^*\)</span>是观察到的前缀<span class="math inline">\(x =
+x_{1:t}\)</span>的无限扩展。假设程序的先验定义为：</p>
+<p><span class="math display">\[\Pr(p) = 2^{-\ell(p)}\]</span></p>
 <p>那么序列的先验预测分布为：</p>
-<p>$$M(x) = \sum_{p: U(p) = x^*} 2^{-\ell(p)}$$</p>
-<p>可以证明$M(x) = \xi(x)$</p>
-<p>由此，我们可以计算后验预测分布$M(x_t|x_{&lt;t}) = \frac{M(x_{1:t})}{M(x_{&lt;t})}$。</p>
-<p>由于Solomonoff归纳依赖于Kolmogorov复杂性来定义其先验，因此它是不可计算的。然而，可以通过各种方式对这一方案进行近似。例如，可以使用**元学习（meta learning）**来训练通用序列预测器，如Transformer或LSTM，使得这些模型能够近似一个通用预测器。</p>
-<h3 id="3-AXI和通用AGI">3. AXI和通用AGI</h3>
+<p><span class="math display">\[M(x) = \sum_{p: U(p) = x^*}
+2^{-\ell(p)}\]</span></p>
+<p>可以证明<span class="math inline">\(M(x) = \xi(x)\)</span></p>
+<p>由此，我们可以计算后验预测分布<span class="math inline">\(M(x_t|x_{&lt;t}) =
+\frac{M(x_{1:t})}{M(x_{&lt;t})}\)</span>。</p>
+<p>由于Solomonoff归纳依赖于Kolmogorov复杂性来定义其先验，因此它是不可计算的。然而，可以通过各种方式对这一方案进行近似。例如，可以使用<strong>元学习（meta
+learning）</strong>来训练通用序列预测器，如Transformer或LSTM，使得这些模型能够近似一个通用预测器。</p>
+<h3 id="axi和通用agi">3. AXI和通用AGI</h3>
 <p>最后讲了AIXI，是一个对<strong>Solomonoff归纳法</strong>的扩展，书中说的比较简略：</p>
-<p>![](/images/Fundamentals-Information theory/24.png)</p>
+<figure>
+<img src="/images/Fundamentals-Information%20theory/24.png" srcset="/img/loading.gif" lazyload alt="Not Found">
+<figcaption aria-hidden="true">Not Found</figcaption>
+</figure>
 
                 
               </div>

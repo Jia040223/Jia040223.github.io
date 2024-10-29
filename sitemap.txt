@@ -1,5 +1,5 @@
-https://jia040223.github.io/2024/10/20/Fundamentals-Graphical%20models/
 https://jia040223.github.io/2024/10/24/Fundamentals-Information%20theory/
+https://jia040223.github.io/2024/10/20/Fundamentals-Graphical%20models/
 https://jia040223.github.io/2024/10/29/Fundamentals-Optimization/
 https://jia040223.github.io/2024/10/08/Fundamentals-Probability/
 https://jia040223.github.io/2024/10/14/Fundamentals-Statistics/
